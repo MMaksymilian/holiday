@@ -1,20 +1,64 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>test.primaris.flex</groupId>
-  <artifactId>client</artifactId>
-  <packaging>war</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>client</name>
-  <parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <groupId>test.primaris.flex</groupId>
-  <artifactId>holiday</artifactId>
+    <artifactId>client</artifactId>
+    <packaging>swf</packaging>
     <version>1.0-SNAPSHOT</version>
-  </parent>
-  <dependencies>
+    <name>client</name>
+    <parent>
+        <groupId>test.primaris.flex</groupId>
+        <artifactId>holiday</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-  </dependencies>
-  <build>
-    <finalName>client</finalName>
-  </build>
+    <dependencies>
+        <dependency>
+            <groupId>com.adobe.flex.framework</groupId>
+            <artifactId>flex-framework</artifactId>
+            <version>3.2.0.3958</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>flex-mojos-repository</id>
+            <url>http://repository.sonatype.org/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>flex-mojos-repository</id>
+            <url>http://repository.sonatype.org/content/groups/public</url>
+
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <sourceDirectory>src/main/flex</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.sonatype.flexmojos</groupId>
+                <artifactId>flexmojos-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <extensions>true</extensions>
+            </plugin>
+        </plugins>
+        <finalName>client</finalName>
+    </build>
 </project>
