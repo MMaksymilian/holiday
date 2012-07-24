@@ -21,10 +21,10 @@
         <dependency>
             <groupId>com.adobe.flex.framework</groupId>
             <artifactId>flex-framework</artifactId>
-            <version>3.2.0.3958</version>
-            <version>{flex.version}</version>
+            <version>${flex.version}</version>
             <type>pom</type>
         </dependency>
+
 
         <dependency>
             <groupId>org.springframework.flex</groupId>
@@ -64,6 +64,7 @@
                     <artifactId>blazeds-core</artifactId>
                     <groupId>com.adobe.blazeds</groupId>
                 </exclusion>
+
                 <exclusion>
                     <artifactId>blazeds-common</artifactId>
                     <groupId>com.adobe.blazeds</groupId>
@@ -87,24 +88,11 @@
             <version>${flex.version}</version>
             <type>swc</type>
         </dependency>
-        <dependency>
-            <groupId>com.adobe.flex.framework</groupId>
-            <artifactId>rpc</artifactId>
-            <version>${flex.version}</version>
-            <type>resource-bundle</type>
-            <classifier>en_US</classifier>
-        </dependency>
-        <dependency>
-            <groupId>com.adobe.flex.framework</groupId>
-            <artifactId>rpc</artifactId>
-            <version>${flex.version}</version>
-            <type>resource-bundle</type>
-        </dependency>
 
         <dependency>
             <artifactId>blazeds-core</artifactId>
             <groupId>com.adobe.blazeds</groupId>
-            <version>{blaze.version}</version>
+            <version>${blaze.version}</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/blazeds-core-4.0.0.14931.jar</systemPath>
         </dependency>
@@ -112,23 +100,80 @@
         <dependency>
             <artifactId>blazeds-proxy</artifactId>
             <groupId>com.adobe.blazeds</groupId>
-            <version>{blaze.version}</version>
+            <version>${blaze.version}</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/blazeds-proxy-4.0.0.14931.jar</systemPath>
         </dependency>
         <dependency>
             <artifactId>blazeds-remoting</artifactId>
             <groupId>com.adobe.blazeds</groupId>
-            <version>{blaze.version}</version>
+            <version>${blaze.version}</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/blazeds-remoting-4.0.0.14931.jar</systemPath>
         </dependency>
         <dependency>
             <artifactId>blazeds-common</artifactId>
             <groupId>com.adobe.blazeds</groupId>
-            <version>{blaze.version}</version>
+            <version>${blaze.version}</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/blazeds-common-4.0.0.14931.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${org.springframework.version}</version>
         </dependency>
     </dependencies>
 
@@ -156,7 +201,8 @@
     </pluginRepositories>
 
     <build>
-        <sourceDirectory>src/main/flex</sourceDirectory>
+        <sourceDirectory>src/main</sourceDirectory>
+
         <plugins>
             <plugin>
                 <groupId>org.sonatype.flexmojos</groupId>
