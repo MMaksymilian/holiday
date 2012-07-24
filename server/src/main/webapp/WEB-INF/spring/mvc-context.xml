@@ -6,13 +6,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <mvc:annotation-driven />
+    <!--<mvc:annotation-driven />-->
     <!--<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"-->
           <!--p:basenames="messages" />-->
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="suffix" value=".jsp"/>
-        <property name="prefix" value="/WEB-INF/pages/"/>
-    </bean>
+    <!--<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+        <!--<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>-->
+        <!--<property name="suffix" value=".jsp"/>-->
+        <!--<property name="prefix" value="/WEB-INF/pages/"/>-->
+    <!--</bean>-->
 
 </beans>

@@ -1,3 +1,11 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
-    <mx:Text text="Hello World!"/>
+
+    <mx:Script>
+        <![CDATA[
+        import test.primaris.service.ServiceUserFlexService;
+        ]]>
+    </mx:Script>
+    <mx:Text text="Hello Max!"/>
+    <mx:Button label="wciśnij"
+               click="new ServiceUserFlexService();"/>
 </mx:Application>
