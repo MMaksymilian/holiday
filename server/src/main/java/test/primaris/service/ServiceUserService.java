@@ -12,4 +12,5 @@ import test.primaris.entity.ServiceUser;
 public interface ServiceUserService {
 
     ServiceUser getUserById(Long id);
+    String testMethod();
 }
