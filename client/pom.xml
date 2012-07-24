@@ -14,13 +14,14 @@
 
     <properties>
         <blaze.version>4.0.0.14931</blaze.version>
+        <flex.version>3.4.1.10084</flex.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.adobe.flex.framework</groupId>
             <artifactId>flex-framework</artifactId>
-            <version>3.2.0.3958</version>
+            <version>{flex.version}</version>
             <type>pom</type>
         </dependency>
 
@@ -77,6 +78,26 @@
                 </exclusion>
             </exclusions>
 
+        </dependency>
+
+        <dependency>
+            <groupId>com.adobe.flex.framework</groupId>
+            <artifactId>rpc</artifactId>
+            <version>${flex.version}</version>
+            <type>swc</type>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.flex.framework</groupId>
+            <artifactId>rpc</artifactId>
+            <version>${flex.version}</version>
+            <type>resource-bundle</type>
+            <classifier>en_US</classifier>
+        </dependency>
+        <dependency>
+            <groupId>com.adobe.flex.framework</groupId>
+            <artifactId>rpc</artifactId>
+            <version>${flex.version}</version>
+            <type>resource-bundle</type>
         </dependency>
 
         <dependency>
