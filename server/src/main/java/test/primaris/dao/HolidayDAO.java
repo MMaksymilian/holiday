@@ -1,5 +1,7 @@
 package test.primaris.dao;
 
+import test.primaris.entity.Holiday;
+
 /**
  * Created with IntelliJ IDEA.
  * User: USER
@@ -8,4 +10,5 @@ package test.primaris.dao;
  * To change this template use File | Settings | File Templates.
  */
 public interface HolidayDAO {
+    Holiday getById(Long id);
 }

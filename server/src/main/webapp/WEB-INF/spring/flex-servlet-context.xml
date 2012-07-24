@@ -8,9 +8,8 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
                            http://www.springframework.org/schema/flex http://www.springframework.org/schema/flex/spring-flex-1.0.xsd">
 
-    <context:component-scan base-package="test.primaris.service" />
+    <!--<context:component-scan base-package="test.primaris.service.impl" />-->
 
-    <flex:message-broker/>
-    <flex:remoting-destination ref="serviceUserServiceImpl"/>
+    <!--<flex:message-broker/>-->
 
 </beans>

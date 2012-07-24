@@ -1,5 +1,9 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
 <body>
-<h2>Hello World!</h2>
+
+imię : ${first_name}  , nazwisko :  ${last_name}  <br/>
+
+powód urlopu : ${cause}
 </body>
 </html>

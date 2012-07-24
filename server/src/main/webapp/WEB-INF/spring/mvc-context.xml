@@ -7,8 +7,6 @@
                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <mvc:annotation-driven />
-    <mvc:view-controller path="/index.html" />
-
     <!--<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"-->
           <!--p:basenames="messages" />-->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

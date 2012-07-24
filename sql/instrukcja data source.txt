@@ -1,0 +1,20 @@
+baza danych ORACLE, u¿ytkownik SYSTEM
+
+create user HOLIDAY identified by has³o;    (has³o to przysz³e has³o u¿ytkownika)
+grant create session  to HOLIAY;
+grant create table to HOLIDAY;
+grant unlimited tablespace to HOLIDAY
+grant create sequence to HOLIDAY;
+grant create trigger to HOLIDAY;
+
+asadmin
+w³¹cz asadmin multimode, przez wpisanie asadmin w cmd (asadmin ENTER). Potem konfiguruje siê connection pool przez podanie:
+create-jdbc-connection-pool --restype javax.sql.DataSource --datasourceclassname oracle.jdbc.pool.OracleDataSource --property "user=HOLIDAY:password=has³o: URL=jdbc\\:oracle\\:thin\\:@localhost\\:1521\\:xe" HOLIDAY-Pool
+
+i sprawdziæ czy dzia³a przez napisanie:
+ping-connection-pool HOLIDAY-Pool
+
+Nastêpnie konfiguruje siê resource, gdzie bêdzie podana nazwa JNDI
+create-jdbc-resource --connectionpoolid DBPOZYCJA-Pool jdbc/HOLIDAY
+Je¿eli operacja zakoñczy³a siê dobrze mo¿na wyjœæ z trybu multimode przez:
+exit

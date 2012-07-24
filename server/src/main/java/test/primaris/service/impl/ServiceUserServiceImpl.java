@@ -1,7 +1,10 @@
 package test.primaris.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.flex.remoting.RemotingDestination;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import test.primaris.dao.ServiceUserDAO;
 import test.primaris.entity.ServiceUser;
 import test.primaris.service.ServiceUserService;
 
@@ -13,12 +16,15 @@ import test.primaris.service.ServiceUserService;
  * To change this template use File | Settings | File Templates.
  */
 @Service
+@Transactional
 @RemotingDestination
 public class ServiceUserServiceImpl implements ServiceUserService {
 
+    @Autowired
+    ServiceUserDAO serviceUserDAO;
+
     @Override
     public ServiceUser getUserById(Long id) {
-        System.out.println("działa");
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return serviceUserDAO.getById(id);
     }
 }

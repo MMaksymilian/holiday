@@ -6,7 +6,7 @@
     <!-- encoders are assigned the type
          ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
     <encoder>
-      <pattern> [%d{HH:mm}]  [%thread] - %msg%n - %logger{36}</pattern>
+      <pattern> [%d{HH:mm}] - %msg%n -  [%thread] - %logger{36}</pattern>
     </encoder>
   </appender>
 
@@ -20,7 +20,7 @@
     <appender-ref ref="STDOUT" />
   </root>
 
-  <logger name="org.hibernate.type" level="ALL" />
-  <logger name="org.hibernate" level="DEBUG" />
+  <!--<logger name="org.hibernate.type" level="ALL" />-->
+  <!--<logger name="org.hibernate" level="DEBUG" />-->
 
 </configuration>
