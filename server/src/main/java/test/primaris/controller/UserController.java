@@ -13,13 +13,13 @@ import test.primaris.service.ServiceUserService;
 /**
  * Created with IntelliJ IDEA.
  * User: USER
- * Date: 23.07.12
- * Time: 14:19
+ * Date: 25.07.12
+ * Time: 12:15
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-@RequestMapping("hello")
-public class TestController {
+@RequestMapping("user")
+public class UserController {
 
     @Autowired
     private ServiceUserService serviceUserService;
@@ -29,11 +29,11 @@ public class TestController {
 
     @RequestMapping(method= RequestMethod.GET)
     public String get(ModelMap model) {
-        ServiceUser serviceUser = serviceUserService.getUserById(1l);
-        Holiday holiday = holidayService.getHolidayById(1l);
+        ServiceUser serviceUser = serviceUserService.getUserById(2l);
+        Holiday holiday = holidayService.getHolidayById(2l);
         model.put("first_name", serviceUser.getFirstName());
         model.put("last_name", serviceUser.getLastName());
         model.put("cause", holiday.getCause()) ;
-        return "index";
+        return "user";
     }
 }
