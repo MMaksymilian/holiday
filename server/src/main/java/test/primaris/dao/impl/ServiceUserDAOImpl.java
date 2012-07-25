@@ -17,6 +17,13 @@ import test.primaris.entity.ServiceUser;
 public class ServiceUserDAOImpl extends BaseDAOImpl implements ServiceUserDAO {
 
     @Override
+    public ServiceUser getByLogin(String login) {
+        Criteria serviceUserLoginCriteria = getSession().createCriteria(ServiceUser.class);
+        serviceUserLoginCriteria.add(Restrictions.like("login", login));
+        return (ServiceUser) serviceUserLoginCriteria.uniqueResult();
+    }
+
+    @Override
     public ServiceUser getById(Long id) {
         Criteria serviceUserIdCriteria = getSession().createCriteria(ServiceUser.class);
         serviceUserIdCriteria.add(Restrictions.idEq(id));

@@ -17,12 +17,9 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            /WEB-INF/spring/web-app-context.xml
+            /WEB-INF/spring/security-context.xml
+            /WEB-INF/spring/app-context.xml
         </param-value>
-    </context-param>
-    <context-param>
-        <param-name>javax.faces.CONFIG_FILES</param-name>
-        <param-value>/WEB-INF/flex/remoting-config.xml</param-value>
     </context-param>
 
     <filter>
@@ -46,19 +43,36 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 
     </servlet>
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
 
-    <servlet-mapping>
-        <servlet-name>holiday</servlet-name>
-        <url-pattern>/spring/*</url-pattern>
-    </servlet-mapping>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+        <!--<dispatcher>FORWARD</dispatcher>-->
+        <!--<dispatcher>REQUEST</dispatcher>-->
+    </filter-mapping>
+    <!--<servlet>-->
+        <!--<servlet-name>holiday</servlet-name>-->
+        <!--<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>-->
+        <!--<init-param>-->
+            <!--<param-name>contextConfigLocation</param-name>-->
+            <!--<param-value>-->
+                <!---->
+            <!--</param-value>-->
+        <!--</init-param>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>holiday</servlet-name>-->
+        <!--<url-pattern>/spring/*</url-pattern>-->
+    <!--</servlet-mapping>-->
 
     <servlet>
         <servlet-name>holiday-flex</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <init-param>
-            <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/spring/flex-servlet-context.xml</param-value>
-        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
@@ -67,7 +81,4 @@
         <url-pattern>/flex/*</url-pattern>
     </servlet-mapping>
 
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
 </web-app>
