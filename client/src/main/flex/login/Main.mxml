@@ -1,4 +1,34 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
-    <mx:Script><![CDATA[]]></mx:Script>
-    <mx:Text text="Hello Login!"/>
+
+
+    <mx:Form x="50" y="50" verticalGap="15" id="form">
+        <mx:FormHeading label="Podaj dane:" />
+
+        <mx:FormItem label="Login:" required="true">
+            <mx:TextInput id="loginField" maxChars="20" restrict="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPrRsStTyYuUwWxXzZ0-9"/>
+        </mx:FormItem>
+
+        <mx:FormItem label="Hasło:" required="true">
+            <mx:TextInput id="passwordField" displayAsPassword="true" maxChars="20" restrict="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPrRsStTyYuUwWxXzZ0-9"/>
+        </mx:FormItem>
+
+        <mx:HBox>
+            <mx:Button id="loginButton" label="Zaloguj" click="submit()"/>
+        </mx:HBox>
+    </mx:Form>
+
+    <mx:Script><![CDATA[
+        import mx.controls.Alert;
+
+        private function submit(){
+            if(loginField.text!="" && passwordField.text!=""){
+
+                // TODO implemenacja logowania
+
+                navigateToURL(new URLRequest("user.swf"),"_self");
+            } else {
+                Alert.show("Wypełnij oba pola");
+            }
+        }
+        ]]></mx:Script>
 </mx:Application>
