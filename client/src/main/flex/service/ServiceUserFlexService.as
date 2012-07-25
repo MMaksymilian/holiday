@@ -8,6 +8,7 @@ package flex.service {
         public function ServiceUserFlexService() {
             var ro:RemoteObject = new RemoteObject("serviceUserServiceImpl");
             ro.testMethod();
+
             ro.addEventListener(ResultEvent.RESULT, updateSearch);
         }
 

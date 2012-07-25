@@ -29,11 +29,6 @@ public class UserController {
 
     @RequestMapping(method= RequestMethod.GET)
     public String get(ModelMap model) {
-        ServiceUser serviceUser = serviceUserService.getUserById(2l);
-        Holiday holiday = holidayService.getHolidayById(2l);
-        model.put("first_name", serviceUser.getFirstName());
-        model.put("last_name", serviceUser.getLastName());
-        model.put("cause", holiday.getCause()) ;
         return "user";
     }
 }

@@ -27,10 +27,4 @@ public class ServiceUserServiceImpl implements ServiceUserService {
     public ServiceUser getUserById(Long id) {
         return serviceUserDAO.getById(id);
     }
-
-    @Override
-    public String testMethod() {
-        System.out.println("works");
-        return "test worked fine";
-    }
 }

@@ -29,11 +29,6 @@ public class ChiefController {
 
     @RequestMapping(method= RequestMethod.GET)
     public String get(ModelMap model) {
-        ServiceUser serviceUser = serviceUserService.getUserById(1l);
-        Holiday holiday = holidayService.getHolidayById(1l);
-        model.put("first_name", serviceUser.getFirstName());
-        model.put("last_name", serviceUser.getLastName());
-        model.put("cause", holiday.getCause()) ;
         return "chief";
     }
 }

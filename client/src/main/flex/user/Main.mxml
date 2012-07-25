@@ -1,4 +1,53 @@
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
-    <mx:Script><![CDATA[]]></mx:Script>
-    <mx:Text text="Hello User!"/>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+                layout="horizontal"
+                initialize="initializeHandler()">
+    <mx:Script><![CDATA[
+
+        import mx.collections.ArrayCollection;
+        import mx.controls.Alert;
+        import mx.rpc.events.ResultEvent;
+        import mx.rpc.remoting.mxml.RemoteObject;
+
+        private function initializeHandler() : void {
+
+            var ro:RemoteObject = new RemoteObject("holidayServiceImpl");
+            ro.findHolidayForCurrentUser();
+            ro.addEventListener(ResultEvent.RESULT, updateSearch);
+        }
+
+        private function updateSearch(event:ResultEvent): void {
+            var holidayData:ArrayCollection = new ArrayCollection();
+            holidayData.source = (event.result as ArrayCollection).source;
+            holidayDataGrid.dataProvider = holidayData;
+//            var pse:PersonSearchEvent = new PersonSearchEvent();
+//            pse.dispatch();
+        }
+        ]]></mx:Script>
+
+    <mx:DataGrid id="holidayDataGrid">
+        <mx:columns>
+            <mx:DataGridColumn headerText="Powód" dataField="cause"/>
+            <mx:DataGridColumn headerText="Status" dataField="status"/>
+            <mx:DataGridColumn headerText="Data Od" dataField="dateFrom"/>
+            <mx:DataGridColumn headerText="Data Do" dataField="dateTo"/>
+            <!--<mx:DataGridColumn width="150" editable="false">-->
+                <!--<mx:itemRenderer>-->
+                    <!--<mx:Component>-->
+                        <!--<mx:HBox>-->
+                            <!--<mx:Script>-->
+                                <!--<![CDATA[-->
+                                <!--import org.springbyexample.web.flex.event.PersonDeleteEvent;-->
+                                <!--import org.springbyexample.web.jpa.bean.Person;-->
+                                <!--]]>-->
+                            <!--</mx:Script>-->
+                            <!--<mx:Button label="{resourceManager.getString('messages', 'button.edit')}"-->
+                                       <!--click="navigateToURL(new URLRequest('../person/form.html?id=' + data.id), '_self');"/>-->
+                            <!--<mx:Button label="{resourceManager.getString('messages', 'button.delete')}"-->
+                                       <!--click="new PersonDeleteEvent((data as Person).id).dispatch();"/>-->
+                        <!--</mx:HBox>-->
+                    <!--</mx:Component>-->
+                <!--</mx:itemRenderer>-->
+            <!--</mx:DataGridColumn>-->
+        </mx:columns>
+    </mx:DataGrid>
 </mx:Application>

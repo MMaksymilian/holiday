@@ -2,6 +2,8 @@ package test.primaris.service;
 
 import test.primaris.entity.Holiday;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: USER
@@ -12,4 +14,5 @@ import test.primaris.entity.Holiday;
 public interface HolidayService {
 
     Holiday getHolidayById(Long id);
+    List<Holiday> findHolidayForCurrentUser();
 }

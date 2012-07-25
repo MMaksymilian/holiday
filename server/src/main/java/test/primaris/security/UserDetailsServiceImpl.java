@@ -17,7 +17,6 @@ import test.primaris.entity.ServiceUser;
  * Time: 16:44
  * To change this template use File | Settings | File Templates.
  */
-@Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired

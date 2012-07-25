@@ -1,6 +1,9 @@
 package test.primaris.dao;
 
 import test.primaris.entity.Holiday;
+import test.primaris.entity.ServiceUser;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,4 +14,5 @@ import test.primaris.entity.Holiday;
  */
 public interface HolidayDAO {
     Holiday getById(Long id);
+    List<Holiday> findHolidayForUser(ServiceUser userLogin);
 }
