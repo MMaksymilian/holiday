@@ -1,4 +1,4 @@
-package test.primaris.service {
+package flex.service {
 
     import mx.rpc.events.ResultEvent;
     import mx.rpc.remoting.mxml.RemoteObject;

@@ -1,4 +1,4 @@
-package test.primaris.service {
+package flex.service {
 
 public class ServiceUserSErviceConnectionManager {
 

@@ -1,4 +1,4 @@
-package test.primaris.service {
+package flex.service {
 //import mx.controls.Alert;
 //import mx.messaging.Channel;
 //import mx.messaging.ChannelSet;
