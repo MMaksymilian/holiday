@@ -15,6 +15,7 @@
     <properties>
         <blaze.version>4.0.0.14931</blaze.version>
         <flex.version>3.4.1.10084</flex.version>
+        <swf.path>${project.build.directory}/bin</swf.path>
     </properties>
 
     <dependencies>
@@ -127,7 +128,7 @@
                             <sourcePaths>
                                 <path>${basedir}/src/main/flex</path>
                             </sourcePaths>
-                            <output>${project.build.directory}/${project.build.finalName}/flex/user.swf</output>
+                            <output>${swf.path}/user.swf</output>
                             <contextRoot>/${project.build.finalName}</contextRoot>
                             <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
                             <debug>true</debug>
@@ -145,7 +146,7 @@
                             <sourcePaths>
                                 <path>${basedir}/src/main/flex</path>
                             </sourcePaths>
-                            <output>${project.build.directory}/${project.build.finalName}/flex/login.swf</output>
+                            <output>${swf.path}/login.swf</output>
                             <contextRoot>/${project.build.finalName}</contextRoot>
                             <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
                             <debug>true</debug>
@@ -163,7 +164,7 @@
                             <sourcePaths>
                                 <path>${basedir}/src/main/flex</path>
                             </sourcePaths>
-                            <output>${project.build.directory}/${project.build.finalName}/flex/admin.swf</output>
+                            <output>${swf.path}/admin.swf</output>
                             <contextRoot>/${project.build.finalName}</contextRoot>
                             <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
                             <debug>true</debug>
