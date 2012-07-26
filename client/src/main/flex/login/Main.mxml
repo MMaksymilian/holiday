@@ -18,14 +18,24 @@
     </mx:Form>
 
     <mx:Script><![CDATA[
+        import flex.login.LoginManager;
         import mx.controls.Alert;
+        import mx.rpc.remoting.RemoteObject;
+
+        private var loginManager:LoginManager = new LoginManager();
 
         private function submit(){
-            if(loginField.text!="" && passwordField.text!=""){
+            var lgn = loginField.text;
+            var psw = passwordField.text;
 
-                // TODO implemenacja logowania
+            if(lgn!="" && psw!=""){
 
-                navigateToURL(new URLRequest("user.swf"),"_self");
+                if(loginManager.attemptLogin(lgn, psw)){
+                    navigateToURL(new URLRequest("user.swf"),"_self");
+                } else {
+                    Alert.show("Wprowadzone dane są niepoprawne");
+                }
+
             } else {
                 Alert.show("Wypełnij oba pola");
             }
