@@ -125,9 +125,6 @@
                         </goals>
                         <configuration>
                             <sourceFile>${basedir}/src/main/flex/user/Main.mxml</sourceFile>
-                            <sourcePaths>
-                                <path>${basedir}/src/main/flex</path>
-                            </sourcePaths>
                             <output>${swf.path}/user.swf</output>
                             <contextRoot>/${project.build.finalName}</contextRoot>
                             <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
@@ -143,9 +140,7 @@
                         </goals>
                         <configuration>
                             <sourceFile>${basedir}/src/main/flex/login/Main.mxml</sourceFile>
-                            <sourcePaths>
-                                <path>${basedir}/src/main/flex</path>
-                            </sourcePaths>
+
                             <output>${swf.path}/login.swf</output>
                             <contextRoot>/${project.build.finalName}</contextRoot>
                             <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
@@ -161,9 +156,6 @@
                         </goals>
                         <configuration>
                             <sourceFile>${basedir}/src/main/flex/admin/Main.mxml</sourceFile>
-                            <sourcePaths>
-                                <path>${basedir}/src/main/flex</path>
-                            </sourcePaths>
                             <output>${swf.path}/admin.swf</output>
                             <contextRoot>/${project.build.finalName}</contextRoot>
                             <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
