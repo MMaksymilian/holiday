@@ -1,0 +1,22 @@
+
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+                title="Podanie o urlop" x="168" y="86" status="active" showCloseButton="true"  borderAlpha="0.75">
+    <!-- Class selectors take precedence over type selectors -->
+    <mx:Panel layout="vertical" borderAlpha="0.15"
+              paddingTop="10" paddingRight="10" paddingBottom="10" paddingLeft="10" horizontalAlign="center">
+        <mx:Label id="simpleLabel" styleName="holidayFormFillField" text="data wypełnienia formularza"/>
+        <mx:Label text="data wypełnienia formularza"/>
+
+        <mx:Form width="100%" color="0x323232" paddingTop="0">
+            <mx:FormHeading fontSize="10"  label="PODANIE O UDZIELENIE URLOPU WYPOCZYNKOWEGO, CZASU WOLNEGO" paddingTop="0" />
+
+            <mx:FormItem label="First name">
+                <mx:TextInput id="fname" width="200"/>
+            </mx:FormItem>
+
+            <mx:FormItem label="Date of birth (mm/dd/yyyy)">
+                <mx:TextInput id="dob" width="200"/>
+            </mx:FormItem>
+        </mx:Form>
+    </mx:Panel>
+</mx:TitleWindow>

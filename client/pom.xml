@@ -130,39 +130,40 @@
                             <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
                             <debug>true</debug>
                             <useResourceBundleMetadata>true</useResourceBundleMetadata>
+                            <!--<allowSourcePathOverlap>true</allowSourcePathOverlap>-->
                         </configuration>
                     </execution>
 
-                    <execution>
-                        <id>compile-login-swf</id>
-                        <goals>
-                            <goal>compile-swf</goal>
-                        </goals>
-                        <configuration>
-                            <sourceFile>${basedir}/src/main/flex/login/Main.mxml</sourceFile>
+                    <!--<execution>-->
+                        <!--<id>compile-login-swf</id>-->
+                        <!--<goals>-->
+                            <!--<goal>compile-swf</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<sourceFile>${basedir}/src/main/flex/login/Main.mxml</sourceFile>-->
 
-                            <output>${swf.path}/login.swf</output>
-                            <contextRoot>/${project.build.finalName}</contextRoot>
-                            <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
-                            <debug>true</debug>
-                            <useResourceBundleMetadata>true</useResourceBundleMetadata>
-                        </configuration>
-                    </execution>
+                            <!--<output>${swf.path}/login.swf</output>-->
+                            <!--<contextRoot>/${project.build.finalName}</contextRoot>-->
+                            <!--<services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>-->
+                            <!--<debug>true</debug>-->
+                            <!--<useResourceBundleMetadata>true</useResourceBundleMetadata>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
 
-                    <execution>
-                        <id>compile-admin-swf</id>
-                        <goals>
-                            <goal>compile-swf</goal>
-                        </goals>
-                        <configuration>
-                            <sourceFile>${basedir}/src/main/flex/admin/Main.mxml</sourceFile>
-                            <output>${swf.path}/admin.swf</output>
-                            <contextRoot>/${project.build.finalName}</contextRoot>
-                            <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
-                            <debug>true</debug>
-                            <useResourceBundleMetadata>true</useResourceBundleMetadata>
-                        </configuration>
-                    </execution>
+                    <!--<execution>-->
+                        <!--<id>compile-admin-swf</id>-->
+                        <!--<goals>-->
+                            <!--<goal>compile-swf</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<sourceFile>${basedir}/src/main/flex/admin/Main.mxml</sourceFile>-->
+                            <!--<output>${swf.path}/admin.swf</output>-->
+                            <!--<contextRoot>/${project.build.finalName}</contextRoot>-->
+                            <!--<services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>-->
+                            <!--<debug>true</debug>-->
+                            <!--<useResourceBundleMetadata>true</useResourceBundleMetadata>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
                 </executions>
             </plugin>
         </plugins>

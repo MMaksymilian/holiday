@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package flex.entity {
+package flex.data {
 
     [RemoteClass(alias="test.primaris.entity.Holiday")]
     public class Holiday {

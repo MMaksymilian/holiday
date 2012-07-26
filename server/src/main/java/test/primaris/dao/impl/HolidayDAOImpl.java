@@ -30,7 +30,7 @@ public class HolidayDAOImpl extends BaseDAOImpl implements HolidayDAO {
     public List<Holiday> findHolidayForUser(ServiceUser userLogin) {
         Criteria holidayLoginCriteria = getSession().createCriteria(Holiday.class);
         holidayLoginCriteria.add(Restrictions.in("serviceUser", new ServiceUser[]{userLogin}));
-//        holidayLoginCriteria.createAlias("serviceUser", "sUser");
+        holidayLoginCriteria.createAlias("serviceUser.holidaySet", "holidays");
         return holidayLoginCriteria.list();
     }
 }
