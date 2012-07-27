@@ -118,7 +118,7 @@
                     </dependency>
                 </dependencies>
                 <executions>
-                    <execution>
+                    <!--<execution>
                         <id>compile-user-swf</id>
                         <goals>
                             <goal>compile-swf</goal>
@@ -131,7 +131,7 @@
                             <debug>true</debug>
                             <useResourceBundleMetadata>true</useResourceBundleMetadata>
                         </configuration>
-                    </execution>
+                    </execution>-->
 
                     <execution>
                         <id>compile-login-swf</id>
@@ -149,7 +149,7 @@
                         </configuration>
                     </execution>
 
-                    <execution>
+                    <!--<execution>
                         <id>compile-admin-swf</id>
                         <goals>
                             <goal>compile-swf</goal>
@@ -162,7 +162,7 @@
                             <debug>true</debug>
                             <useResourceBundleMetadata>true</useResourceBundleMetadata>
                         </configuration>
-                    </execution>
+                    </execution>-->
                 </executions>
             </plugin>
         </plugins>

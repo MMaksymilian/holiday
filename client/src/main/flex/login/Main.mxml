@@ -1,44 +1,70 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
+    <mx:HTTPService
+            id="loginService"
+            url="http://localhost:8180/server-1.0-SNAPSHOT/j_spring_security_check"
+            showBusyCursor="true"
+            method="POST"
+            result="loginServiceResultHandler(event)"
+            fault="loginServiceFaultHandler(event)">
+        <mx:request>
+            <j_username>{loginField.text}</j_username>
+            <j_password>{passwordField.text}</j_password>
+        </mx:request>
+    </mx:HTTPService>
 
+    <mx:HTTPService
+            id="logoutService"
+            url="http://localhost:8180/server-1.0-SNAPSHOT/j_spring_security_logout"
+            showBusyCursor="true"
+            method="POST"
+            result="logoutServiceHandler(event)"
+            >
+    </mx:HTTPService>
 
     <mx:Form x="50" y="50" verticalGap="15" id="form">
-        <mx:FormHeading label="Podaj dane:" />
+        <mx:FormHeading label="Daas dane:"/>
 
         <mx:FormItem label="Login:" required="true">
             <mx:TextInput id="loginField" maxChars="20" restrict="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPrRsStTyYuUwWxXzZ0-9"/>
         </mx:FormItem>
 
         <mx:FormItem label="Hasło:" required="true">
-            <mx:TextInput id="passwordField" displayAsPassword="true" maxChars="20" restrict="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPrRsStTyYuUwWxXzZ0-9"/>
+            <mx:TextInput id="passwordField" displayAsPassword="true" maxChars="20"
+                          restrict="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPrRsStTyYuUwWxXzZ0-9"/>
         </mx:FormItem>
 
         <mx:HBox>
-            <mx:Button id="loginButton" label="Zaloguj" click="submit()"/>
+            <mx:Button id="loginButton" label="Zaloguj" click="loginService.send()"/>
         </mx:HBox>
     </mx:Form>
 
     <mx:Script><![CDATA[
-        import flex.login.LoginManager;
         import mx.controls.Alert;
+        import mx.rpc.events.FaultEvent;
+        import mx.rpc.events.ResultEvent;
         import mx.rpc.remoting.RemoteObject;
 
-        private var loginManager:LoginManager = new LoginManager();
+        var result;
+        
+        private function loginServiceResultHandler(event:ResultEvent):void {
+            var ro:RemoteObject = new RemoteObject("securityService");
+            ro.isUserInRole("CHIEF");
+            ro.addEventListener(ResultEvent.RESULT, fetchResult);
 
-        private function submit(){
-            var lgn = loginField.text;
-            var psw = passwordField.text;
+            Alert.show("Response: "+result);
+        }
 
-            if(lgn!="" && psw!=""){
+        private function fetchResult(event:ResultEvent):void {
+            Alert.show(event.result.resultString);
+            result = event.result;
+        }
 
-                if(loginManager.attemptLogin(lgn, psw)){
-                    navigateToURL(new URLRequest("user.swf"),"_self");
-                } else {
-                    Alert.show("Wprowadzone dane są niepoprawne");
-                }
+        private function logoutServiceHandler(event: ResultEvent): void {
+            Alert.show(event.toString());
+        }
 
-            } else {
-                Alert.show("Wypełnij oba pola");
-            }
+        private function loginServiceFaultHandler(event:FaultEvent):void {
+            Alert.show("Nieprawidlowe dane");
         }
         ]]></mx:Script>
 </mx:Application>

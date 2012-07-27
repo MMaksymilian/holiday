@@ -1,6 +1,6 @@
 package flex.service {
 
-public class ServiceUserSErviceConnectionManager {
+public class ServiceUserServiceConnectionManager {
 
 //    public function ServiceUserSErviceConnectionManager() {
 //        super();

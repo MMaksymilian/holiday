@@ -7,14 +7,12 @@
  */
 package flex.common {
 import mx.rpc.remoting.RemoteObject;
-import events.RemoteExceptionEvent;
-import events.AuthenticationFailureEvent;
-import mx.core.Application;
 import mx.rpc.events.FaultEvent;
 
 public class RemoteService {
     private static var BAD_CREDENTIALS:String = "org.Springframework.security.BadCredentialsException : Bad credentials";
     protected var remoteObject:RemoteObject;
+
     public function RemoteService(id:String, destination:String) {
         this.remoteObject = new RemoteObject(id);
         this.remoteObject.destination = destination;
@@ -22,12 +20,9 @@ public class RemoteService {
     }
     public function onRemoteException(event:FaultEvent):void {
         if (event.fault.faultString == BAD_CREDENTIALS) {
-            Application.application.dispatchEvent(new AuthenticationFailureEvent(
-                    AuthenticationFailureEvent.AUTHENTICATION_FAILURE,"problem while authenticating"));
+            // AUTHORIZATION_FAULT
         } else {
-            Application.application.dispatchEvent(new RemoteExceptionEvent(
-                    RemoteExceptionEvent.REMOTE_EXCEPTION,
-                    "unknown problem occurred during a remote call : " + event.fault.message));
+            // REMOTE_EXCEPTION
         }
     }
 }
