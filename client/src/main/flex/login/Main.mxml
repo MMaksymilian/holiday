@@ -13,7 +13,7 @@
     </mx:HTTPService>
 
     <mx:Form x="50" y="50" verticalGap="15" id="form">
-        <mx:FormHeading label="Daas dane:"/>
+        <mx:FormHeading label="Podaj dane:"/>
 
         <mx:FormItem label="Login:" required="true">
             <mx:TextInput id="loginField" maxChars="20" restrict="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPrRsStTyYuUwWxXzZ0-9"/>
@@ -48,7 +48,7 @@
             if(event.result == "CHIEF"){
                 navigateToURL(new URLRequest("admin.swf"), "_self");
             } else if(event.result == "USER"){
-                Alert.show("USER");
+                navigateToURL(new URLRequest("user.swf"), "_self");
             }
         }
         ]]></mx:Script>

@@ -19,6 +19,9 @@ public class UserEntry {
 
         var date:Date = new Date(year, month+1, 0);
         var days:int = date.getDay();
+        for(var i=0; i<days; i++){
+
+        }
     }
 
 
