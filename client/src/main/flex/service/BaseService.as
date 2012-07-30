@@ -23,6 +23,7 @@ public class BaseService {
                 }
             } catch (e:Error) {
                 Alert.show(er.faultString, "Błąd klienta");
+                Alert.show(er.faultDetail, "Błąd klienta");
             }
         }
 }

@@ -19,8 +19,6 @@ import java.util.Set;
 @Entity
 @SequenceGenerator(allocationSize=1, name="idSequence", sequenceName="service_user_seq")
 public class ServiceUser extends BaseEntity {
-
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "serviceUser")
     @Cascade({CascadeType.ALL})
     private Set<Holiday> holidaySet;

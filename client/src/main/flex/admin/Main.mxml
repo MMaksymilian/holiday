@@ -1,4 +1,24 @@
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
-    <mx:Script><![CDATA[]]></mx:Script>
-    <mx:Text text="Hello Admin!"/>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="flex.admin.components.*" layout="absolute">
+    <mx:VBox x="15" y="15">
+        <local:MonthChooser
+                id="mChosenMonth"
+                yearNavigationEnabled="true"
+                styleName="monthChooserStyles"
+                selectedDate="{chosenMonth}"
+                change="updateDates()"
+                />
+    </mx:VBox>
+
+    <mx:Script><![CDATA[
+        public var username:String = "szef";
+        public var password:String = "szef";
+
+        [Bindable]
+        private var chosenMonth:Date;
+
+        private function updateDates():void {
+            chosenMonth = mChosenMonth.selectedDate;
+        }
+
+        ]]></mx:Script>
 </mx:Application>

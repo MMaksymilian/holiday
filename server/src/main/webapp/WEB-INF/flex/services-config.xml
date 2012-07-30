@@ -11,8 +11,7 @@
 
     <channels>
         <channel-definition id="serviceUser-amf" class="mx.messaging.channels.AMFChannel">
-            <!--TODO albo spring/messagebroker/amf-->
-            <endpoint url="http://{server.name}:{server.port}/server-1.0-SNAPSHOT/flex/messagebroker/amf"
+            <endpoint url="http://localhost:8180/server-1.0-SNAPSHOT/flex/messagebroker/amf"
                       class="flex.messaging.endpoints.AMFEndpoint"/>
             <!--TODO albo spring/messagebroker/amf-->
         </channel-definition>

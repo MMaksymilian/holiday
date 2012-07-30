@@ -1,43 +1,54 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
-
+    <mx:HTTPService
+            id="loginService"
+            url="http://localhost:8180/server-1.0-SNAPSHOT/j_spring_security_check"
+            showBusyCursor="true"
+            method="POST"
+            result="loginServiceResultHandler(event)"
+            fault="loginFailedHandler(event)">
+        <mx:request>
+            <j_username>{loginField.text}</j_username>
+            <j_password>{passwordField.text}</j_password>
+        </mx:request>
+    </mx:HTTPService>
 
     <mx:Form x="50" y="50" verticalGap="15" id="form">
-        <mx:FormHeading label="Podaj dane:" />
+        <mx:FormHeading label="Daas dane:"/>
 
         <mx:FormItem label="Login:" required="true">
             <mx:TextInput id="loginField" maxChars="20" restrict="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPrRsStTyYuUwWxXzZ0-9"/>
         </mx:FormItem>
 
         <mx:FormItem label="Hasło:" required="true">
-            <mx:TextInput id="passwordField" displayAsPassword="true" maxChars="20" restrict="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPrRsStTyYuUwWxXzZ0-9"/>
+            <mx:TextInput id="passwordField" displayAsPassword="true" maxChars="20"
+                          restrict="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPrRsStTyYuUwWxXzZ0-9"/>
         </mx:FormItem>
 
         <mx:HBox>
-            <mx:Button id="loginButton" label="Zaloguj" click="submit()"/>
+            <mx:Button id="loginButton" label="Zaloguj" click="loginService.send()"/>
         </mx:HBox>
     </mx:Form>
 
     <mx:Script><![CDATA[
-        import flex.login.LoginManager;
+
         import mx.controls.Alert;
-        import mx.rpc.remoting.RemoteObject;
+        import mx.rpc.events.FaultEvent;
+        import mx.rpc.events.ResultEvent;
 
-        private var loginManager:LoginManager = new LoginManager();
+        private function loginServiceResultHandler(event:ResultEvent):void {
+            var loginRemoteService:LoginService = new LoginService();
+            loginRemoteService.getHighestRole(roleHandler);
+        }
 
-        private function submit(){
-            var lgn = loginField.text;
-            var psw = passwordField.text;
+        private function loginFailedHandler(event:FaultEvent):void {
+            Alert.show("Invalid username/password");
+        }
 
-            if(lgn!="" && psw!=""){
-
-                if(loginManager.attemptLogin(lgn, psw)){
-                    navigateToURL(new URLRequest("user.swf"),"_self");
-                } else {
-                    Alert.show("Wprowadzone dane są niepoprawne");
-                }
-
-            } else {
-                Alert.show("Wypełnij oba pola");
+        private function roleHandler(event: ResultEvent):void {
+            if(event.result == "CHIEF"){
+                navigateToURL(new URLRequest("admin.swf"), "_self");
+            } else if(event.result == "USER"){
+                Alert.show("USER");
             }
         }
         ]]></mx:Script>
