@@ -1,0 +1,47 @@
+<mx:DataGrid xmlns:mx="http://www.adobe.com/2006/mxml" sortableColumns="true"
+             dataProvider="{holidayData}" top="4" left="4" bottom="4" right="4" variableRowHeight="true">
+    <mx:columns>
+        <!--<mx:DataGridColumn headerText="Data od"  sortable="true">-->
+        <!--<mx:itemRenderer>-->
+        <!--<mx:Component>-->
+        <!--<mx:Label text="{data.dateFrom}" width="150" fontWeight="bold" fontSize="13"/>-->
+        <!--</mx:Component>-->
+        <!--</mx:itemRenderer>-->
+        <!--</mx:DataGridColumn>-->
+        <mx:DataGridColumn dataField="dateFrom" width="150" itemRenderer="flex.renderer.DateRenderer" headerText="Data od"
+                           sortCompareFunction="{function(obj1:Object, obj2:Object):int{return compareDates(obj1, obj2, 'dateFrom');}}"/>
+        <mx:DataGridColumn dataField="dateTo" width="150" itemRenderer="flex.renderer.DateRenderer" headerText="Data do"
+                           sortCompareFunction="{function(obj1:Object, obj2:Object):int{return compareDates(obj1, obj2, 'dateTo');}}"/>
+
+        <mx:DataGridColumn dataField="cause" width="400" resizable="false" itemRenderer="mx.controls.Text" headerText="Powód"
+                           wordWrap="true"/>
+
+        <mx:DataGridColumn dataField="status" itemRenderer="flex.renderer.ColorRenderer" headerText="Status"
+                           textAlign="center"/>
+
+    </mx:columns>
+
+    <mx:Script><![CDATA[
+        import mx.collections.ArrayList;
+        import mx.controls.Alert;
+
+        [Bindable]
+        public var holidayData:ArrayList;
+
+        [Bindable]
+        public var dateFormatString:String;
+
+        public function compareDates(dateObject1:Object, dateObject2:Object, fieldName:String):int {
+            var date1:Date = (dateObject1[fieldName] as Date);
+            var date2:Date = (dateObject2[fieldName] as Date);
+            if (date1.getTime() > date2.getTime()) {
+                return -1;
+            } else if (date1.getTime() < date2.getTime()) {
+                return 1;
+            }
+            return 0;
+        }
+        ]]></mx:Script>
+
+    <!--<mx:DateFormatter id="dateFormatter" formatString="{dateFormatString}}"/>-->
+</mx:DataGrid>

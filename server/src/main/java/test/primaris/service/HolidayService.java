@@ -1,6 +1,7 @@
 package test.primaris.service;
 
 import test.primaris.entity.Holiday;
+import test.primaris.entity.dto.HolidayDTO;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  */
 public interface HolidayService {
 
-    Holiday getHolidayById(Long id);
-    List<Holiday> findHolidayForCurrentUser();
+    HolidayDTO getHolidayById(Long id);
+    List<HolidayDTO> findHolidayForCurrentUser();
+    Long requestHoliday(HolidayDTO holiday);
 }
