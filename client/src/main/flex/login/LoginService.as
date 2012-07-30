@@ -19,8 +19,13 @@ public class LoginService extends BaseService {
         super("securityService");
     }
 
-    public function isUserInRole(role:String = "USER", handler:Function = null) {
+    public function isUserInRole(role:String = "USER", handler:Function = null):void {
         var rpcCall:AsyncToken = remoteService.isUserInRole(role);
+        rpcCall.addResponder(new Responder(handler, handler_generalFault));
+    }
+
+    public function getHighestRole(handler: Function):void {
+        var rpcCall:AsyncToken = remoteService.getHighestUserRole();
         rpcCall.addResponder(new Responder(handler, handler_generalFault));
     }
 }

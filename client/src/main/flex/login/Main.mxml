@@ -4,20 +4,12 @@
             url="http://localhost:8180/server-1.0-SNAPSHOT/j_spring_security_check"
             showBusyCursor="true"
             method="POST"
-            result="loginServiceResultHandler(event)">
+            result="loginServiceResultHandler(event)"
+            fault="loginFailedHandler(event)">
         <mx:request>
             <j_username>{loginField.text}</j_username>
             <j_password>{passwordField.text}</j_password>
         </mx:request>
-    </mx:HTTPService>
-
-    <mx:HTTPService
-            id="logoutService"
-            url="http://localhost:8180/server-1.0-SNAPSHOT/j_spring_security_logout"
-            showBusyCursor="true"
-            method="POST"
-            result="logoutServiceHandler(event)"
-            >
     </mx:HTTPService>
 
     <mx:Form x="50" y="50" verticalGap="15" id="form">
@@ -38,25 +30,26 @@
     </mx:Form>
 
     <mx:Script><![CDATA[
-        import flex.login.LoginService;
 
         import mx.controls.Alert;
         import mx.rpc.events.FaultEvent;
         import mx.rpc.events.ResultEvent;
-        import mx.rpc.remoting.RemoteObject;
 
         private function loginServiceResultHandler(event:ResultEvent):void {
             var loginRemoteService:LoginService = new LoginService();
-            loginRemoteService.isUserInRole("CHIEF", roleHandler);
+            loginRemoteService.getHighestRole(roleHandler);
         }
 
-        private function logoutServiceHandler(event: ResultEvent): void {
-            Alert.show(event.toString());
+        private function loginFailedHandler(event:FaultEvent):void {
+            Alert.show("Invalid username/password");
         }
 
-        private function roleHandler(event: ResultEvent){
-            Alert.show(String(event.result));
-            
+        private function roleHandler(event: ResultEvent):void {
+            if(event.result == "CHIEF"){
+                navigateToURL(new URLRequest("admin.swf"), "_self");
+            } else if(event.result == "USER"){
+                Alert.show("USER");
+            }
         }
         ]]></mx:Script>
 </mx:Application>
