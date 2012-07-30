@@ -1,6 +1,7 @@
 package test.primaris.service;
 
 import test.primaris.entity.ServiceUser;
+import test.primaris.entity.dto.ServiceUserDTO;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,5 +12,5 @@ import test.primaris.entity.ServiceUser;
  */
 public interface ServiceUserService {
 
-    ServiceUser getUserById(Long id);
+    ServiceUserDTO getUserById(Long id);
 }

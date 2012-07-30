@@ -16,10 +16,10 @@
 
 package flex.data {
 
-    [RemoteClass(alias="test.primaris.entity.Holiday")]
+    [RemoteClass(alias="test.primaris.entity.dto.HolidayDTO")]
     public class Holiday {
 
-        //    public var id:int;
+        public var id:Number;
         public var cause:String;
         public var status:String;
         public var dateFrom:Date;

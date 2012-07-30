@@ -1,0 +1,13 @@
+<mx:Form  xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" color="0x323232" paddingTop="0" textAlign="center">
+    <mx:HBox>
+        <mx:Label text="Pokaż wybrane urlopy od "/>
+        <mx:FormItem  required="true">
+            <mx:DateField id="periodBegining"/>
+        </mx:FormItem>
+        <mx:Label text=" do "/>
+        <mx:FormItem  required="true">
+            <mx:DateField id="periodEnd"/>
+        </mx:FormItem>
+        <mx:Label text="."/>
+    </mx:HBox>
+</mx:Form>

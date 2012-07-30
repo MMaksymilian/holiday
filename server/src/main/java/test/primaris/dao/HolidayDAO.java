@@ -15,4 +15,5 @@ import java.util.List;
 public interface HolidayDAO {
     Holiday getById(Long id);
     List<Holiday> findHolidayForUser(ServiceUser userLogin);
+    Long requestHoliday(Holiday holiday);
 }

@@ -24,8 +24,8 @@ public class ChiefController {
     @Autowired
     private ServiceUserService serviceUserService;
 
-    @Autowired
-    private HolidayService holidayService;
+//    @Autowired
+//    private HolidayService holidayService;
 
     @RequestMapping(method= RequestMethod.GET)
     public String get(ModelMap model) {

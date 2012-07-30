@@ -27,10 +27,15 @@ public class HolidayDAOImpl extends BaseDAOImpl implements HolidayDAO {
     }
 
     @Override
-    public List<Holiday> findHolidayForUser(ServiceUser userLogin) {
+    public List<Holiday> findHolidayForUser(ServiceUser serviceUser) {
         Criteria holidayLoginCriteria = getSession().createCriteria(Holiday.class);
-        holidayLoginCriteria.add(Restrictions.in("serviceUser", new ServiceUser[]{userLogin}));
+        holidayLoginCriteria.add(Restrictions.in("serviceUser", new ServiceUser[]{serviceUser}));
         holidayLoginCriteria.createAlias("serviceUser.holidaySet", "holidays");
         return holidayLoginCriteria.list();
+    }
+
+    @Override
+    public Long requestHoliday(Holiday holiday) {
+        return (Long)getHibernateTemplate().save(holiday);
     }
 }
