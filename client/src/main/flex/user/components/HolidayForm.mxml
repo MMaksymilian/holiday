@@ -1,0 +1,70 @@
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+                title="Podanie o urlop" x="168" y="86" status="active" showCloseButton="true" borderAlpha="0.75">
+    <!-- Class selectors take precedence over type selectors -->
+        <mx:Grid id="infoGrid" color="0x707070" verticalGap="10" horizontalGap="200">
+            <mx:GridRow>
+                <mx:GridItem>
+                    <mx:VBox>
+                        <mx:Label styleName="holidayFormFillField" text="tu będzie nazwisko"/>
+                        <mx:Label text="(Imię i nazwisko pracownika)"/>
+                    </mx:VBox>
+                </mx:GridItem>
+                <mx:GridItem>
+                    <mx:VBox>
+                        <mx:Label styleName="holidayFormFillField" text="dn. + tu będzie data"/>
+                        <mx:Label text="(data)"/>
+                    </mx:VBox>
+                </mx:GridItem>
+            </mx:GridRow>
+        </mx:Grid>
+
+        <mx:Form width="100%" color="0x323232" paddingTop="0" textAlign="center">
+            <mx:FormHeading fontSize="10" label="PODANIE O UDZIELENIE URLOPU WYPOCZYNKOWEGO, CZASU WOLNEGO"
+                            paddingTop="0"/>
+            <mx:HBox borderStyle="none">
+                <mx:Label text="Uprzejmie proszę o udzielenie mi urlopu w dniach od"/>
+                <mx:FormItem>
+                    <mx:DateField id="dateFrom" yearNavigationEnabled="true" color="0x000000"/>
+                </mx:FormItem>
+                <mx:Label text=" do "/>
+                <mx:FormItem>
+                    <mx:DateField id="dateTo" yearNavigationEnabled="true" color="0x000000"/>
+                </mx:FormItem>
+                <mx:Label text="z powodu"/>
+            </mx:HBox>
+            <mx:FormItem>
+                <mx:TextArea id="cause" width="500" height="80" color="0x323232">
+                    <mx:text>
+                        Miejsce na wpisanie powodu urlopu
+                    </mx:text>
+                </mx:TextArea>
+            </mx:FormItem>
+            <mx:FormItem>
+                <mx:Button id="submitButton" label="Zapisz" click="submitButton_clickHandler(event)"/>
+            </mx:FormItem>
+        </mx:Form>
+
+    <mx:Metadata>
+        [Event(name="holidaySendRequestEvent", type="flex.event.user.HolidaySendRequestEvent")]
+    </mx:Metadata>
+
+    <mx:Script><![CDATA[
+
+        import flex.data.Holiday;
+        import flex.event.user.HolidaySendRequestEvent;
+
+        import mx.controls.Alert;
+
+        protected function submitButton_clickHandler(event:MouseEvent) : void {
+            var holidayData:Holiday = new Holiday();
+            holidayData.cause = cause.text;
+            holidayData.status = "APPLIED";
+            holidayData.dateFrom = dateFrom.selectedDate;
+            holidayData.dateTo = dateTo.selectedDate;
+            var eventObject:HolidaySendRequestEvent = new HolidaySendRequestEvent("holidaySendRequestEvent", holidayData);
+            dispatchEvent(eventObject);
+        }
+
+        ]]></mx:Script>
+
+</mx:TitleWindow>

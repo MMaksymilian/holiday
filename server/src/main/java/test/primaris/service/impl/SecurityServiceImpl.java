@@ -15,12 +15,10 @@ public class SecurityServiceImpl implements SecurityService {
     public String isUserInRole(String role) {
         Collection<GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 
-        String response = "fls";
+        String response = "false";
         for(GrantedAuthority authority: authorities){
-
-            System.out.println(authority.getAuthority());
             if(authority.getAuthority().equals(role)){
-                response = "tr";
+                response = "true";
             }
         }
 

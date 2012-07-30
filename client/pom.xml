@@ -130,8 +130,9 @@
                             <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
                             <debug>true</debug>
                             <useResourceBundleMetadata>true</useResourceBundleMetadata>
-                        </configuration>
-                    </execution>-->
+                            <allowSourcePathOverlap>true</allowSourcePathOverlap>-->
+                        <!--</configuration>
+                    </execution>&ndash;&gt;-->
 
                     <execution>
                         <id>compile-login-swf</id>
@@ -149,20 +150,20 @@
                         </configuration>
                     </execution>
 
-                    <!--<execution>
-                        <id>compile-admin-swf</id>
-                        <goals>
-                            <goal>compile-swf</goal>
-                        </goals>
-                        <configuration>
-                            <sourceFile>${basedir}/src/main/flex/admin/Main.mxml</sourceFile>
-                            <output>${swf.path}/admin.swf</output>
-                            <contextRoot>/${project.build.finalName}</contextRoot>
-                            <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
-                            <debug>true</debug>
-                            <useResourceBundleMetadata>true</useResourceBundleMetadata>
-                        </configuration>
-                    </execution>-->
+                    <!--<execution>-->
+                        <!--<id>compile-admin-swf</id>-->
+                        <!--<goals>-->
+                            <!--<goal>compile-swf</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<sourceFile>${basedir}/src/main/flex/admin/Main.mxml</sourceFile>-->
+                            <!--<output>${swf.path}/admin.swf</output>-->
+                            <!--<contextRoot>/${project.build.finalName}</contextRoot>-->
+                            <!--<services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>-->
+                            <!--<debug>true</debug>-->
+                            <!--<useResourceBundleMetadata>true</useResourceBundleMetadata>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
                 </executions>
             </plugin>
         </plugins>
