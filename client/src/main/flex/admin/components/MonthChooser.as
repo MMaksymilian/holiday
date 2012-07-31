@@ -13,7 +13,7 @@ package flex.admin.components {
 
     use namespace mx_internal;
 
-    public class MonthChooser extends DateChooser{
+    public class MonthChooser extends DateChooser {
 
         public function MonthChooser(){
             monthNames = [ "STY", "LUT", "MAR", "KWI", "MAJ", "CZE", "LIP", "SIE", "WRZ", "PAŹ", "LIS", "GRU"];

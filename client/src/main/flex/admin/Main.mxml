@@ -12,11 +12,20 @@
         <mx:Button color="0x323232" height="32" label="Napisz podanie o urlop" click="showWindow();"/>
     </mx:VBox>
 
+    <local:EntryGrid id="entryGrid">
+
+    </local:EntryGrid>
+
     <mx:Script><![CDATA[
         import flex.admin.components.HolidayAcceptForm;
+        import flex.admin.model.UserEntry;
+        import flex.admin.model.UserEntry;
+        import flex.admin.services.impl.AdminDataServiceMock;
         import flex.service.HolidayFlexService;
 
         import mx.collections.ArrayCollection;
+
+        import mx.controls.Alert;
         import mx.managers.PopUpManager;
         import mx.rpc.events.ResultEvent;
 
@@ -31,7 +40,7 @@
         private var holidayForm:HolidayAcceptForm;
 
         private function initializeHandler():void {
-           holidayFlexService = new HolidayFlexService();
+            holidayFlexService = new HolidayFlexService();
         }
 
         private function showWindow():void {
@@ -45,10 +54,24 @@
             currentUserData.source = (event.result as ArrayCollection).source;
             holidayForm.setUserHolidayProvider(currentUserData);
         }
-
+        
         private function updateDates():void {
             chosenMonth = mChosenMonth.selectedDate;
         }
 
+        private function onEntry():void {
+            Alert.show("Show");
+            var adminDataServiceMock:AdminDataServiceMock = new AdminDataServiceMock();
+
+            Alert.show("Show2");
+            var collection:ArrayCollection = adminDataServiceMock.getEntries(2012, 6);
+
+            var length = collection.length;
+            Alert.show(length+"");
+            var userEntry:UserEntry = UserEntry(collection[0]);
+            Alert.show(userEntry.login);
+            entryGrid.addEntry(collection[0]);
+            entryGrid.addEntry(collection[1]);
+        }
         ]]></mx:Script>
 </mx:Application>
