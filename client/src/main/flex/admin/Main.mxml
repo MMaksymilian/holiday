@@ -45,6 +45,7 @@
 
         private function showWindow():void {
             holidayForm = HolidayAcceptForm(PopUpManager.createPopUp(this, HolidayAcceptForm, true));
+//            PopUpManager.centerPopUp(holidayForm as Dialog);
             holidayFlexService.findDataForChosenUser('kowalski', updateModalDialog);
 //            holidayForm.addEventListener(HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, holidayFormSendRequestHandler);
         }

@@ -1,5 +1,5 @@
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
-                title="Podanie o urlop" x="168" y="86" status="active" close="closeModalDialog(this)"
+                title="Akceptacja/odrzucenie urlopów użytkownika" x="168" y="86" status="active" close="closeModalDialog(this)"
                 showCloseButton="true" borderAlpha="0.75">
     <!-- Class selectors take precedence over type selectors -->
 
@@ -7,22 +7,13 @@
 
         <mx:columns>
 
-            <!-- You can define an inline component as the ItemRenderer for a DataGrid column -->
-            <!--<mx:DataGridColumn headerText="Name">-->
-                <!--<mx:itemRenderer>-->
-                    <!--<mx:Component>-->
-                        <!--<mx:Label text="{data.name}" fontWeight="bold" fontSize="12"/>-->
-                    <!--</mx:Component>-->
-                <!--</mx:itemRenderer>-->
-            <!--</mx:DataGridColumn>-->
+            <mx:DataGridColumn width="200" dataField="cause" itemRenderer="mx.controls.Text" headerText="Powód"/>
+            <mx:DataGridColumn width="200" itemRenderer="flex.renderer.HolidayAcceptFormComboRenderer"/>
 
-
-            <!--<mx:DataGridColumn dataField="description" itemRenderer="mx.controls.Text" headerText="Description"/>-->
-
-            <mx:DataGridColumn>
+            <mx:DataGridColumn width="40">
                 <mx:itemRenderer>
                     <mx:Component>
-                            <mx:ComboBox dataProvider="statusList" width="150" color="0x000000"/>
+                        <mx:Button  icon="@Embed('accept.gif')" />    <!-- click="dispatchEvent(new Event('deleteRow', true))"-->
                     </mx:Component>
                 </mx:itemRenderer>
             </mx:DataGridColumn>
@@ -35,11 +26,7 @@
         import mx.core.IFlexDisplayObject;
         import mx.managers.PopUpManager;
 
-        [Bindable]
-        public var statusList:ArrayCollection = new ArrayCollection(
-                [ {label:"--wybierz--", data:null},
-                  {label:"ZAKCEPTUJ", data:"APPROVED"},
-                  {label:"ODRZUĆ", data:"REJECTED"} ]);
+
 
 
         protected function closeModalDialog(window:IFlexDisplayObject):void {
