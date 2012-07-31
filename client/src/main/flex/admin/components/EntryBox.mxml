@@ -10,6 +10,7 @@
         import flex.admin.model.UserEntry;
 
         import mx.collections.ArrayCollection;
+        import mx.controls.Alert;
 
         public function setEntry(entry: UserEntry){
             setName(entry.login+" "+entry.name);
@@ -17,14 +18,18 @@
         }
         
         public function setName(gName:String){
-            nameLabel.data = gName;
+            Alert.show("OnSetName");
+            nameLabel.text = gName;
+            Alert.show("OnSetNameEnd");
         }
 
         public function updateArray(array: ArrayCollection){
             dayArray.removeAllChildren();
+            Alert.show("AllRemove");
 
             var label:Label;
             for(var i=0; i<array.length; i++){
+                Alert.show("OnLabel "+i);
                 label = new Label();
                 label.data = array[i];
                 dayArray.addChildAt(label, i);

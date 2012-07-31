@@ -9,6 +9,8 @@ package flex.admin.services.impl {
 import flex.admin.services.AdminDataService;
 import flex.service.BaseService;
 
+import mx.collections.ArrayCollection;
+
 import mx.rpc.AsyncToken;
 import mx.rpc.Responder;
 
@@ -17,19 +19,20 @@ public class AdminDataServiceImpl extends BaseService implements AdminDataServic
         super("adminDataService");
     }
 
-    public function getUserNames(year:int, month:int, handler:Function = null) {
+    public function getUserNames(year:int, month:int, handler:Function = null):void {
         var rpcCall:AsyncToken = remoteService.getUserNames(year,  month);
         rpcCall.addResponder(new Responder(handler, handler_generalFault));
     }
 
-    public function getUserEntry(login:String, year:int, month:int, handler:Function = null) {
+    public function getUserEntry(login:String, year:int, month:int, handler:Function = null):void {
         var rpcCall:AsyncToken = remoteService.getUserNames(login, year,  month);
         rpcCall.addResponder(new Responder(handler, handler_generalFault));
     }
 
-    public function getEntries(year:int, month:int, handler:Function = null) {
+    public function getEntries(year:int, month:int, handler:Function = null):ArrayCollection {
         var rpcCall:AsyncToken = remoteService.getEntries(year,  month);
         rpcCall.addResponder(new Responder(handler, handler_generalFault));
+        return new ArrayCollection();
     }
 }
 }

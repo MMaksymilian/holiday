@@ -7,6 +7,7 @@
  */
 package flex.admin.model {
 import mx.collections.ArrayCollection;
+import mx.controls.Alert;
 
 public class UserEntry {
     public const STATUS_NONE:int = -1;
@@ -16,7 +17,7 @@ public class UserEntry {
     
     public var name:String;
     public var login:String;
-    public var dataCollection:ArrayCollection;
+    public var dataCollection:ArrayCollection = new ArrayCollection();
     public var month:int;
     public var year:int;
 
@@ -27,13 +28,15 @@ public class UserEntry {
         year = gYear;
 
         var date:Date = new Date(year, month+1, 0);
-        var days:int = date.getDay();
+        var days:int = date.getDate();
+
         for(var i:int=0; i<days; i++){
-            dataCollection[i] = -1;
+            dataCollection.addItem(i);
         }
+
     }
 
-    public function setHoliday(from:int, to:int, status:int = 0):void{
+    public function setHoliday(from:int, to:int, status:int = 0):void {
         for(var i:int=from; i<=to; i++){
             dataCollection[i-1] = status;
         }

@@ -29,18 +29,12 @@
         private var chosenMonth:Date;
 
         private function onEntry():void {
-            Alert.show("Show");
             var adminDataServiceMock:AdminDataServiceMock = new AdminDataServiceMock();
-
-            Alert.show("Show2");
             var collection:ArrayCollection = adminDataServiceMock.getEntries(2012, 6);
 
-            var length = collection.length;
-            Alert.show(length+"");
-            var userEntry:UserEntry = UserEntry(collection[0]);
-            Alert.show(userEntry.login);
-            entryGrid.addEntry(collection[0]);
-            entryGrid.addEntry(collection[1]);
+            var userEntry:UserEntry = UserEntry(collection.getItemAt(0));
+            entryGrid.addEntry(userEntry);
+            Alert.show("OnEntryEnd");
         }
 
         private function updateDates():void {

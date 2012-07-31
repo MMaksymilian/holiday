@@ -10,6 +10,7 @@ import flex.admin.model.UserEntry;
 import flex.admin.services.AdminDataService;
 
 import mx.collections.ArrayCollection;
+import mx.controls.Alert;
 import mx.rpc.events.ResultEvent;
 
 public class AdminDataServiceMock implements AdminDataService {
@@ -63,9 +64,8 @@ public class AdminDataServiceMock implements AdminDataService {
             secondEntry.setHoliday(4, 9, 2);
             secondEntry.setHoliday(15, 17, 1);
 
-            collection.addItem(firstEntry);
-            collection.addItem(secondEntry);
-
+            collection.source.push(firstEntry);
+            collection.source.push(secondEntry);
         } else if(year==2012 && month==7){
             var firstEntry:UserEntry = new UserEntry("Olgierd Zuch", "ozuc", month, year);
             var secondEntry:UserEntry = new UserEntry("Radosław Wojak", "rwoj", month, year);
@@ -78,9 +78,9 @@ public class AdminDataServiceMock implements AdminDataService {
 
             collection.addItem(firstEntry);
             collection.addItem(secondEntry);
-
         }
 
+        Alert.show("Mocked");
         return collection;
     }
 }

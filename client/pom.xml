@@ -134,7 +134,7 @@
                         <!--</configuration>
                     </execution>&ndash;&gt;-->
 
-                    <execution>
+                    <!--<execution>
                         <id>compile-login-swf</id>
                         <goals>
                             <goal>compile-swf</goal>
@@ -148,7 +148,7 @@
                             <debug>true</debug>
                             <useResourceBundleMetadata>true</useResourceBundleMetadata>
                         </configuration>
-                    </execution>
+                    </execution>-->
 
                     <execution>
                         <id>compile-admin-swf</id>

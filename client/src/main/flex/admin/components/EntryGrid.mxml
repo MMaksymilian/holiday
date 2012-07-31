@@ -3,10 +3,14 @@
     <mx:Script><![CDATA[
         import flex.admin.model.UserEntry;
 
+        import mx.controls.Alert;
+
         public function addEntry(entry: UserEntry):void {
+            Alert.show("OnAddEntry");
             var entryBox:EntryBox = new EntryBox();
             entryBox.setEntry(entry);
             this.addChild(entryBox);
+            Alert.show("AddEntry");
         }
         ]]></mx:Script>
 </mx:VBox>
