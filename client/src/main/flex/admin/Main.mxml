@@ -1,4 +1,4 @@
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="flex.admin.components.*" layout="absolute">
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="flex.admin.components.*" layout="absolute" initialize="onEntry()">
     <mx:VBox x="15" y="15">
         <local:MonthChooser
                 id="mChosenMonth"
@@ -9,12 +9,39 @@
                 />
     </mx:VBox>
 
+    <local:EntryGrid id="entryGrid">
+
+    </local:EntryGrid>
+
     <mx:Script><![CDATA[
+        import flex.admin.model.UserEntry;
+        import flex.admin.model.UserEntry;
+        import flex.admin.services.impl.AdminDataServiceMock;
+
+        import mx.collections.ArrayCollection;
+
+        import mx.controls.Alert;
+
         public var username:String = "szef";
         public var password:String = "szef";
 
         [Bindable]
         private var chosenMonth:Date;
+
+        private function onEntry():void {
+            Alert.show("Show");
+            var adminDataServiceMock:AdminDataServiceMock = new AdminDataServiceMock();
+
+            Alert.show("Show2");
+            var collection:ArrayCollection = adminDataServiceMock.getEntries(2012, 6);
+
+            var length = collection.length;
+            Alert.show(length+"");
+            var userEntry:UserEntry = UserEntry(collection[0]);
+            Alert.show(userEntry.login);
+            entryGrid.addEntry(collection[0]);
+            entryGrid.addEntry(collection[1]);
+        }
 
         private function updateDates():void {
             chosenMonth = mChosenMonth.selectedDate;

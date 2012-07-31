@@ -1,0 +1,36 @@
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="flex.admin.components.*">
+    <mx:Label id="nameLabel">
+
+    </mx:Label>
+
+    <mx:HBox id="dayArray">
+        
+    </mx:HBox>
+    <mx:Script><![CDATA[
+        import flex.admin.model.UserEntry;
+
+        import mx.collections.ArrayCollection;
+
+        public function setEntry(entry: UserEntry){
+            setName(entry.login+" "+entry.name);
+            updateArray(entry.dataCollection);
+        }
+        
+        public function setName(gName:String){
+            nameLabel.data = gName;
+        }
+
+        public function updateArray(array: ArrayCollection){
+            dayArray.removeAllChildren();
+
+            var label:Label;
+            for(var i=0; i<array.length; i++){
+                label = new Label();
+                label.data = array[i];
+                dayArray.addChildAt(label, i);
+            }
+        }
+        
+        ]]></mx:Script>
+
+</mx:HBox>

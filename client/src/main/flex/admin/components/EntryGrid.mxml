@@ -1,0 +1,12 @@
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="flex.admin.components.*">
+
+    <mx:Script><![CDATA[
+        import flex.admin.model.UserEntry;
+
+        public function addEntry(entry: UserEntry):void {
+            var entryBox:EntryBox = new EntryBox();
+            entryBox.setEntry(entry);
+            this.addChild(entryBox);
+        }
+        ]]></mx:Script>
+</mx:VBox>
