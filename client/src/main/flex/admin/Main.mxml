@@ -1,4 +1,6 @@
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="flex.admin.components.*" layout="absolute">
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="flex.admin.components.*"
+                layout="absolute" backgroundGradientColors="[0x000000,0x323232]"
+                initialize="initializeHandler()">
     <mx:VBox x="15" y="15">
         <local:MonthChooser
                 id="mChosenMonth"
@@ -7,14 +9,42 @@
                 selectedDate="{chosenMonth}"
                 change="updateDates()"
                 />
+        <mx:Button color="0x323232" height="32" label="Napisz podanie o urlop" click="showWindow();"/>
     </mx:VBox>
 
     <mx:Script><![CDATA[
+        import flex.admin.components.HolidayAcceptForm;
+        import flex.service.HolidayFlexService;
+
+        import mx.collections.ArrayCollection;
+        import mx.managers.PopUpManager;
+        import mx.rpc.events.ResultEvent;
+
         public var username:String = "szef";
         public var password:String = "szef";
 
         [Bindable]
         private var chosenMonth:Date;
+
+        private var holidayFlexService:HolidayFlexService;
+
+        private var holidayForm:HolidayAcceptForm;
+
+        private function initializeHandler():void {
+           holidayFlexService = new HolidayFlexService();
+        }
+
+        private function showWindow():void {
+            holidayForm = HolidayAcceptForm(PopUpManager.createPopUp(this, HolidayAcceptForm, true));
+            holidayFlexService.findDataForChosenUser('kowalski', updateModalDialog);
+//            holidayForm.addEventListener(HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, holidayFormSendRequestHandler);
+        }
+
+        private function updateModalDialog(event:ResultEvent):void {
+            var currentUserData:ArrayCollection = new ArrayCollection();
+            currentUserData.source = (event.result as ArrayCollection).source;
+            holidayForm.setUserHolidayProvider(currentUserData);
+        }
 
         private function updateDates():void {
             chosenMonth = mChosenMonth.selectedDate;
