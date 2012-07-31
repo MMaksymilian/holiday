@@ -2,44 +2,85 @@
                 layout="vertical"
                 backgroundGradientColors="[0x000000,0x323232]"
                 xmlns:components="flex.user.components.*"
-                initialize="initializeHandler()">
+                initialize="initializeHandler()"
+                creationComplete="addEvents()"
+                xmlns:componentsAdmin="flex.admin.components.*">
 
+    <mx:Metadata>
+        [Event(name=ChangeMonthEvent.CHANGED_MONTH, type="flex.event.user.ChangeMonthEvent")]
+    </mx:Metadata>
 
     <mx:Script><![CDATA[
+        import flex.data.Holiday;
+        import flex.event.user.ChangeMonthEvent;
         import flex.event.user.CloseModalDialogEvent;
+        import flex.event.user.GetSelectedDateRangeEvent;
         import flex.event.user.HolidaySendRequestEvent;
-        import flex.user.components.HolidayForm;
+        import flex.service.HolidayFlexService;
+        import flex.user.components.HolidayApplyForm;
 
         import mx.collections.ArrayCollection;
-        import mx.collections.ArrayList;
         import mx.controls.Alert;
         import mx.managers.PopUpManager;
         import mx.rpc.events.ResultEvent;
 
-        import flex.service.HolidayFlexService;
-
         private var holidayFlexService:HolidayFlexService;
 
         [Bindable]
-        private var formatDateString:String='DD - MM - YYYY J:N';
+        private var formatDateString:String = 'DD - MM - YYYY J:N';
+        private var holidayData:ArrayCollection;
 
         private function initializeHandler():void {
             holidayFlexService = new HolidayFlexService();
-            holidayFlexService.findHolidayForCurrentUser(updateTable);
+            getDataForMonth(getFirstOfTheMonth(new Date()));
+        }
+
+        private function addEvents():void {
+            addEventListener(ChangeMonthEvent.CHANGED_MONTH, changedMonthListener);
+            dateRange.addEventListener(GetSelectedDateRangeEvent.SELECTED_DATE_RANGE, getDataForDateRange);
+        }
+
+        private function changedMonthListener(event:ChangeMonthEvent):void {
+            dateRange.changeDates(event.firstDate, event.secondDate);
+        }
+
+        private function getDataForMonth(date:Date):void {
+            holidayFlexService.findHolidayForCurrentUserAndMonth(date, updateTable)
+        }
+
+        private function getDataForDateRange(event:GetSelectedDateRangeEvent):void {
+            holidayFlexService.findHolidayForCurrentUserDatesBetween(event.dateFrom, event.dateTo, updateTable);
         }
 
         protected function updateTable(event:ResultEvent):void {
-            var holidayData:ArrayCollection = new ArrayCollection();
+            holidayData = new ArrayCollection();
             holidayData.source = (event.result as ArrayCollection).source;
             holidayTable.dataProvider = holidayData;
         }
 
         private function holidayFormSendRequestHandler(event:HolidaySendRequestEvent):void {
             holidayFlexService.requestHoliday(event.holidayData);
+            holidayData.addItem(event.holidayData);
+        }
+
+
+        private function chooseDate():void {
+            var chosenDate:Date = holidayDateChooser.selectedDate;
+            var from:Date = getFirstOfTheMonth(chosenDate);
+            var month:int = from.getMonth();
+            var year:int = from.getFullYear();
+            month = (month + 1) % 13;
+            if (month == 0) {
+                month = 1;
+            }
+            var eventObject:ChangeMonthEvent = new ChangeMonthEvent(ChangeMonthEvent.CHANGED_MONTH, from, new Date(year, month, 1));
+            dispatchEvent(eventObject);
+            getDataForMonth(chosenDate);
         }
 
         private function showWindow():void {
-            var holidayForm:HolidayForm = HolidayForm(PopUpManager.createPopUp(this, HolidayForm, true));
+            var holidayForm:HolidayApplyForm = HolidayApplyForm(PopUpManager.createPopUp(this, HolidayApplyForm, true));
+//            PopUpManager.centerPopUp(holidayForm);
             holidayForm.dateFormatString = formatDateString;
             holidayForm.addEventListener(HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, holidayFormSendRequestHandler);
             holidayForm.addEventListener(CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG, onDialogClose);
@@ -47,15 +88,19 @@
 
         private function onDialogClose(event:CloseModalDialogEvent):void {
         }
+
+        private function getFirstOfTheMonth(currentDate:Date):Date {
+            var month:int = currentDate.getMonth();
+            var year:int = currentDate.getFullYear();
+            return new Date(year, month, 1);
+        }
         ]]></mx:Script>
 
     <mx:Panel>
-
-        <mx:Button id="myButton" color="0x323232" height="32" label="Napisz podanie o urlop"
-                   click="showWindow();"/>
-        <!--TODO dopisać listener-y itd.-->
         <components:DateRange id="dateRange"/>
+        <componentsAdmin:MonthChooser id="holidayDateChooser" yearNavigationEnabled="true" styleName="monthChooserStyles" change="{chooseDate()}"/>
         <components:HolidayTable id="holidayTable" dateFormatString="{formatDateString}"/>
+        <mx:Button color="0x323232" height="32" label="Napisz podanie o urlop" click="showWindow();"/>
     </mx:Panel>
 
     <mx:Style>

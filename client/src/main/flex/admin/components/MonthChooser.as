@@ -16,7 +16,7 @@ package flex.admin.components {
     public class MonthChooser extends DateChooser {
 
         public function MonthChooser(){
-            monthNames = [ "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" ];
+            monthNames = [ "STY", "LUT", "MAR", "KWI", "MAJ", "CZE", "LIP", "SIE", "WRZ", "PAŹ", "LIS", "GRU"];
         }
 
         override protected function createChildren():void {

@@ -3,6 +3,7 @@ package test.primaris.service;
 import test.primaris.entity.Holiday;
 import test.primaris.entity.dto.HolidayDTO;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,6 +16,8 @@ import java.util.List;
 public interface HolidayService {
 
     HolidayDTO getHolidayById(Long id);
-    List<HolidayDTO> findHolidayForCurrentUser();
-    Long requestHoliday(HolidayDTO holiday);
+    List<HolidayDTO> findHolidayForCurrentUserAndMonth(Date date);
+    List<HolidayDTO> findHolidayForCurrentUserDatesBetween(Date dateFrom, Date dateTo);
+    void requestHoliday(HolidayDTO holiday);
+    List<HolidayDTO> findDataForChosenUser(String login);
 }

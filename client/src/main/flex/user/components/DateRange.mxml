@@ -9,5 +9,33 @@
             <mx:DateField id="periodEnd"/>
         </mx:FormItem>
         <mx:Label text="."/>
+        <mx:FormItem>
+            <mx:Button id="submitButton" label="Zapisz" click="submitButton_clickHandler(event)"/>
+        </mx:FormItem>
     </mx:HBox>
+    <mx:Script><![CDATA[
+        import flex.event.user.ChangeMonthEvent;
+        import flex.event.user.GetSelectedDateRangeEvent;
+
+        import mx.controls.Alert;
+
+        public function changeDates(dateFrom:Date,  dateTo:Date):void{
+           changeDateBegining(dateFrom);
+           changeDateEnd(dateTo);
+        }
+
+        private function changeDateBegining(dateFrom:Date):void {
+            periodBegining.selectedDate = dateFrom;
+        }
+
+        private function changeDateEnd(dateTo:Date):void {
+            periodEnd.selectedDate = dateTo;
+        }
+
+        protected function submitButton_clickHandler(event:MouseEvent):void {
+            var eventObject:GetSelectedDateRangeEvent = new GetSelectedDateRangeEvent(GetSelectedDateRangeEvent.SELECTED_DATE_RANGE, periodBegining.selectedDate, periodEnd.selectedDate);
+            dispatchEvent(eventObject);
+        }
+
+    ]]></mx:Script>
 </mx:Form>

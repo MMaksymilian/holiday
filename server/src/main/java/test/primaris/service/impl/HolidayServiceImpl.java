@@ -1,11 +1,8 @@
 package test.primaris.service.impl;
 
-import net.sf.cglib.core.ReflectUtils;
-import org.hibernate.annotations.common.reflection.ReflectionUtil;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.flex.remoting.RemotingDestination;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -17,7 +14,9 @@ import test.primaris.entity.ServiceUser;
 import test.primaris.entity.dto.HolidayDTO;
 import test.primaris.service.HolidayService;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,7 +29,7 @@ import java.util.List;
 @Service
 @Transactional
 @RemotingDestination
-public class HolidayServiceImpl implements HolidayService {
+public class HolidayServiceImpl extends FlexService implements HolidayService {
 
     @Autowired
     HolidayDAO holidayDAO;
@@ -42,49 +41,65 @@ public class HolidayServiceImpl implements HolidayService {
     @Override
     public HolidayDTO getHolidayById(Long id) {
         Holiday holiday = holidayDAO.getById(id);
-        HolidayDTO holidayDTO = new HolidayDTO();
-        holidayDTO.setCause(holiday.getCause());
-        holidayDTO.setDateFrom(holiday.getDateFrom().toDate());
-        holidayDTO.setDateTo(holiday.getDateTo().toDate());
-        holidayDTO.setStatus(holiday.getStatus().toString());
-        holidayDTO.setId(holiday.getId().intValue());
-        return holidayDTO;
+        return this.rewriteToDTO(holiday);
     }
 
 //    @PreAuthorize()
     @Override
-    public List<HolidayDTO> findHolidayForCurrentUser() {
+    public List<HolidayDTO> findHolidayForCurrentUserAndMonth(Date date) {
+        /*dane uwierzytelniające użytkownika*/
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userLogin = auth.getName();
         ServiceUser user = serviceUserDAO.getByLogin(userLogin);
-        List<Holiday> holidayList = holidayDAO.findHolidayForUser(user);
+        /*data od, data do*/
+        DateTime dateTimeBefore = new DateTime(date);
+        DateTime dateTimeAfter = dateTimeBefore.plusMonths(1);
+        List<Holiday> holidayList = holidayDAO.findHolidayForUserAndBetweenDates(dateTimeBefore, dateTimeAfter, user);
         List<HolidayDTO> holidayDTOs = new ArrayList<HolidayDTO>();
         for(Holiday holiday : holidayList) {
-            HolidayDTO holidayDTO = new HolidayDTO();
-            holidayDTO.setCause(holiday.getCause());
-            holidayDTO.setDateFrom(holiday.getDateFrom().toDate());
-            holidayDTO.setDateTo(holiday.getDateTo().toDate());
-            holidayDTO.setId(holiday.getId().intValue());
-            holidayDTO.setStatus(holiday.getStatus().toString());
-            holidayDTOs.add(holidayDTO);
+            holidayDTOs.add(rewriteToDTO(holiday));
         }
         return holidayDTOs;
     }
 
-//    @PreAuthorize()
     @Override
-    public Long requestHoliday(HolidayDTO holidayDTO) {
-        Holiday holiday = new Holiday();
-        holiday.setStatus(Holiday.HolidayStatus.valueOf(holidayDTO.getStatus()));
-        holiday.setCause(holidayDTO.getCause());
-        holiday.setDateFrom(new DateTime(holidayDTO.getDateFrom()));
-        holiday.setDateTo(new DateTime(holidayDTO.getDateTo()));
+    public List<HolidayDTO> findHolidayForCurrentUserDatesBetween(Date dateFrom, Date dateTo) {
+        /*dane uwierzytelniające użytkownika*/
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userLogin = auth.getName();
+        ServiceUser user = serviceUserDAO.getByLogin(userLogin);
+        /*data od, data do*/
+        DateTime dateTimeBefore = new DateTime(dateFrom);
+        DateTime dateTimeAfter = new DateTime(dateTo);
+        List<Holiday> holidayList = holidayDAO.findHolidayForUserAndBetweenDates(dateTimeBefore, dateTimeAfter, user);
+        List<HolidayDTO> holidayDTOs = new ArrayList<HolidayDTO>();
+        for(Holiday holiday : holidayList) {
+            holidayDTOs.add(rewriteToDTO(holiday));
+        }
+        return holidayDTOs;
+    }
 
+    //    @PreAuthorize()
+    @Override
+    public void requestHoliday(HolidayDTO holidayDTO) {
+        Holiday holiday = rewriteToEntity(holidayDTO);
         holiday.setStatus(Holiday.HolidayStatus.APPLIED);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String userLogin = auth.getName();
         ServiceUser user = serviceUserDAO.getByLogin(userLogin);
         holiday.setServiceUser(user);
-        return holidayDAO.requestHoliday(holiday);
+        holidayDAO.requestHoliday(holiday);
+    }
+
+    //    @PreAuthorize("hasAuthority('CHIEF')")
+    @Override
+    public List<HolidayDTO> findDataForChosenUser(String login) {
+        ServiceUser serviceUser = serviceUserDAO.getByLogin(login);
+        List<Holiday> holidays = holidayDAO.findHolidayWithStatus(serviceUser, Holiday.HolidayStatus.APPLIED);
+        List<HolidayDTO> holidayDTOs = new ArrayList<HolidayDTO>();
+        for (Holiday holiday : holidays) {
+            holidayDTOs.add(rewriteToDTO(holiday));
+        }
+        return holidayDTOs;
     }
 }

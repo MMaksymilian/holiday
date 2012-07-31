@@ -20,7 +20,7 @@ import test.primaris.service.ServiceUserService;
 @Service
 @Transactional
 @RemotingDestination
-public class ServiceUserServiceImpl implements ServiceUserService {
+public class ServiceUserServiceImpl extends FlexService implements ServiceUserService {
 
     @Autowired
     ServiceUserDAO serviceUserDAO;

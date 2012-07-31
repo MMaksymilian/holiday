@@ -50,6 +50,7 @@
     </mx:Metadata>
 
     <mx:Script><![CDATA[
+        import mx.collections.ArrayCollection;
         import mx.controls.Alert;
         import mx.core.IFlexDisplayObject;
         import mx.managers.PopUpManager;
