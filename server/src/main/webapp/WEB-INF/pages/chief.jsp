@@ -10,13 +10,14 @@
     <script type="text/javascript">
         $(function () {
             $('#myFlash').flash( {
-                swf: '../user.swf',
-                width:'800',
+                swf: '../admin.swf',
+                width: $(window).width() - 50,
                 height:'600',
                 wmode: 'window',
                 allowFullScreen: 'true'
             });
         })
+//        screen.width - 50
     </script>
 
         <div id="myFlash">

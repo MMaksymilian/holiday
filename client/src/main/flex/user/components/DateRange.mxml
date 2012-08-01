@@ -10,7 +10,7 @@
         </mx:FormItem>
         <mx:Label text="."/>
         <mx:FormItem>
-            <mx:Button id="submitButton" label="Zapisz" click="submitButton_clickHandler(event)"/>
+            <mx:Button id="submitButton" label="Wczytaj" click="submitButton_clickHandler(event)"/>
         </mx:FormItem>
     </mx:HBox>
     <mx:Script><![CDATA[
@@ -33,7 +33,9 @@
         }
 
         protected function submitButton_clickHandler(event:MouseEvent):void {
-            var eventObject:GetSelectedDateRangeEvent = new GetSelectedDateRangeEvent(GetSelectedDateRangeEvent.SELECTED_DATE_RANGE, periodBegining.selectedDate, periodEnd.selectedDate);
+            var date:Date = new Date();
+            date.setTime(periodEnd.selectedDate.getTime() + 1000*60*60*24);
+            var eventObject:GetSelectedDateRangeEvent = new GetSelectedDateRangeEvent(GetSelectedDateRangeEvent.SELECTED_DATE_RANGE, periodBegining.selectedDate, date);
             dispatchEvent(eventObject);
         }
 

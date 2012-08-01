@@ -27,7 +27,7 @@
         private var holidayFlexService:HolidayFlexService;
 
         [Bindable]
-        private var formatDateString:String = 'DD - MM - YYYY J:N';
+        private var formatDateString:String = 'DD - MM - YYYY';
         private var holidayData:ArrayCollection;
 
         private function initializeHandler():void {
@@ -59,10 +59,13 @@
         }
 
         private function holidayFormSendRequestHandler(event:HolidaySendRequestEvent):void {
-            holidayFlexService.requestHoliday(event.holidayData);
+            holidayFlexService.requestHoliday(event.holidayData, succesfullyAddedHolidayRequest);
             holidayData.addItem(event.holidayData);
         }
 
+        private function succesfullyAddedHolidayRequest() {
+            Alert.show('Zapisano podanie o urlop');
+        }
 
         private function chooseDate():void {
             var chosenDate:Date = holidayDateChooser.selectedDate;
@@ -81,7 +84,6 @@
         private function showWindow():void {
             var holidayForm:HolidayApplyForm = HolidayApplyForm(PopUpManager.createPopUp(this, HolidayApplyForm, true));
 //            PopUpManager.centerPopUp(holidayForm);
-            holidayForm.dateFormatString = formatDateString;
             holidayForm.addEventListener(HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, holidayFormSendRequestHandler);
             holidayForm.addEventListener(CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG, onDialogClose);
         }

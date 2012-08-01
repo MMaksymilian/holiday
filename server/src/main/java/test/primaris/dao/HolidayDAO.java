@@ -3,6 +3,7 @@ package test.primaris.dao;
 import org.joda.time.DateTime;
 import test.primaris.entity.Holiday;
 import test.primaris.entity.ServiceUser;
+import test.primaris.entity.dto.HolidayDTO;
 
 import java.util.List;
 
@@ -19,4 +20,5 @@ public interface HolidayDAO {
     List<Holiday> findHolidayWithStatus(ServiceUser serviceUser, Holiday.HolidayStatus status);
     Long requestHoliday(Holiday holiday);
     List<Holiday> findHolidayForUserAndBetweenDates(DateTime dateTimeBefore, DateTime dateTimeAfter, ServiceUser user);
+    void updateHolidayStatus(Holiday holidayDTO);
 }

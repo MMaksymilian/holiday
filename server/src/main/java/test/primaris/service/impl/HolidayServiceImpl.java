@@ -3,6 +3,7 @@ package test.primaris.service.impl;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.flex.remoting.RemotingDestination;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -37,15 +38,14 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
     @Autowired
     ServiceUserDAO serviceUserDAO;
 
-//    @PreAuthorize()
     @Override
     public HolidayDTO getHolidayById(Long id) {
         Holiday holiday = holidayDAO.getById(id);
         return this.rewriteToDTO(holiday);
     }
 
-//    @PreAuthorize()
     @Override
+    @PreAuthorize("hasRole('USER')")
     public List<HolidayDTO> findHolidayForCurrentUserAndMonth(Date date) {
         /*dane uwierzytelniające użytkownika*/
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -63,6 +63,7 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
     }
 
     @Override
+    @PreAuthorize("hasRole('USER')")
     public List<HolidayDTO> findHolidayForCurrentUserDatesBetween(Date dateFrom, Date dateTo) {
         /*dane uwierzytelniające użytkownika*/
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -79,8 +80,24 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
         return holidayDTOs;
     }
 
-    //    @PreAuthorize()
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public void acceptHoliday(HolidayDTO holidayDTO) {
+        Holiday holiday = rewriteToEntity(holidayDTO);
+        holiday.setStatus(Holiday.HolidayStatus.APPROVED);
+        holidayDAO.updateHolidayStatus(holiday);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ADMIN')")
+    public void rejectHoliday(HolidayDTO holidayDTO) {
+        Holiday holiday = rewriteToEntity(holidayDTO);
+        holiday.setStatus(Holiday.HolidayStatus.REJECTED);
+        holidayDAO.updateHolidayStatus(holiday);
+    }
+
+    @Override
+    @PreAuthorize("hasRole('USER')")
     public void requestHoliday(HolidayDTO holidayDTO) {
         Holiday holiday = rewriteToEntity(holidayDTO);
         holiday.setStatus(Holiday.HolidayStatus.APPLIED);
@@ -91,8 +108,8 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
         holidayDAO.requestHoliday(holiday);
     }
 
-    //    @PreAuthorize("hasAuthority('CHIEF')")
     @Override
+    @PreAuthorize("hasRole('CHIEF')")
     public List<HolidayDTO> findDataForChosenUser(String login) {
         ServiceUser serviceUser = serviceUserDAO.getByLogin(login);
         List<Holiday> holidays = holidayDAO.findHolidayWithStatus(serviceUser, Holiday.HolidayStatus.APPLIED);

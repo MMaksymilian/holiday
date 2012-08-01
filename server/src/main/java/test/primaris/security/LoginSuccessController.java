@@ -20,10 +20,10 @@ public class LoginSuccessController {
     @RequestMapping(method = RequestMethod.GET)
     public String  redirectAfterLogin(HttpServletRequest httpServletRequest) {
         if (httpServletRequest.isUserInRole("CHIEF")) {
-            return "redirect:/flex/chief";
+            return "chief";
         }
         if (httpServletRequest.isUserInRole("USER")) {
-            return "redirect:/flex/user";
+            return "user";
 
         }
         return null;

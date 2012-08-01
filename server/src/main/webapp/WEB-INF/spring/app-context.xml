@@ -8,12 +8,13 @@
                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
                            http://www.springframework.org/schema/flex http://www.springframework.org/schema/flex/spring-flex-1.0.xsd   ">
-    <mvc:annotation-driven />
     <import resource="dba-context.xml" />
     <import resource="mvc-context.xml" />
     <context:component-scan base-package="test.primaris.service" />
+    <context:component-scan base-package="test.primaris.security" />
     <context:component-scan base-package="test.primaris.dao" />
     <context:component-scan base-package="test.primaris.controller" />
+    <mvc:annotation-driven />
     <flex:message-broker/>
 
 </beans>

@@ -1,0 +1,12 @@
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalAlign="center"
+         paddingTop="4" paddingBottom="4">
+    <mx:Label text="{dateFormatter.format(data.dateFrom)} - {dateFormatter.format(data.dateTo)} " fontWeight="bold" fontSize="10"/>
+
+    <mx:Script><![CDATA[
+
+        private var formatDateString:String = 'DD - MM - YYYY';
+
+    ]]></mx:Script>
+
+    <mx:DateFormatter id="dateFormatter" formatString="{formatDateString}"/>
+</mx:VBox>

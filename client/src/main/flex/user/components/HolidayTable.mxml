@@ -13,7 +13,7 @@
         <mx:DataGridColumn dataField="dateTo" width="150" itemRenderer="flex.renderer.DateRenderer" headerText="Data do"
                            sortCompareFunction="{function(obj1:Object, obj2:Object):int{return compareDates(obj1, obj2, 'dateTo');}}"/>
 
-        <mx:DataGridColumn dataField="cause" width="400" resizable="false" itemRenderer="mx.controls.Text" headerText="Powód"
+        <mx:DataGridColumn dataField="cause" width="400" resizable="false" itemRenderer="mx.controls.Text" sortable="false" headerText="Powód"
                            wordWrap="true"/>
 
         <mx:DataGridColumn dataField="status" itemRenderer="flex.renderer.ColorRenderer" headerText="Status"

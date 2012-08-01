@@ -1,12 +1,14 @@
 package test.primaris.dao.impl;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 import test.primaris.dao.HolidayDAO;
 import test.primaris.entity.Holiday;
 import test.primaris.entity.ServiceUser;
+import test.primaris.entity.dto.HolidayDTO;
 
 import java.util.List;
 
@@ -54,5 +56,14 @@ public class HolidayDAOImpl extends BaseDAOImpl implements HolidayDAO {
         holidayDateCriteria.add(Restrictions.ge("dateTo", dateTimeBefore));
         holidayDateCriteria.add(Restrictions.le("dateFrom", dateTimeAfter));
         return holidayDateCriteria.list();
+    }
+
+    @Override
+    public void updateHolidayStatus(Holiday holiday) {
+        Query query = getSession().createQuery("update Holiday set status = :currentStatus" +
+                " where id = :idNumber");
+        query.setParameter("currentStatus", holiday.getStatus());
+        query.setParameter("idNumber", holiday.getId());
+        int result = query.executeUpdate();
     }
 }
