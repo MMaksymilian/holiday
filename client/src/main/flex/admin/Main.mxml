@@ -1,6 +1,6 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="flex.admin.components.*"
                 layout="absolute" backgroundGradientColors="[0x000000,0x323232]"
-                initialize="initializeHandler()">
+                initialize="initializeHandler()" applicationComplete="onEntry()">
     <mx:VBox x="15" y="15">
         <local:MonthChooser
                 id="mChosenMonth"
@@ -10,14 +10,17 @@
                 change="updateDates()"
                 />
         <mx:Button color="0x323232" height="32" label="Napisz podanie o urlop" click="showWindow();"/>
+
+
+        <local:EntryGrid id="entryGrid">
+
+        </local:EntryGrid>
     </mx:VBox>
 
-    <local:EntryGrid id="entryGrid">
-
-    </local:EntryGrid>
 
     <mx:Script><![CDATA[
         import flex.admin.components.HolidayAcceptForm;
+        import flex.admin.components.forms.DecisionForm;
         import flex.admin.model.UserEntry;
         import flex.admin.model.UserEntry;
         import flex.admin.services.impl.AdminDataServiceMock;
@@ -40,7 +43,7 @@
         private var holidayForm:HolidayAcceptForm;
 
         private function initializeHandler():void {
-            holidayFlexService = new HolidayFlexService();
+            // holidayFlexService = new HolidayFlexService();
         }
 
         private function showWindow():void {
@@ -66,7 +69,6 @@
 
             var userEntry:UserEntry = UserEntry(collection.getItemAt(0));
             entryGrid.addEntry(userEntry);
-            Alert.show("OnEntryEnd");
         }
         ]]></mx:Script>
 </mx:Application>

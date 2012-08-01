@@ -54,9 +54,11 @@ public class AdminDataServiceMock implements AdminDataService {
     public function getEntries(year:int, month:int, handler:Function = null):ArrayCollection {
         var collection:ArrayCollection = new ArrayCollection();
 
+        var firstEntry:UserEntry;
+        var secondEntry:UserEntry;
         if(year==2012 && month==6){
-            var firstEntry:UserEntry = new UserEntry("Olgierd Zuch", "ozuc", month, year);
-            var secondEntry:UserEntry = new UserEntry("Radosław Wojak", "rwoj", month, year);
+            firstEntry = new UserEntry("Olgierd Zuch", "ozuc", month, year);
+            secondEntry = new UserEntry("Radosław Wojak", "rwoj", month, year);
 
             firstEntry.setHoliday(1, 10);
             firstEntry.setHoliday(15, 25, 1);
@@ -67,8 +69,8 @@ public class AdminDataServiceMock implements AdminDataService {
             collection.source.push(firstEntry);
             collection.source.push(secondEntry);
         } else if(year==2012 && month==7){
-            var firstEntry:UserEntry = new UserEntry("Olgierd Zuch", "ozuc", month, year);
-            var secondEntry:UserEntry = new UserEntry("Radosław Wojak", "rwoj", month, year);
+            firstEntry = new UserEntry("Olgierd Zuch", "ozuc", month, year);
+            secondEntry = new UserEntry("Radosław Wojak", "rwoj", month, year);
 
             firstEntry.setHoliday(4, 9, 2);
             firstEntry.setHoliday(15, 17, 1);
@@ -82,6 +84,12 @@ public class AdminDataServiceMock implements AdminDataService {
 
         Alert.show("Mocked");
         return collection;
+    }
+
+    public function switchStatus(login:String, startingDate:Date, status:int, handler:Function):void {
+    }
+
+    public function fetchHoliday(login:String, date:Date) {
     }
 }
 }

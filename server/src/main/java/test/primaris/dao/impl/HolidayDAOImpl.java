@@ -55,4 +55,23 @@ public class HolidayDAOImpl extends BaseDAOImpl implements HolidayDAO {
         holidayDateCriteria.add(Restrictions.le("dateFrom", dateTimeAfter));
         return holidayDateCriteria.list();
     }
+
+    @Override
+    public List<Holiday> findHolidaysInRange(DateTime beginningDate, DateTime endingDate) {
+        Criteria holidayDateCriteria = getSession().createCriteria(Holiday.class);
+        holidayDateCriteria.add(Restrictions.ge("dateTo", endingDate));
+        holidayDateCriteria.add(Restrictions.le("dateFrom", beginningDate));
+        return holidayDateCriteria.list();
+    }
+
+    public Holiday getHolidayForDate(DateTime date, ServiceUser user){
+        Criteria criteria = getSession().createCriteria(Holiday.class);
+
+        criteria.add(Restrictions.eq("serviceUser", user));
+        criteria.add(Restrictions.le("dateFrom", date));
+        criteria.add(Restrictions.ge("dateTo", date.plusDays(1)));
+
+        return (Holiday) criteria.uniqueResult();
+
+    }
 }

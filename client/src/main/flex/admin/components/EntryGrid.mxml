@@ -1,16 +1,30 @@
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="flex.admin.components.*">
 
     <mx:Script><![CDATA[
+        import flex.admin.components.forms.DecisionForm;
         import flex.admin.model.UserEntry;
 
         import mx.controls.Alert;
+        import mx.managers.PopUpManager;
 
+        private var decisionForm: DecisionForm;
+        private var month:int;
+        private var year:int;
+        
         public function addEntry(entry: UserEntry):void {
-            Alert.show("OnAddEntry");
             var entryBox:EntryBox = new EntryBox();
+
+            month = entry.month;
+            year = entry.year;
+
+            entryBox.setClickDayHandler(clickHandler);
             entryBox.setEntry(entry);
             this.addChild(entryBox);
-            Alert.show("AddEntry");
+        }
+
+        public function clickHandler(login:String, day:int):void {
+            decisionForm = DecisionForm(PopUpManager.createPopUp(this, DecisionForm, true));
+            decisionForm.fetchData(login, new Date(year, month, day));
         }
         ]]></mx:Script>
 </mx:VBox>

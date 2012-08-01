@@ -34,5 +34,12 @@ public class AdminDataServiceImpl extends BaseService implements AdminDataServic
         rpcCall.addResponder(new Responder(handler, handler_generalFault));
         return new ArrayCollection();
     }
+
+    public function switchStatus(login:String, startingDate:Date, status:int, handler:Function):void {
+
+    }
+
+    public function fetchHoliday(login:String, date:Date) {
+    }
 }
 }

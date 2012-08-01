@@ -1,0 +1,47 @@
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+                title="DecisionWindow"
+                x="160" y="80" status="active"
+                close="close()"
+                showCloseButton="true" borderAlpha="0.75">
+    <mx:Form>
+        <mx:FormHeading label="Decyzja o urlopie" />
+        <mx:FormItem label="Pracownik:">
+            <mx:Text text="{fullname}"/>
+        </mx:FormItem>
+        <mx:FormItem label="Od:">
+            <mx:Text text="{startingDate.toLocaleDateString()}"/>
+        </mx:FormItem>
+        <mx:FormItem label="Do:">
+            <mx:Text text="{endingDate.toLocaleDateString()}"/>
+        </mx:FormItem>
+        <mx:HBox>
+            <mx:Button label="Zatwierdź" click="sendDecision(DataLabel.STATUS_ACCEPTED)"/>
+            <mx:Button label="Odrzuć" click="sendDecision(DataLabel.STATUS_REJECTED)"/>
+        </mx:HBox>
+    </mx:Form>
+    <mx:Script><![CDATA[
+        import flex.admin.components.DataLabel;
+
+        import mx.managers.PopUpManager;
+
+        private var fullname:String = "";
+        private var login:String = "";
+        private var startingDate:Date = new Date();
+        private var endingDate:Date = new Date();
+
+        public function fetchData(gLogin:String, gDay:Date):void {
+            this.login = login;
+
+
+
+        }
+
+        public function sendDecision(decisionStatus:int):void {
+
+        }
+
+        private function close():void {
+            PopUpManager.removePopUp(this);
+        }
+        ]]></mx:Script>
+</mx:TitleWindow>

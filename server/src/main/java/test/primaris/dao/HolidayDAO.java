@@ -19,4 +19,5 @@ public interface HolidayDAO {
     List<Holiday> findHolidayWithStatus(ServiceUser serviceUser, Holiday.HolidayStatus status);
     Long requestHoliday(Holiday holiday);
     List<Holiday> findHolidayForUserAndBetweenDates(DateTime dateTimeBefore, DateTime dateTimeAfter, ServiceUser user);
+    List<Holiday> findHolidaysInRange(DateTime beginningDate, DateTime endingDate);
 }

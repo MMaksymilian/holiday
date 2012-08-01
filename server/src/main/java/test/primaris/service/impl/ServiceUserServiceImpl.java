@@ -33,4 +33,5 @@ public class ServiceUserServiceImpl extends FlexService implements ServiceUserSe
         /*TODO uzupełnić*/
         return serviceUserDTO;
     }
+
 }

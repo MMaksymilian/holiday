@@ -1,41 +1,58 @@
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="flex.admin.components.*">
-    <mx:Label id="nameLabel">
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="flex.admin.components.*" creationComplete="onComplete()">
+    <mx:TextArea id="nameLabel" text="{labelText}" editable="false"/>
 
-    </mx:Label>
-
-    <mx:HBox id="dayArray">
-        
-    </mx:HBox>
     <mx:Script><![CDATA[
         import flex.admin.model.UserEntry;
 
         import mx.collections.ArrayCollection;
         import mx.controls.Alert;
+        import mx.controls.Button;
 
-        public function setEntry(entry: UserEntry){
+        [Bindable]
+        private var labelText:String;
+        private var login:String;
+        private var superClickHandler:Function;
+
+        private var dayArray:HBox = new HBox();
+
+        public function setEntry(entry: UserEntry):void {
             setName(entry.login+" "+entry.name);
+            login = entry.login;
             updateArray(entry.dataCollection);
-        }
-        
-        public function setName(gName:String){
-            Alert.show("OnSetName");
-            nameLabel.text = gName;
-            Alert.show("OnSetNameEnd");
         }
 
         public function updateArray(array: ArrayCollection){
-            dayArray.removeAllChildren();
-            Alert.show("AllRemove");
-
-            var label:Label;
-            for(var i=0; i<array.length; i++){
-                Alert.show("OnLabel "+i);
-                label = new Label();
-                label.data = array[i];
-                dayArray.addChildAt(label, i);
+            var label:DisplayObject;
+            for(var i:int =0; i<array.length; i++){
+                label = createLabel(i+1, int(array.getItemAt(i)));
+                dayArray.addChild(label);
             }
         }
-        
-        ]]></mx:Script>
 
+        public function setName(gName:String):void{
+            labelText = gName;
+        }
+
+        public function clickDayHandler(day:int):void {
+            superClickHandler(login, day);
+        }
+
+        public function setClickDayHandler(handler:Function):void {
+            superClickHandler = handler;
+        }
+
+        private function onComplete():void {
+            this.addChild(dayArray);
+        }
+
+        private function createLabel(day: int, status:int):DisplayObject {
+            var label = new DataLabel();
+
+            label.setDay(day);
+            label.setClickHandler(clickDayHandler);
+            label.setStatus(status);
+
+            return label;
+        }
+        ]]></mx:Script>
 </mx:HBox>

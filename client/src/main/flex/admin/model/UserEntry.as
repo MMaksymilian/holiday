@@ -14,7 +14,7 @@ public class UserEntry {
     public const STATUS_WAITING:int = 0;
     public const STATUS_ACCEPTED:int = 1;
     public const STATUS_REJECTED:int = 2;
-    
+
     public var name:String;
     public var login:String;
     public var dataCollection:ArrayCollection = new ArrayCollection();
@@ -31,9 +31,8 @@ public class UserEntry {
         var days:int = date.getDate();
 
         for(var i:int=0; i<days; i++){
-            dataCollection.addItem(i);
+            dataCollection.addItem(-1);
         }
-
     }
 
     public function setHoliday(from:int, to:int, status:int = 0):void {

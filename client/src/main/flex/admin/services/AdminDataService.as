@@ -14,5 +14,8 @@ public interface AdminDataService {
     function getEntries(year:int, month:int, handler:Function = null):ArrayCollection;
     function getUserNames(year:int, month:int, handler:Function = null):void;
     function getUserEntry(login:String,  year:int,  month:int, handler:Function = null):void;
+    function fetchHoliday(login:String, date:Date);
+    function switchStatus(login:String, startingDate:Date, status:int, handler:Function):void;
+
 }
 }

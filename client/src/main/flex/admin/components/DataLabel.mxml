@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<mx:TextArea xmlns:mx="http://www.adobe.com/2006/mxml" width="20" height="20" click="clickHandler()">
+
+    <mx:Script><![CDATA[
+        import mx.controls.Alert;
+
+        public static const STATUS_NONE:int = -1;
+        public static const STATUS_WAITING:int = 0;
+        public static const STATUS_ACCEPTED:int = 1;
+        public static const STATUS_REJECTED:int = 2;
+
+        public static const COLOR_NONE:uint = 0xffffff;
+        public static const COLOR_WAITING:uint = 0x8db4fc;
+        public static const COLOR_ACCEPTED:uint = 0x82faa6;
+        public static const COLOR_REJECTED:uint = 0xfa8282;
+        public static const COLOR_FREEDAY:uint = 0xa8ad00;
+
+        public var day:int;
+        public var status:int = STATUS_NONE;
+        public var superClickHandler:Function;
+
+        public function setDay(gDay: int):void {
+            day = gDay;
+            this.text = day+"";
+        }
+
+        public function setStatus(gStatus:int):void {
+            var color:uint = COLOR_NONE;
+            status = gStatus;
+            
+            if(status==STATUS_WAITING){
+                color = COLOR_WAITING;
+            } else if(status==STATUS_ACCEPTED){
+                color = COLOR_ACCEPTED;
+            } else if(status==STATUS_REJECTED){
+                color = COLOR_REJECTED;
+            }
+
+            this.editable = false;
+            setStyle("backgroundColor", color);
+        }
+
+        public function setClickHandler(handler:Function):void {
+            superClickHandler = handler;
+        }
+
+        private function clickHandler():void {
+            if(superClickHandler!=null && status!=STATUS_NONE){
+                superClickHandler(day);
+            }
+        }
+        ]]></mx:Script>
+</mx:TextArea>

@@ -3,7 +3,9 @@ package test.primaris.service.impl;
 import flex.messaging.util.StringUtils;
 import org.joda.time.DateTime;
 import test.primaris.entity.Holiday;
+import test.primaris.entity.ServiceUser;
 import test.primaris.entity.dto.HolidayDTO;
+import test.primaris.entity.dto.ServiceUserDTO;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,7 +32,7 @@ public class FlexService {
         return holiday;
     }
 
-    public HolidayDTO rewriteToDTO(Holiday holiday) {
+    public static HolidayDTO rewriteToDTO(Holiday holiday) {
         HolidayDTO holidayDTO = new HolidayDTO();
         holidayDTO.setCause(holiday.getCause());
         /*nie mogą być null*/
@@ -42,5 +44,15 @@ public class FlexService {
             holidayDTO.setId(holiday.getId().intValue());
         }
         return holidayDTO;
+    }
+
+    public static ServiceUserDTO getDTO(ServiceUser serviceUser){
+        ServiceUserDTO serviceUserDTO = new ServiceUserDTO();
+        serviceUserDTO.setId(serviceUser.getId().intValue());
+        serviceUserDTO.setFirstName(serviceUser.getFirstName());
+        serviceUserDTO.setLastName(serviceUser.getLastName());
+        serviceUserDTO.setLogin(serviceUser.getLogin());
+
+        return  serviceUserDTO;
     }
 }

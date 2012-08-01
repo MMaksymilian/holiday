@@ -26,14 +26,11 @@
         import mx.core.IFlexDisplayObject;
         import mx.managers.PopUpManager;
 
-
-
-
         protected function closeModalDialog(window:IFlexDisplayObject):void {
             PopUpManager.removePopUp(window);
         }
 
-        public function setUserHolidayProvider(arrayCollection:ArrayCollection) {
+        public function setUserHolidayProvider(arrayCollection:ArrayCollection):void {
            dataGrid.dataProvider = arrayCollection;
         }
 
