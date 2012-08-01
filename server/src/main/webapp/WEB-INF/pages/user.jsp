@@ -23,6 +23,6 @@
 <div id="myFlash">
 
 </div>
-<a href="<c:url value="j_spring_security_logout" />" > Logout</a>
+<a href="<c:url value="/j_spring_security_logout" />" > Logout</a>
 </body>
 </html>

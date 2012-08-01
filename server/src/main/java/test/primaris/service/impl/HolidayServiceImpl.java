@@ -81,24 +81,28 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
-    public void acceptHoliday(HolidayDTO holidayDTO) {
+    @PreAuthorize("hasRole('CHIEF')")
+    public String acceptHoliday(HolidayDTO holidayDTO) {
         Holiday holiday = rewriteToEntity(holidayDTO);
         holiday.setStatus(Holiday.HolidayStatus.APPROVED);
         holidayDAO.updateHolidayStatus(holiday);
+        /*dodane bo metody nie chciały wywoływać handler'ów przy typie metody 'void'*/
+        return "success";
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
-    public void rejectHoliday(HolidayDTO holidayDTO) {
+    @PreAuthorize("hasRole('CHIEF')")
+    public String rejectHoliday(HolidayDTO holidayDTO) {
         Holiday holiday = rewriteToEntity(holidayDTO);
         holiday.setStatus(Holiday.HolidayStatus.REJECTED);
         holidayDAO.updateHolidayStatus(holiday);
+        /*dodane bo metody nie chciały wywoływać handler'ów przy typie metody 'void'*/
+        return "success";
     }
 
     @Override
     @PreAuthorize("hasRole('USER')")
-    public void requestHoliday(HolidayDTO holidayDTO) {
+    public String requestHoliday(HolidayDTO holidayDTO) {
         Holiday holiday = rewriteToEntity(holidayDTO);
         holiday.setStatus(Holiday.HolidayStatus.APPLIED);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -106,6 +110,8 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
         ServiceUser user = serviceUserDAO.getByLogin(userLogin);
         holiday.setServiceUser(user);
         holidayDAO.requestHoliday(holiday);
+        /*dodane bo metody nie chciały wywoływać handler'ów przy typie metody 'void'*/
+        return "success";
     }
 
     @Override

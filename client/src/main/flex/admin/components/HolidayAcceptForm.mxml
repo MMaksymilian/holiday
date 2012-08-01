@@ -27,6 +27,7 @@
 
         public function removeRow(event:Event):void {
             provider.removeItemAt(dataGrid.selectedIndex);
+            Alert.show('Zauktalizowano wpis o urlopie');
         }
 
         protected function closeModalDialog(window:IFlexDisplayObject):void {

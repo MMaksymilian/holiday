@@ -23,6 +23,6 @@
         <div id="myFlash">
             Można dorobić że ładuje się + że się nie załadował
         </div>
-<a href="<c:url value="j_spring_security_logout" />" > Logout</a>
+<a href="<c:url value="/j_spring_security_logout" />" > Logout</a>
 </body>
 </html>

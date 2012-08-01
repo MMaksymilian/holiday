@@ -102,7 +102,9 @@
         <components:DateRange id="dateRange"/>
         <componentsAdmin:MonthChooser id="holidayDateChooser" yearNavigationEnabled="true" styleName="monthChooserStyles" change="{chooseDate()}"/>
         <components:HolidayTable id="holidayTable" dateFormatString="{formatDateString}"/>
-        <mx:Button color="0x323232" height="32" label="Napisz podanie o urlop" click="showWindow();"/>
+        <mx:VBox horizontalAlign="center">
+            <mx:Button color="0x323232" height="32" label="Napisz podanie o urlop" click="showWindow();"/>
+        </mx:VBox>
     </mx:Panel>
 
     <mx:Style>
