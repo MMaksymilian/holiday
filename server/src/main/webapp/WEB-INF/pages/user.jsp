@@ -11,17 +11,18 @@
     $(function () {
         $('#myFlash').flash( {
             swf: '../user.swf',
-            width:'800',
+            width: $(window).width() - 50,
             height:'600',
             wmode: 'window',
             allowFullScreen: 'true'
         });
     })
+//    screen.width - 50
 </script>
 
 <div id="myFlash">
 
 </div>
-<a href="<c:url value="j_spring_security_logout" />" > Logout</a>
+<a href="<c:url value="/j_spring_security_logout" />" > Logout</a>
 </body>
 </html>

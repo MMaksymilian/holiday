@@ -58,8 +58,7 @@
         import flex.event.user.HolidaySendRequestEvent;
         import flex.event.user.CloseModalDialogEvent;
 
-        [Bindable]
-        public var dateFormatString:String;
+        private var formatDateString:String = 'DD - MM - YYYY';
 
         protected function closeModalDialog(window:IFlexDisplayObject):void {
             var eventObject:CloseModalDialogEvent = new CloseModalDialogEvent(CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG);
@@ -80,6 +79,6 @@
     <mx:Validator required="true"  source="{dateFrom}" property="selectedDate" trigger="{submitButton}" triggerEvent="click"/>
     <mx:Validator required="true" source="{dateTo}" property="selectedDate" trigger="{submitButton}" triggerEvent="click"/>
     <mx:Validator required="true" source="{cause}" property="text" trigger="{submitButton}" triggerEvent="click"/>
-    <mx:DateFormatter id="dateFormatter" formatString="{dateFormatString}"/>
+    <mx:DateFormatter id="dateFormatter" formatString="{formatDateString}"/>
 
 </mx:TitleWindow>

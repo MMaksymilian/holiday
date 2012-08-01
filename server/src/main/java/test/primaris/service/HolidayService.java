@@ -18,6 +18,8 @@ public interface HolidayService {
     HolidayDTO getHolidayById(Long id);
     List<HolidayDTO> findHolidayForCurrentUserAndMonth(Date date);
     List<HolidayDTO> findHolidayForCurrentUserDatesBetween(Date dateFrom, Date dateTo);
-    void requestHoliday(HolidayDTO holiday);
+    String acceptHoliday(HolidayDTO holidayDTO);
+    String rejectHoliday(HolidayDTO holidayDTO);
+    String requestHoliday(HolidayDTO holidayDTO);
     List<HolidayDTO> findDataForChosenUser(String login);
 }

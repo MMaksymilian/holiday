@@ -1,0 +1,27 @@
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalAlign="center"
+         paddingTop="4" paddingBottom="4">
+    <mx:Button  icon="@Embed('image/reject.jpg')"  click="sendRejectHolidayRequest(data as Holiday);"/>
+
+    <!--<mx:Metadata>-->
+        <!--[Event(name=RejectHolidayEvent.rejectHolidayEvent, type="flex.event.admin.RejectHolidayEvent")]-->
+    <!--</mx:Metadata>-->
+
+    <mx:Script>
+        <![CDATA[
+        import flex.data.Holiday;
+        import flex.service.HolidayFlexService;
+
+        //można było przenieść do main'a
+        private function sendRejectHolidayRequest(holiday:Holiday):void {
+            var flexService:HolidayFlexService = new HolidayFlexService();
+            flexService.rejectHoliday(holiday, successfullyRemoved);
+            dispatchEvent(new Event('deleteRow', true));
+        }
+
+        private function successfullyRemoved() {
+            //TODO nie wiem czemu nie dział
+            dispatchEvent(new Event('deleteRow', true));
+        }
+        ]]>
+    </mx:Script>
+</mx:VBox>

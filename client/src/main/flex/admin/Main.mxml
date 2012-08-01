@@ -24,6 +24,8 @@
         import flex.admin.model.UserEntry;
         import flex.admin.model.UserEntry;
         import flex.admin.services.impl.AdminDataServiceMock;
+        import flex.event.admin.AcceptHolidayEvent;
+        import flex.event.admin.RejectHolidayEvent;
         import flex.service.HolidayFlexService;
 
         import mx.collections.ArrayCollection;
@@ -50,15 +52,24 @@
             holidayForm = HolidayAcceptForm(PopUpManager.createPopUp(this, HolidayAcceptForm, true));
 //            PopUpManager.centerPopUp(holidayForm as Dialog);
             holidayFlexService.findDataForChosenUser('kowalski', updateModalDialog);
-//            holidayForm.addEventListener(HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, holidayFormSendRequestHandler);
+//            holidayForm.addEventListener(AcceptHolidayEvent.acceptHolidayEvent, sendAcceptHolidayRequest);
+//            holidayForm.addEventListener(RejectHolidayEvent.rejectHolidayEvent, sendRejectHolidayRequest);
         }
+
+//        private function sendAcceptHolidayRequest(event:AcceptHolidayEvent) {
+//            Alert.show('Akceptuj');
+//        }
+//
+//        private function sendRejectHolidayRequest(event:RejectHolidayEvent) {
+//            Alert.show('Odrzuć');
+//        }
 
         private function updateModalDialog(event:ResultEvent):void {
             var currentUserData:ArrayCollection = new ArrayCollection();
             currentUserData.source = (event.result as ArrayCollection).source;
             holidayForm.setUserHolidayProvider(currentUserData);
         }
-        
+
         private function updateDates():void {
             chosenMonth = mChosenMonth.selectedDate;
         }

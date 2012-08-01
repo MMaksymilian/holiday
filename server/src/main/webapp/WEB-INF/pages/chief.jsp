@@ -10,18 +10,19 @@
     <script type="text/javascript">
         $(function () {
             $('#myFlash').flash( {
-                swf: '../user.swf',
-                width:'800',
+                swf: '../admin.swf',
+                width: $(window).width() - 50,
                 height:'600',
                 wmode: 'window',
                 allowFullScreen: 'true'
             });
         })
+//        screen.width - 50
     </script>
 
         <div id="myFlash">
             Można dorobić że ładuje się + że się nie załadował
         </div>
-<a href="<c:url value="j_spring_security_logout" />" > Logout</a>
+<a href="<c:url value="/j_spring_security_logout" />" > Logout</a>
 </body>
 </html>

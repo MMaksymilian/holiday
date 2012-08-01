@@ -14,10 +14,13 @@ import javax.persistence.*;
  */
 @Entity
 @SequenceGenerator(allocationSize=1, name="idSequence", sequenceName="holiday_seq")
+@org.hibernate.annotations.Entity(
+        dynamicUpdate = true
+)
 public class Holiday extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "service_user_id", nullable = false)
+    @JoinColumn(name = "service_user_id", nullable = false, updatable = false)
     private ServiceUser serviceUser;
 
     @Column

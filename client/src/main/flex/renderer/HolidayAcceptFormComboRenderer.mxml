@@ -1,5 +1,4 @@
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalAlign="center"
-         horizontalScrollPolicy="off" verticalScrollPolicy="off"
          paddingTop="4" paddingBottom="4">
 
     <mx:ComboBox dataProvider="{statusList}" width="150" color="0x000000"/>
