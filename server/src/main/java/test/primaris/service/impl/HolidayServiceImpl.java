@@ -13,9 +13,9 @@ import test.primaris.dao.ServiceUserDAO;
 import test.primaris.entity.Holiday;
 import test.primaris.entity.ServiceUser;
 import test.primaris.entity.dto.HolidayDTO;
+import test.primaris.security.TestAppUserDetails;
 import test.primaris.service.HolidayService;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,8 +49,7 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
     public List<HolidayDTO> findHolidayForCurrentUserAndMonth(Date date) {
         /*dane uwierzytelniające użytkownika*/
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String userLogin = auth.getName();
-        ServiceUser user = serviceUserDAO.getByLogin(userLogin);
+        ServiceUser user = ((TestAppUserDetails)auth.getPrincipal()).getServiceUser();
         /*data od, data do*/
         DateTime dateTimeBefore = new DateTime(date);
         DateTime dateTimeAfter = dateTimeBefore.plusMonths(1);
@@ -67,8 +66,7 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
     public List<HolidayDTO> findHolidayForCurrentUserDatesBetween(Date dateFrom, Date dateTo) {
         /*dane uwierzytelniające użytkownika*/
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String userLogin = auth.getName();
-        ServiceUser user = serviceUserDAO.getByLogin(userLogin);
+        ServiceUser user = ((TestAppUserDetails)auth.getPrincipal()).getServiceUser();
         /*data od, data do*/
         DateTime dateTimeBefore = new DateTime(dateFrom);
         DateTime dateTimeAfter = new DateTime(dateTo);
@@ -106,9 +104,11 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
         Holiday holiday = rewriteToEntity(holidayDTO);
         holiday.setStatus(Holiday.HolidayStatus.APPLIED);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String userLogin = auth.getName();
-        ServiceUser user = serviceUserDAO.getByLogin(userLogin);
+        ServiceUser user = ((TestAppUserDetails)auth.getPrincipal()).getServiceUser();
         holiday.setServiceUser(user);
+        if (!holidayDAO.findHolidayForUserAndBetweenDates(holiday.getDateFrom(), holiday.getDateTo(), user).isEmpty()) {
+           return "failure";
+        }
         holidayDAO.requestHoliday(holiday);
         /*dodane bo metody nie chciały wywoływać handler'ów przy typie metody 'void'*/
         return "success";
