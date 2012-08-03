@@ -46,7 +46,7 @@
 
     <mx:Metadata>
         [Event(name=HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, type="flex.event.user.HolidaySendRequestEvent")]
-        [Event(name=CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG, type="flex.event.user.CloseModalDialogEvent")]
+//        [Event(name=CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG, type="flex.event.user.CloseModalDialogEvent")]
     </mx:Metadata>
 
     <mx:Script><![CDATA[
@@ -56,14 +56,13 @@
         import mx.managers.PopUpManager;
         import flex.data.Holiday;
         import flex.event.user.HolidaySendRequestEvent;
-        import flex.event.user.CloseModalDialogEvent;
 
         [Bindable]
         private var formatDateString:String = 'DD - MM - YYYY';
 
         private function closeModalDialog(window:IFlexDisplayObject):void {
-            var eventObject:CloseModalDialogEvent = new CloseModalDialogEvent(CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG);
-            dispatchEvent(eventObject);
+//            var eventObject:CloseModalDialogEvent = new CloseModalDialogEvent(CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG);
+//            dispatchEvent(eventObject);
             PopUpManager.removePopUp(window);
         }
 

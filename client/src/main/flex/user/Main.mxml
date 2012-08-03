@@ -14,7 +14,6 @@
         import flex.admin.model.UserEntry;
         import flex.data.Holiday;
         import flex.event.user.ChangeMonthEvent;
-        import flex.event.user.CloseModalDialogEvent;
         import flex.event.user.GetSelectedDateRangeEvent;
         import flex.event.user.HolidaySendRequestEvent;
         import flex.service.HolidayFlexService;
@@ -115,7 +114,6 @@
             holidayForm = HolidayApplyForm(PopUpManager.createPopUp(this, HolidayApplyForm, true));
 //            PopUpManager.centerPopUp(holidayForm);
             holidayForm.addEventListener(HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, holidayFormSendRequestListener);
-            holidayForm.addEventListener(CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG);
         }
 
         private function getFirstOfTheMonth(currentDate:Date):Date {
