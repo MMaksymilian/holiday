@@ -10,7 +10,7 @@
         </mx:FormItem>
         <mx:Label text="."/>
         <mx:FormItem>
-            <mx:Button id="submitButton" label="Wczytaj" click="submitButton_clickHandler(event)"/>
+            <mx:Button id="submitButton" label="Wczytaj" cornerRadius="12" click="submitButton_clickHandler(event)"/>
         </mx:FormItem>
     </mx:HBox>
     <mx:Script><![CDATA[

@@ -16,7 +16,7 @@ import test.primaris.entity.dto.ServiceUserDTO;
  */
 public class FlexService {
 
-    public Holiday rewriteToEntity(HolidayDTO holidayDTO) {
+    protected Holiday rewriteToEntity(HolidayDTO holidayDTO) {
         Holiday holiday = new Holiday();
         if (!StringUtils.isEmpty(holidayDTO.getStatus())) {
             holiday.setStatus(Holiday.HolidayStatus.valueOf(holidayDTO.getStatus()));
@@ -32,7 +32,7 @@ public class FlexService {
         return holiday;
     }
 
-    public static HolidayDTO rewriteToDTO(Holiday holiday) {
+    protected static HolidayDTO rewriteToDTO(Holiday holiday) {
         HolidayDTO holidayDTO = new HolidayDTO();
         holidayDTO.setCause(holiday.getCause());
         /*nie mogą być null*/
@@ -46,7 +46,7 @@ public class FlexService {
         return holidayDTO;
     }
 
-    public static ServiceUserDTO getDTO(ServiceUser serviceUser){
+    protected static ServiceUserDTO getDTO(ServiceUser serviceUser){
         ServiceUserDTO serviceUserDTO = new ServiceUserDTO();
         serviceUserDTO.setId(serviceUser.getId().intValue());
         serviceUserDTO.setFirstName(serviceUser.getFirstName());

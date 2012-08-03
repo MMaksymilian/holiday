@@ -1,6 +1,6 @@
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalAlign="center"
          paddingTop="4" paddingBottom="4">
-    <mx:Button  icon="@Embed('image/accept.gif')"  click="sendAcceptHolidayRequest(data as Holiday);"/>
+    <mx:Button  icon="@Embed('image/accept.gif')" cornerRadius="12"  click="sendAcceptHolidayRequest(data as Holiday);"/>
 
     <!--<mx:Metadata>-->
         <!--[Event(name=AcceptHolidayEvent.acceptHolidayEvent, type="flex.event.admin.AcceptHolidayEvent")]-->
@@ -20,7 +20,7 @@
             dispatchEvent(new Event('deleteRow', true));
         }
 
-        private function successfullyRemoved() {
+        private function successfullyRemoved():void {
             // TODO nie wiem czemu nie działa
             dispatchEvent(new Event('deleteRow', true));
         }

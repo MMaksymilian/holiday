@@ -11,7 +11,7 @@
     </mx:Metadata>
 
     <mx:Script><![CDATA[
-        import flex.data.Holiday;
+        import flex.admin.model.UserEntry;
         import flex.event.user.ChangeMonthEvent;
         import flex.event.user.CloseModalDialogEvent;
         import flex.event.user.GetSelectedDateRangeEvent;
@@ -21,18 +21,28 @@
 
         import mx.collections.ArrayCollection;
         import mx.controls.Alert;
+        import mx.core.Application;
         import mx.managers.PopUpManager;
         import mx.rpc.events.ResultEvent;
+
+        public var userName:String = "Kowalski";// Application.application.parameters.name1.toString();
+        public var userLogin:String = "kowalski";// Application.application.parameters.name2.toString();
 
         private var holidayFlexService:HolidayFlexService;
 
         [Bindable]
         private var formatDateString:String = 'DD - MM - YYYY';
         private var holidayData:ArrayCollection;
+        private var userEntry:UserEntry;
 
         private function initializeHandler():void {
+            /*pobranie danych do tabeli*/
             holidayFlexService = new HolidayFlexService();
             getDataForMonth(getFirstOfTheMonth(new Date()));
+            /*dodanie danych do EntryGrid, czyli kwadraty z numerami dat*/
+            userEntry = new UserEntry(userName, userLogin,
+                    (new Date()).getMonth(), (new Date()).getFullYear());
+            entryGrid.addEntry(userEntry);
         }
 
         private function addEvents():void {
@@ -40,19 +50,16 @@
             dateRange.addEventListener(GetSelectedDateRangeEvent.SELECTED_DATE_RANGE, getDataForDateRange);
         }
 
-        private function changedMonthListener(event:ChangeMonthEvent):void {
-            dateRange.changeDates(event.firstDate, event.secondDate);
+        private function updateData(event:ResultEvent):void {
+            holidayData = new ArrayCollection();
+            holidayData.source = (event.result as ArrayCollection).source;
+            holidayTable.dataProvider = holidayData;
+
+            userEntry.readUserData(holidayData);
+            entryGrid.replaceEntries(userEntry);
         }
 
-        private function getDataForMonth(date:Date):void {
-            holidayFlexService.findHolidayForCurrentUserAndMonth(date, updateTable)
-        }
-
-        private function getDataForDateRange(event:GetSelectedDateRangeEvent):void {
-            holidayFlexService.findHolidayForCurrentUserDatesBetween(event.dateFrom, event.dateTo, updateTable);
-        }
-
-        protected function updateTable(event:ResultEvent):void {
+        private function updateDataRange(event:ResultEvent):void {
             holidayData = new ArrayCollection();
             holidayData.source = (event.result as ArrayCollection).source;
             holidayTable.dataProvider = holidayData;
@@ -63,7 +70,7 @@
             holidayData.addItem(event.holidayData);
         }
 
-        private function succesfullyAddedHolidayRequest() {
+        private function succesfullyAddedHolidayRequest():void {
             Alert.show('Zapisano podanie o urlop');
         }
 
@@ -78,7 +85,20 @@
             }
             var eventObject:ChangeMonthEvent = new ChangeMonthEvent(ChangeMonthEvent.CHANGED_MONTH, from, new Date(year, month, 1));
             dispatchEvent(eventObject);
-            getDataForMonth(chosenDate);
+        }
+
+        private function changedMonthListener(event:ChangeMonthEvent):void {
+            dateRange.changeDates(event.firstDate, event.secondDate);
+            userEntry = new UserEntry(userName, userLogin, event.firstDate.getMonth(), event.firstDate.getFullYear());
+            getDataForMonth(event.firstDate);
+        }
+
+        private function getDataForMonth(date:Date):void {
+            holidayFlexService.findHolidayForCurrentUserAndMonth(date, updateData)
+        }
+
+        private function getDataForDateRange(event:GetSelectedDateRangeEvent):void {
+            holidayFlexService.findHolidayForCurrentUserDatesBetween(event.dateFrom, event.dateTo, updateDataRange);
         }
 
         private function showWindow():void {
@@ -98,14 +118,15 @@
         }
         ]]></mx:Script>
 
-    <mx:Panel>
-        <components:DateRange id="dateRange"/>
+    <mx:Panel width="100%" backgroundColor="0xDCDCDC" paddingLeft="40" paddingRight="40" paddingTop="10" paddingBottom="10">
+            <components:DateRange id="dateRange"/>
         <componentsAdmin:MonthChooser id="holidayDateChooser" yearNavigationEnabled="true" styleName="monthChooserStyles" change="{chooseDate()}"/>
-        <componentsAdmin:EntryGrid id="entryGrid" />
-        <components:HolidayTable id="holidayTable" dateFormatString="{formatDateString}"/>
+        <componentsAdmin:EntryGrid id="entryGrid"/>
         <mx:VBox horizontalAlign="center">
-            <mx:Button color="0x323232" height="32" label="Napisz podanie o urlop" click="showWindow();"/>
+            <components:HolidayTable id="holidayTable" dateFormatString="{formatDateString}"/>
+            <mx:Button horizontalCenter="0" color="0x323232" height="32" label="Napisz podanie o urlop" cornerRadius="12" click="showWindow();"/>
         </mx:VBox>
+
     </mx:Panel>
 
     <mx:Style>

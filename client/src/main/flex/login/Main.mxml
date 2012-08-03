@@ -25,7 +25,7 @@
         </mx:FormItem>
 
         <mx:HBox>
-            <mx:Button id="loginButton" label="Zaloguj" click="loginService.send()"/>
+            <mx:Button id="loginButton" label="Zaloguj" cornerRadius="12" click="loginService.send()"/>
         </mx:HBox>
     </mx:Form>
 

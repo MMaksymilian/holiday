@@ -1,5 +1,5 @@
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
-                title="Podanie o urlop" x="168" y="86" status="active" close="closeModalDialog(this)" showCloseButton="true" borderAlpha="0.75">
+                title="Podanie o urlop" x="168" y="86" close="closeModalDialog(this)" showCloseButton="true" borderAlpha="0.75">
     <!-- Class selectors take precedence over type selectors -->
     <mx:Grid id="infoGrid" color="0x707070" verticalGap="10" horizontalGap="200">
         <mx:GridRow>
@@ -40,7 +40,7 @@
             </mx:TextArea>
         </mx:FormItem>
         <mx:FormItem>
-            <mx:Button id="submitButton" label="Zapisz" click="submitButton_clickHandler(event)"/>
+            <mx:Button id="submitButton" label="Zapisz" cornerRadius="12" click="submitButton_clickHandler(event)"/>
         </mx:FormItem>
     </mx:Form>
 
@@ -58,6 +58,7 @@
         import flex.event.user.HolidaySendRequestEvent;
         import flex.event.user.CloseModalDialogEvent;
 
+        [Bindable]
         private var formatDateString:String = 'DD - MM - YYYY';
 
         protected function closeModalDialog(window:IFlexDisplayObject):void {

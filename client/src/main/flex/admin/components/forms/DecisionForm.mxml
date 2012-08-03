@@ -15,8 +15,8 @@
             <mx:Text text="{endingDate.toLocaleDateString()}"/>
         </mx:FormItem>
         <mx:HBox>
-            <mx:Button label="Zatwierdź" click="sendDecision(DataLabel.STATUS_ACCEPTED)"/>
-            <mx:Button label="Odrzuć" click="sendDecision(DataLabel.STATUS_REJECTED)"/>
+            <mx:Button label="Zatwierdź" cornerRadius="12" click="sendDecision(DataLabel.STATUS_ACCEPTED)"/>
+            <mx:Button label="Odrzuć" cornerRadius="12" click="sendDecision(DataLabel.STATUS_REJECTED)"/>
         </mx:HBox>
     </mx:Form>
     <mx:Script><![CDATA[
