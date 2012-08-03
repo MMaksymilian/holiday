@@ -61,13 +61,13 @@
         [Bindable]
         private var formatDateString:String = 'DD - MM - YYYY';
 
-        protected function closeModalDialog(window:IFlexDisplayObject):void {
+        private function closeModalDialog(window:IFlexDisplayObject):void {
             var eventObject:CloseModalDialogEvent = new CloseModalDialogEvent(CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG);
             dispatchEvent(eventObject);
             PopUpManager.removePopUp(window);
         }
 
-        protected function submitButton_clickHandler(event:MouseEvent):void {
+        private function submitButton_clickHandler(event:MouseEvent):void {
             var holidayData:Holiday = new Holiday();
             holidayData.cause = cause.text;
             holidayData.dateFrom = dateFrom.selectedDate;

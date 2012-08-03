@@ -14,8 +14,7 @@
                         yearNavigationEnabled="true"
                         styleName="monthChooserStyles"
                         selectedDate="{chosenMonth}"
-                        change="updateDates()"
-                        />
+                        change="updateDates()"/>
                 <mx:Button color="0x323232" height="32" label="Napisz podanie o urlop" cornerRadius="12" click="showWindow();"/>
 
                 <local:EntryGrid id="entryGrid">
@@ -44,9 +43,14 @@
                         <mx:TextInput id="passwordAddUser" width="200"/>
                     </mx:FormItem>
 
-                    <mx:FormItem >
-                        <mx:Button id="submitButton" label="Zatwierdź" cornerRadius="12"/>
+                    <mx:FormItem label="Uprawnienia użytkownika: ">
+                        <mx:ComboBox id="roleAddUser" dataProvider="{authorities}" width="300" color="0x000000"/>
                     </mx:FormItem>
+
+                    <mx:FormItem >
+                        <mx:Button id="submitButton" label="Zatwierdź" cornerRadius="12" click="submitButton_clickHandler(event)"/>
+                    </mx:FormItem>
+
                 </mx:Form>
             </mx:VBox>
         </mx:ViewStack>
@@ -56,8 +60,12 @@
         import flex.admin.components.forms.DecisionForm;
         import flex.admin.model.UserEntry;
         import flex.admin.model.UserEntry;
+        import flex.admin.services.AdminDataService;
+        import flex.admin.services.impl.AdminDataServiceImpl;
         import flex.admin.services.impl.AdminDataServiceMock;
+        import flex.data.ServiceUser;
         import flex.event.admin.AcceptHolidayEvent;
+        import flex.event.admin.CreateNewUserEvent;
         import flex.event.admin.RejectHolidayEvent;
         import flex.service.HolidayFlexService;
 
@@ -65,6 +73,7 @@
 
         import mx.controls.Alert;
         import mx.managers.PopUpManager;
+        import mx.messaging.events.MessageEvent;
         import mx.rpc.events.ResultEvent;
 
         public var username:String = "szef";
@@ -75,10 +84,17 @@
 
         private var holidayFlexService:HolidayFlexService;
 
-        private var holidayForm:HolidayAcceptForm;
+        private var adminDataService:AdminDataService;
 
+        [Bindable]
+        public var authorities:ArrayCollection = new ArrayCollection(
+                [ {label:"ADMINISTRATOR/SZEF", data:"CHIEF"},
+                  {label:"PRACOWNIK", data:"USER"} ]);
+
+        private var holidayForm:HolidayAcceptForm;
         private function initializeHandler():void {
-            // holidayFlexService = new HolidayFlexService();
+            adminDataService = new AdminDataServiceImpl();
+            holidayFlexService = new HolidayFlexService();
         }
 
         private function showWindow():void {
@@ -89,6 +105,7 @@
 //            holidayForm.addEventListener(RejectHolidayEvent.rejectHolidayEvent, sendRejectHolidayRequest);
         }
 
+
         //        private function sendAcceptHolidayRequest(event:AcceptHolidayEvent) {
         //            Alert.show('Akceptuj');
         //        }
@@ -96,7 +113,6 @@
         //        private function sendRejectHolidayRequest(event:RejectHolidayEvent) {
         //            Alert.show('Odrzuć');
         //        }
-
         private function updateModalDialog(event:ResultEvent):void {
             var currentUserData:ArrayCollection = new ArrayCollection();
             currentUserData.source = (event.result as ArrayCollection).source;
@@ -108,13 +124,39 @@
         }
 
         private function onEntry():void {
-            var adminDataServiceMock:AdminDataServiceMock = new AdminDataServiceMock();
-            var collection:ArrayCollection = adminDataServiceMock.getEntries(2012, 6);
 
+            addEventListener(CreateNewUserEvent.CREATE_NEW_USER, sendCreateNewUserRequest);
+            var adminDataServiceMock:AdminDataServiceMock = new AdminDataServiceMock();
+
+            var collection:ArrayCollection = adminDataServiceMock.getEntries(2012, 6);
             var userEntry:UserEntry = UserEntry(collection.getItemAt(0));
             entryGrid.addEntry(userEntry);
         }
+
+        private function submitButton_clickHandler(event:MouseEvent):void {
+            var serviceUser:ServiceUser = new ServiceUser();
+            serviceUser.firstName = fNameAddUser.text;
+            serviceUser.lastName = lNameAddUser.text;
+            serviceUser.login = loginAddUser.text;
+            serviceUser.password = passwordAddUser.text;
+            serviceUser.role = roleAddUser.selectedItem.data;
+            var eventObject:CreateNewUserEvent = new CreateNewUserEvent(CreateNewUserEvent.CREATE_NEW_USER, serviceUser);
+            dispatchEvent(eventObject);
+        }
+
+        private function sendCreateNewUserRequest(event:CreateNewUserEvent):void {
+            adminDataService.createNewUser(event.newUser, successfullyCreatedNewUserHandler);
+        }
+
+        private function successfullyCreatedNewUserHandler(event:ResultEvent):void {
+            Alert.show('Utworzono nowego użytkownika');
+        }
+
         ]]></mx:Script>
+
+    <mx:Metadata>
+        [Event(name=CreateNewUserEvent.CREATE_NEW_USER, type="flex.event.admin.CreateNewUserEvent")]
+    </mx:Metadata>
 
     <mx:StringValidator minLength="6" maxLength="100"  source="{passwordAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
     <mx:Validator required="true" source="{fNameAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>

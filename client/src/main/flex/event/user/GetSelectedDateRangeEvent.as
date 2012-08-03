@@ -8,7 +8,7 @@ public class GetSelectedDateRangeEvent extends Event {
     public static var SELECTED_DATE_RANGE:String="changedMonthEvent";
 
     public function GetSelectedDateRangeEvent(type:String, firstDate:Date, secondDate:Date) {
-        super(type);
+        super(type,true);
         dateFrom = firstDate;
         dateTo =  secondDate;
     }

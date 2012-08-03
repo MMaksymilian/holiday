@@ -12,6 +12,7 @@
 
     <mx:Script><![CDATA[
         import flex.admin.model.UserEntry;
+        import flex.data.Holiday;
         import flex.event.user.ChangeMonthEvent;
         import flex.event.user.CloseModalDialogEvent;
         import flex.event.user.GetSelectedDateRangeEvent;
@@ -34,6 +35,7 @@
         private var formatDateString:String = 'DD - MM - YYYY';
         private var holidayData:ArrayCollection;
         private var userEntry:UserEntry;
+        private var holidayForm:HolidayApplyForm;
 
         private function initializeHandler():void {
             /*pobranie danych do tabeli*/
@@ -47,10 +49,10 @@
 
         private function addEvents():void {
             addEventListener(ChangeMonthEvent.CHANGED_MONTH, changedMonthListener);
-            dateRange.addEventListener(GetSelectedDateRangeEvent.SELECTED_DATE_RANGE, getDataForDateRange);
+            addEventListener(GetSelectedDateRangeEvent.SELECTED_DATE_RANGE, getDataForDateRangeListener);
         }
 
-        private function updateData(event:ResultEvent):void {
+        private function updateDataHandler(event:ResultEvent):void {
             holidayData = new ArrayCollection();
             holidayData.source = (event.result as ArrayCollection).source;
             holidayTable.dataProvider = holidayData;
@@ -59,19 +61,27 @@
             entryGrid.replaceEntries(userEntry);
         }
 
-        private function updateDataRange(event:ResultEvent):void {
+        private function updateDataRangeHandler(event:ResultEvent):void {
             holidayData = new ArrayCollection();
             holidayData.source = (event.result as ArrayCollection).source;
             holidayTable.dataProvider = holidayData;
         }
 
-        private function holidayFormSendRequestHandler(event:HolidaySendRequestEvent):void {
-            holidayFlexService.requestHoliday(event.holidayData, succesfullyAddedHolidayRequest);
+        private function holidayFormSendRequestListener(event:HolidaySendRequestEvent):void {
+            holidayFlexService.requestHoliday(event.holidayData, succesfullyAddedHolidayRequestHandler);
             holidayData.addItem(event.holidayData);
         }
 
-        private function succesfullyAddedHolidayRequest():void {
-            Alert.show('Zapisano podanie o urlop');
+        private function succesfullyAddedHolidayRequestHandler(event:ResultEvent):void {
+
+            Alert.show("status: " + event.statusCode);
+            if (event.result == "success") {
+                Alert.show('Zapisano podanie o urlop.');
+//                holidayForm.close();
+            }
+            if (event.result == "failure") {
+                Alert.show('Zapisywanie nie powiodło się.');
+            }
         }
 
         private function chooseDate():void {
@@ -94,21 +104,18 @@
         }
 
         private function getDataForMonth(date:Date):void {
-            holidayFlexService.findHolidayForCurrentUserAndMonth(date, updateData)
+            holidayFlexService.findHolidayForCurrentUserAndMonth(date, updateDataHandler)
         }
 
-        private function getDataForDateRange(event:GetSelectedDateRangeEvent):void {
-            holidayFlexService.findHolidayForCurrentUserDatesBetween(event.dateFrom, event.dateTo, updateDataRange);
+        private function getDataForDateRangeListener(event:GetSelectedDateRangeEvent):void {
+            holidayFlexService.findHolidayForCurrentUserDatesBetween(event.dateFrom, event.dateTo, updateDataRangeHandler);
         }
 
         private function showWindow():void {
-            var holidayForm:HolidayApplyForm = HolidayApplyForm(PopUpManager.createPopUp(this, HolidayApplyForm, true));
+            holidayForm = HolidayApplyForm(PopUpManager.createPopUp(this, HolidayApplyForm, true));
 //            PopUpManager.centerPopUp(holidayForm);
-            holidayForm.addEventListener(HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, holidayFormSendRequestHandler);
-            holidayForm.addEventListener(CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG, onDialogClose);
-        }
-
-        private function onDialogClose(event:CloseModalDialogEvent):void {
+            holidayForm.addEventListener(HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, holidayFormSendRequestListener);
+            holidayForm.addEventListener(CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG);
         }
 
         private function getFirstOfTheMonth(currentDate:Date):Date {

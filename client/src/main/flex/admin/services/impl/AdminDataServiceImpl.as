@@ -7,6 +7,7 @@
  */
 package flex.admin.services.impl {
 import flex.admin.services.AdminDataService;
+import flex.data.ServiceUser;
 import flex.service.BaseService;
 
 import mx.collections.ArrayCollection;
@@ -40,6 +41,15 @@ public class AdminDataServiceImpl extends BaseService implements AdminDataServic
     }
 
     public function fetchHoliday(login:String, date:Date) {
+    }
+
+    public function createNewUser(serviceUser:ServiceUser,  handler:Function, errHandler:Function = null) {
+        var rpcCall:AsyncToken;
+        if (errHandler == null) {
+            errHandler = handler_generalFault;
+        }
+        rpcCall = remoteService.createNewUser(serviceUser);
+        rpcCall.addResponder(new Responder(handler, errHandler));
     }
 }
 }

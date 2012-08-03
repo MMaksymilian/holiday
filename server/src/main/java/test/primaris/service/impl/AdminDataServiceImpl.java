@@ -12,6 +12,8 @@ import test.primaris.entity.Holiday;
 import test.primaris.entity.ServiceUser;
 import test.primaris.entity.dto.HolidayDTO;
 import test.primaris.entity.dto.ServiceUserDTO;
+import test.primaris.service.AdminDataService;
+import test.primaris.service.util.FlexServiceUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,7 +23,7 @@ import java.util.Set;
 @Service("adminDataService")
 @Transactional
 @RemotingDestination
-public class AdminDataServiceImpl {
+public class AdminDataServiceImpl implements AdminDataService {
     @Autowired
     private HolidayDAO holidayDAO;
 
@@ -49,7 +51,7 @@ public class AdminDataServiceImpl {
         ServiceUser currentUser;
         for(String currentLogin: loginSet){
             currentUser = serviceUserDAO.getByLogin(currentLogin);
-            userList.add(FlexService.getDTO(currentUser));
+            userList.add(FlexServiceUtil.rewriteToDTO(currentUser));
         }
 
         return userList;
@@ -63,9 +65,15 @@ public class AdminDataServiceImpl {
         
         List<HolidayDTO> dtoList = new ArrayList<HolidayDTO>();
         for(Holiday holiday: list){
-            dtoList.add(FlexService.rewriteToDTO(holiday));
+            dtoList.add(FlexServiceUtil.rewriteToDTO(holiday));
         }
 
         return dtoList;
+    }
+
+    @Override
+    public void createNewUser(ServiceUserDTO serviceUserDTO) {
+        ServiceUser serviceUser = FlexServiceUtil.rewriteToEntity(serviceUserDTO);
+        serviceUserDAO.createUser(serviceUser);
     }
 }

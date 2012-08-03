@@ -1,4 +1,4 @@
-package test.primaris.service.impl;
+package test.primaris.service.util;
 
 import flex.messaging.util.StringUtils;
 import org.joda.time.DateTime;
@@ -14,9 +14,9 @@ import test.primaris.entity.dto.ServiceUserDTO;
  * Time: 09:54
  * To change this template use File | Settings | File Templates.
  */
-public class FlexService {
+public abstract class FlexServiceUtil {
 
-    protected Holiday rewriteToEntity(HolidayDTO holidayDTO) {
+    public static Holiday rewriteToEntity(HolidayDTO holidayDTO) {
         Holiday holiday = new Holiday();
         if (!StringUtils.isEmpty(holidayDTO.getStatus())) {
             holiday.setStatus(Holiday.HolidayStatus.valueOf(holidayDTO.getStatus()));
@@ -32,27 +32,32 @@ public class FlexService {
         return holiday;
     }
 
-    protected static HolidayDTO rewriteToDTO(Holiday holiday) {
+    public static ServiceUser rewriteToEntity(ServiceUserDTO serviceUserDTO) {
+        ServiceUser serviceUser = new ServiceUser();
+        serviceUser.setFirstName(serviceUserDTO.getFirstName());
+        serviceUser.setLastName(serviceUserDTO.getLastName());
+        serviceUser.setLogin(serviceUserDTO.getLogin());
+        serviceUser.setRole(serviceUserDTO.getRole());
+        serviceUser.setPassword(serviceUserDTO.getPassword());
+        return serviceUser;
+    }
+
+    public static HolidayDTO rewriteToDTO(Holiday holiday) {
         HolidayDTO holidayDTO = new HolidayDTO();
         holidayDTO.setCause(holiday.getCause());
-        /*nie mogą być null*/
         holidayDTO.setDateFrom(holiday.getDateFrom().toDate());
         holidayDTO.setDateTo(holiday.getDateTo().toDate());
         holidayDTO.setStatus(holiday.getStatus().toString());
-        /*nie mogą być null*/
-        if (holiday.getId() != null) {
-            holidayDTO.setId(holiday.getId().intValue());
-        }
+        holidayDTO.setId(holiday.getId().intValue());
         return holidayDTO;
     }
 
-    protected static ServiceUserDTO getDTO(ServiceUser serviceUser){
+    public static ServiceUserDTO rewriteToDTO(ServiceUser serviceUser){
         ServiceUserDTO serviceUserDTO = new ServiceUserDTO();
         serviceUserDTO.setId(serviceUser.getId().intValue());
         serviceUserDTO.setFirstName(serviceUser.getFirstName());
         serviceUserDTO.setLastName(serviceUser.getLastName());
         serviceUserDTO.setLogin(serviceUser.getLogin());
-
         return  serviceUserDTO;
     }
 }

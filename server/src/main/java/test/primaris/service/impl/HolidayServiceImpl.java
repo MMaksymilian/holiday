@@ -15,6 +15,7 @@ import test.primaris.entity.ServiceUser;
 import test.primaris.entity.dto.HolidayDTO;
 import test.primaris.security.TestAppUserDetails;
 import test.primaris.service.HolidayService;
+import test.primaris.service.util.FlexServiceUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,7 +31,7 @@ import java.util.List;
 @Service
 @Transactional
 @RemotingDestination
-public class HolidayServiceImpl extends FlexService implements HolidayService {
+public class HolidayServiceImpl implements HolidayService {
 
     @Autowired
     HolidayDAO holidayDAO;
@@ -41,7 +42,7 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
     @Override
     public HolidayDTO getHolidayById(Long id) {
         Holiday holiday = holidayDAO.getById(id);
-        return this.rewriteToDTO(holiday);
+        return FlexServiceUtil.rewriteToDTO(holiday);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
         List<Holiday> holidayList = holidayDAO.findHolidayForUserAndBetweenDates(dateTimeBefore, dateTimeAfter, user);
         List<HolidayDTO> holidayDTOs = new ArrayList<HolidayDTO>();
         for(Holiday holiday : holidayList) {
-            holidayDTOs.add(rewriteToDTO(holiday));
+            holidayDTOs.add(FlexServiceUtil.rewriteToDTO(holiday));
         }
         return holidayDTOs;
     }
@@ -73,7 +74,7 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
         List<Holiday> holidayList = holidayDAO.findHolidayForUserAndBetweenDates(dateTimeBefore, dateTimeAfter, user);
         List<HolidayDTO> holidayDTOs = new ArrayList<HolidayDTO>();
         for(Holiday holiday : holidayList) {
-            holidayDTOs.add(rewriteToDTO(holiday));
+            holidayDTOs.add(FlexServiceUtil.rewriteToDTO(holiday));
         }
         return holidayDTOs;
     }
@@ -81,7 +82,7 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
     @Override
     @PreAuthorize("hasRole('CHIEF')")
     public String acceptHoliday(HolidayDTO holidayDTO) {
-        Holiday holiday = rewriteToEntity(holidayDTO);
+        Holiday holiday = FlexServiceUtil.rewriteToEntity(holidayDTO);
         holiday.setStatus(Holiday.HolidayStatus.APPROVED);
         holidayDAO.updateHolidayStatus(holiday);
         /*dodane bo metody nie chciały wywoływać handler'ów przy typie metody 'void'*/
@@ -91,7 +92,7 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
     @Override
     @PreAuthorize("hasRole('CHIEF')")
     public String rejectHoliday(HolidayDTO holidayDTO) {
-        Holiday holiday = rewriteToEntity(holidayDTO);
+        Holiday holiday = FlexServiceUtil.rewriteToEntity(holidayDTO);
         holiday.setStatus(Holiday.HolidayStatus.REJECTED);
         holidayDAO.updateHolidayStatus(holiday);
         /*dodane bo metody nie chciały wywoływać handler'ów przy typie metody 'void'*/
@@ -101,7 +102,7 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
     @Override
     @PreAuthorize("hasRole('USER')")
     public String requestHoliday(HolidayDTO holidayDTO) {
-        Holiday holiday = rewriteToEntity(holidayDTO);
+        Holiday holiday = FlexServiceUtil.rewriteToEntity(holidayDTO);
         holiday.setStatus(Holiday.HolidayStatus.APPLIED);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         ServiceUser user = ((TestAppUserDetails)auth.getPrincipal()).getServiceUser();
@@ -121,7 +122,7 @@ public class HolidayServiceImpl extends FlexService implements HolidayService {
         List<Holiday> holidays = holidayDAO.findHolidayWithStatus(serviceUser, Holiday.HolidayStatus.APPLIED);
         List<HolidayDTO> holidayDTOs = new ArrayList<HolidayDTO>();
         for (Holiday holiday : holidays) {
-            holidayDTOs.add(rewriteToDTO(holiday));
+            holidayDTOs.add(FlexServiceUtil.rewriteToDTO(holiday));
         }
         return holidayDTOs;
     }
