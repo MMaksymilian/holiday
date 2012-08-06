@@ -28,11 +28,10 @@ public class AdminDataServiceMock implements AdminDataService {
 
     public function getUserEntry(login:String, year:int, month:int, handler:Function = null):void {
         var entry:UserEntry;
-        if(login=="ozuc"){
-            entry = new UserEntry("Olgierd Zuch", "ozuc", month, year);
-            if(year==2012 && month==6){
-                entry.setHoliday(1, 10);
-                entry.setHoliday(15, 25, 1);
+        if(login=="kowalski"){
+            entry = new UserEntry("Kowalski Jurek", "kowalski", month, year);
+            if(year==2012 && month==8){
+                entry.setHoliday(8, 24, 1);
             } else if(year==2012 && month==7){
                 entry.setHoliday(2, 5);
                 entry.setHoliday(15, 25, 2);
@@ -51,17 +50,16 @@ public class AdminDataServiceMock implements AdminDataService {
         handler.apply(entry);
     }
 
-    public function getEntries(year:int, month:int, handler:Function = null):ArrayCollection {
+    public function getEntries(year:int, month:int, handler:Function = null):void {
         var collection:ArrayCollection = new ArrayCollection();
 
         var firstEntry:UserEntry;
         var secondEntry:UserEntry;
-        if(year==2012 && month==6){
-            firstEntry = new UserEntry("Olgierd Zuch", "ozuc", month, year);
+        if(year==2012 && month==8){
+            firstEntry = new UserEntry("Kowalski Jurek", "kowalski", month, year);
             secondEntry = new UserEntry("Radosław Wojak", "rwoj", month, year);
 
-            firstEntry.setHoliday(1, 10);
-            firstEntry.setHoliday(15, 25, 1);
+            firstEntry.setHoliday(8, 24, 1);
 
             secondEntry.setHoliday(4, 9, 2);
             secondEntry.setHoliday(15, 17, 1);
@@ -83,13 +81,15 @@ public class AdminDataServiceMock implements AdminDataService {
         }
 
         Alert.show("Mocked");
-        return collection;
     }
 
     public function switchStatus(login:String, startingDate:Date, status:int, handler:Function):void {
     }
 
-    public function fetchHoliday(login:String, date:Date) {
+    public function fetchHoliday(login:String, date:Date, handler:Function):void {
+    }
+
+    public function sendDecision(dtoId:Number, decisionStatus:int, cause:String, handler:Function):void {
     }
 }
 }

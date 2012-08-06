@@ -6,16 +6,13 @@
  * To change this template use File | Settings | File Templates.
  */
 package flex.admin.services {
-import flex.admin.model.UserEntry;
-
 import mx.collections.ArrayCollection;
 
 public interface AdminDataService {
-    function getEntries(year:int, month:int, handler:Function = null):ArrayCollection;
+    function getEntries(year:int, month:int, handler:Function = null):void;
     function getUserNames(year:int, month:int, handler:Function = null):void;
     function getUserEntry(login:String,  year:int,  month:int, handler:Function = null):void;
-    function fetchHoliday(login:String, date:Date);
-    function switchStatus(login:String, startingDate:Date, status:int, handler:Function):void;
-
+    function fetchHoliday(login:String, date:Date, handler:Function):void;
+    function sendDecision(dtoId:Number, decisionStatus:int, cause:String, handler:Function):void;
 }
 }

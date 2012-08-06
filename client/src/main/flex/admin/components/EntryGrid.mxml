@@ -2,14 +2,18 @@
 
     <mx:Script><![CDATA[
         import flex.admin.components.forms.DecisionForm;
+        import flex.admin.model.HolidayExtDTO;
         import flex.admin.model.UserEntry;
+        import flex.admin.model.UserEntryFactory;
+
+        import mx.collections.ArrayCollection;
 
         import mx.controls.Alert;
         import mx.managers.PopUpManager;
 
         private var decisionForm: DecisionForm;
-        private var month:int;
-        private var year:int;
+        public var month:int;
+        public var year:int;
         
         public function addEntry(entry: UserEntry):void {
             var entryBox:EntryBox = new EntryBox();
@@ -25,6 +29,34 @@
         public function clickHandler(login:String, day:int):void {
             decisionForm = DecisionForm(PopUpManager.createPopUp(this, DecisionForm, true));
             decisionForm.fetchData(login, new Date(year, month, day));
+        }
+        
+        public function update(dtoCollection:ArrayCollection):void {
+            this.removeAllChildren();
+            
+            var ignoredLogins:ArrayCollection = new ArrayCollection();
+            var dto:HolidayExtDTO;
+            var currentLogin:String;
+            var usf:UserEntryFactory = new UserEntryFactory();
+            var userEntry:UserEntry;
+            usf.month = month;
+            usf.year = year;
+            for(var i=0; i<dtoCollection.length; i++){
+                currentLogin = String(dtoCollection.getItemAt(i).login);
+                if(!ignoredLogins.contains(currentLogin)){
+                    for(var j=i; j<dtoCollection.length; j++){
+                        dto = HolidayExtDTO(dtoCollection.getItemAt(j));
+                        if(dto.login==currentLogin){
+                            usf.put(dto);
+                        }    
+                    }
+                    userEntry = usf.assemble();
+                    usf.flush();
+
+                    addEntry(userEntry);
+                    ignoredLogins.addItem(currentLogin);
+                }
+            }
         }
         ]]></mx:Script>
 </mx:VBox>

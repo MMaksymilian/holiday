@@ -21,8 +21,11 @@
     <mx:Script><![CDATA[
         import flex.admin.components.HolidayAcceptForm;
         import flex.admin.components.forms.DecisionForm;
+        import flex.admin.model.HolidayExtDTO;
         import flex.admin.model.UserEntry;
         import flex.admin.model.UserEntry;
+        import flex.admin.services.AdminDataService;
+        import flex.admin.services.impl.AdminDataServiceImpl;
         import flex.admin.services.impl.AdminDataServiceMock;
         import flex.event.admin.AcceptHolidayEvent;
         import flex.event.admin.RejectHolidayEvent;
@@ -39,9 +42,8 @@
 
         [Bindable]
         private var chosenMonth:Date;
-
+        private var adminDataService:AdminDataService = new AdminDataServiceImpl();
         private var holidayFlexService:HolidayFlexService;
-
         private var holidayForm:HolidayAcceptForm;
 
         private function initializeHandler():void {
@@ -74,12 +76,19 @@
             chosenMonth = mChosenMonth.selectedDate;
         }
 
-        private function onEntry():void {
-            var adminDataServiceMock:AdminDataServiceMock = new AdminDataServiceMock();
-            var collection:ArrayCollection = adminDataServiceMock.getEntries(2012, 6);
+        private function updateGrid(){
+            entryGrid.year = 2012;
+            entryGrid.month = 8;
+            adminDataService.getEntries(2012, 8, handleUpdate);
+        }
 
-            var userEntry:UserEntry = UserEntry(collection.getItemAt(0));
-            entryGrid.addEntry(userEntry);
+        private function handleUpdate(event: ResultEvent):void {
+            var entryCollection = event.result as ArrayCollection;
+            entryGrid.update(entryCollection);
+        }
+
+        private function onEntry():void {
+            updateGrid();
         }
         ]]></mx:Script>
 </mx:Application>
