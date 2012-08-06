@@ -117,6 +117,7 @@
                         <type>pom</type>
                     </dependency>
                 </dependencies>
+
                 <executions>
                     <!--<execution>
                         <id>compile-user-swf</id>
@@ -130,9 +131,9 @@
                             <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
                             <debug>true</debug>
                             <useResourceBundleMetadata>true</useResourceBundleMetadata>
-                            <allowSourcePathOverlap>true</allowSourcePathOverlap>-->
-                        <!--</configuration>
-                    </execution>&ndash;&gt;-->
+                            <allowSourcePathOverlap>true</allowSourcePathOverlap>
+                        </configuration>
+                    </execution>-->
 
                     <!--<execution>
                         <id>compile-login-swf</id>

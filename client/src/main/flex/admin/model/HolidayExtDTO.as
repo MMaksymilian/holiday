@@ -20,6 +20,5 @@ public class HolidayExtDTO {
 
     public function HolidayExtDTO(){
     }
-
 }
 }

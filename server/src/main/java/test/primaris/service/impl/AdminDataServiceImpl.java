@@ -5,23 +5,25 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.flex.remoting.RemotingDestination;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import test.primaris.dao.HolidayDAO;
 import test.primaris.dao.ServiceUserDAO;
 import test.primaris.entity.Holiday;
 import test.primaris.entity.ServiceUser;
-import test.primaris.entity.dto.HolidayDTO;
+import test.primaris.entity.dto.HolidayExtDTO;
 import test.primaris.entity.dto.ServiceUserDTO;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service("adminDataService")
-@Transactional
 @RemotingDestination
 public class AdminDataServiceImpl {
+    private static Map<Integer, Holiday.HolidayStatus> holidayStatusMap = new HashMap<Integer, Holiday.HolidayStatus>();
+    static {
+        holidayStatusMap.put(0, Holiday.HolidayStatus.APPLIED);
+        holidayStatusMap.put(1, Holiday.HolidayStatus.APPROVED);
+        holidayStatusMap.put(2, Holiday.HolidayStatus.REJECTED);
+    }
+    
     @Autowired
     private HolidayDAO holidayDAO;
 
@@ -34,17 +36,19 @@ public class AdminDataServiceImpl {
         DateTime startingDate = new DateTime(year, month, 1, 0, 0);
         DateTime endingDate = new DateTime(year, month+1, 1, 0, 0);
 
-        List<Holiday> monthlyHolidayList = holidayDAO.findHolidaysInRange(startingDate, endingDate);
+        List<Holiday> inRange = holidayDAO.findHolidaysInRange(startingDate, endingDate);
+        List<Holiday> outsideRange = holidayDAO.findHolidaysContainingRange(startingDate, endingDate);
+
 
         Set<String> loginSet = new HashSet<String>();
         String login;
-        for(Holiday holiday: monthlyHolidayList){
+        /*for(Holiday holiday: monthlyHolidayList){
             login = holiday.getServiceUser().getLogin();
             if(!loginSet.contains(login)){
                 loginSet.add(login);
             }
         }
-
+*/
         // Do FLEX'a trzeba wyslac DTO
         ServiceUser currentUser;
         for(String currentLogin: loginSet){
@@ -55,17 +59,56 @@ public class AdminDataServiceImpl {
         return userList;
     }
     
-    public List<HolidayDTO> getEntriesForMonth(int year, int month){
+    public List<HolidayExtDTO> getEntriesForMonth(int year, int month){
         DateTime startingDate = new DateTime(year, month, 1, 0, 0);
         DateTime endingDate = new DateTime(year, month+1, 1, 0, 0);
 
-        List<Holiday> list = holidayDAO.findHolidaysInRange(startingDate, endingDate);
-        
-        List<HolidayDTO> dtoList = new ArrayList<HolidayDTO>();
+        List<Holiday> inRange = holidayDAO.findHolidaysInRange(startingDate, endingDate);
+        List<Holiday> outsideRange = holidayDAO.findHolidaysContainingRange(startingDate, endingDate);
+        List<Holiday> startingInRange = holidayDAO.findHolidaysStartingInRange(startingDate, endingDate);
+        List<Holiday> endingInRange = holidayDAO.findHolidaysEndingInRange(startingDate, endingDate);
+
+        List<Holiday> list = new ArrayList<Holiday>();
+        list.addAll(inRange);
+        list.addAll(outsideRange);
+        list.addAll(startingInRange);
+        list.addAll(endingInRange);
+
+        List<HolidayExtDTO> dtoList = new ArrayList<HolidayExtDTO>();
+        ServiceUser currentUser;
         for(Holiday holiday: list){
-            dtoList.add(FlexService.rewriteToDTO(holiday));
+            currentUser = holiday.getServiceUser();
+            dtoList.add(FlexService.rewriteToExtDTO(currentUser, holiday));
         }
 
         return dtoList;
+    }
+    
+    public void sendDecision(int holidayId, int decision, String cause){
+        Holiday holiday = holidayDAO.getById((long)holidayId);
+        holiday.setStatus(holidayStatusMap.get(decision));
+        holiday.setCause(cause);
+
+        holidayDAO.updateHolidayStatus(holiday);
+    }
+
+    public HolidayExtDTO fetchHoliday(String login, Date date){
+        HolidayExtDTO dto = null;
+        ServiceUser user = serviceUserDAO.getByLogin(login);
+        DateTime dateTime = new DateTime(date);
+        dateTime = dateTime.minusMonths(1);
+        Holiday holiday = holidayDAO.getHolidayForDate(dateTime, user);
+
+        dto = FlexService.rewriteToExtDTO(user, holiday);
+        return dto;
+    }
+
+    private Holiday.HolidayStatus getStatus(int i){
+        switch (i) {
+            case 0: return Holiday.HolidayStatus.APPLIED;
+            case 1: return Holiday.HolidayStatus.APPROVED;
+            case 2: return Holiday.HolidayStatus.REJECTED;
+        }
+        return Holiday.HolidayStatus.APPLIED;
     }
 }

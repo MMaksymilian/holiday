@@ -5,13 +5,12 @@
         import flex.admin.model.UserEntry;
 
         import mx.collections.ArrayCollection;
-        import mx.controls.Alert;
-        import mx.controls.Button;
 
         [Bindable]
-        private var labelText:String;
-        private var login:String;
-        private var superClickHandler:Function;
+        private var labelText: String;
+        private var login: String;
+        private var superClickHandler: Function;
+        private var superUpdateHandler: Function;
 
         private var dayArray:HBox = new HBox();
 
@@ -21,7 +20,7 @@
             updateArray(entry.dataCollection);
         }
 
-        public function updateArray(array: ArrayCollection){
+        public function updateArray(array: ArrayCollection):void {
             var label:DisplayObject;
             for(var i:int =0; i<array.length; i++){
                 label = createLabel(i+1, int(array.getItemAt(i)));
@@ -29,16 +28,26 @@
             }
         }
 
-        public function setName(gName:String):void{
+        public function setName(gName:String):void {
             labelText = gName;
         }
 
         public function clickDayHandler(day:int):void {
-            superClickHandler(login, day);
+            if(superClickHandler!=null){
+                superClickHandler(login, day);
+            }
         }
 
         public function setClickDayHandler(handler:Function):void {
             superClickHandler = handler;
+        }
+
+        public function update(): void {
+            superUpdateHandler();
+        }
+
+        public function setUpdateHandler(handler:Function):void {
+            superUpdateHandler = handler;
         }
 
         private function onComplete():void {
@@ -46,7 +55,7 @@
         }
 
         private function createLabel(day: int, status:int):DisplayObject {
-            var label = new DataLabel();
+            var label:DataLabel = new DataLabel();
 
             label.setDay(day);
             label.setClickHandler(clickDayHandler);

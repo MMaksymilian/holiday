@@ -7,7 +7,6 @@
  */
 package flex.admin.model {
 import mx.collections.ArrayCollection;
-import mx.controls.Alert;
 
 public class UserEntry {
     public const STATUS_NONE:int = -1;
@@ -27,7 +26,7 @@ public class UserEntry {
         month = gMonth;
         year = gYear;
 
-        var date:Date = new Date(year, month+1, 0);
+        var date:Date = new Date(year, month, 0);
         var days:int = date.getDate();
 
         for(var i:int=0; i<days; i++){

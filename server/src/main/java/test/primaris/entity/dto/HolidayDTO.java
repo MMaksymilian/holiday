@@ -16,15 +16,10 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public class HolidayDTO implements Serializable {
-
     private Integer id;
-
     private Date dateFrom;
-
     private Date dateTo;
-
     private String cause;
-
     private String status;
 
     public Integer getId() {

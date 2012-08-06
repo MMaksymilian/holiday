@@ -50,7 +50,7 @@
         }
 
         public function sendDecision(decisionStatus:int):void {
-            adminDataService.sendDecision(dtoId, decisionStatus, "", null);
+            adminDataService.sendDecision(dtoId, decisionStatus, "", handleSendRequest);
             close();
         }
 
@@ -59,7 +59,7 @@
             AdminDataServiceImpl(adminDataService).disconnect();
         }
 
-        private function update(event:ResultEvent) {
+        private function update(event:ResultEvent):void {
             var dto:HolidayExtDTO = HolidayExtDTO(event.result);
             this.fullname = dto.firstName + " " + dto.secondName;
             this.startingDate = dto.dateFrom;

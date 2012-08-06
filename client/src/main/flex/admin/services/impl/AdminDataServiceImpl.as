@@ -9,9 +9,6 @@ package flex.admin.services.impl {
 import flex.admin.services.AdminDataService;
 import flex.service.BaseService;
 
-import mx.collections.ArrayCollection;
-import mx.controls.Alert;
-
 import mx.rpc.AsyncToken;
 import mx.rpc.Responder;
 
@@ -31,7 +28,6 @@ public class AdminDataServiceImpl extends BaseService implements AdminDataServic
     }
 
     public function getEntries(year:int, month:int, handler:Function = null):void {
-        Alert.show("OnGetEntries");
         var rpcCall:AsyncToken = remoteService.getEntriesForMonth(year,  month);
         rpcCall.addResponder(new Responder(handler, handler_generalFault));
     }

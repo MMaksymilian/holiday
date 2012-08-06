@@ -10,6 +10,7 @@ import test.primaris.entity.Holiday;
 import test.primaris.entity.ServiceUser;
 import test.primaris.entity.dto.HolidayDTO;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,19 +62,68 @@ public class HolidayDAOImpl extends BaseDAOImpl implements HolidayDAO {
     @Override
     public List<Holiday> findHolidaysInRange(DateTime beginningDate, DateTime endingDate) {
         Criteria holidayDateCriteria = getSession().createCriteria(Holiday.class);
+
+        // DateFrom = <beginningDate, ...)
+        holidayDateCriteria.add(Restrictions.ge("dateFrom", beginningDate));
+
+        // DateTo = (..., endingDate>
+        holidayDateCriteria.add(Restrictions.le("dateTo", endingDate));
+
+        List<Holiday> list = holidayDateCriteria.list();
+        return list;
+    }
+
+    @Override
+    public List<Holiday> findHolidaysContainingRange(DateTime beginningDate, DateTime endingDate) {
+        Criteria holidayDateCriteria = getSession().createCriteria(Holiday.class);
+
+        // DateFrom = (..., beginningDate)
+        holidayDateCriteria.add(Restrictions.lt("dateFrom", beginningDate));
+
+        // DateTo = (endingDate, ...)
+        holidayDateCriteria.add(Restrictions.gt("dateTo", endingDate));
+        List<Holiday> list = holidayDateCriteria.list();
+        return list;
+    }
+
+    @Override
+    public List<Holiday> findHolidaysStartingInRange(DateTime beginningDate, DateTime endingDate) {
+        Criteria holidayDateCriteria = getSession().createCriteria(Holiday.class);
+
+        // DateFrom = <beginningDate, endingDate>
+        holidayDateCriteria.add(Restrictions.ge("dateFrom", beginningDate));
+        holidayDateCriteria.add(Restrictions.lt("dateFrom", endingDate));
+
+        // DateTo = (endingDate, ...)
         holidayDateCriteria.add(Restrictions.ge("dateTo", endingDate));
+        List<Holiday> list = holidayDateCriteria.list();
+        return list;
+    }
+
+    @Override
+    public List<Holiday> findHolidaysEndingInRange(DateTime beginningDate, DateTime endingDate) {
+        Criteria holidayDateCriteria = getSession().createCriteria(Holiday.class);
+
+        // DateFrom = (..., beginningDate)
         holidayDateCriteria.add(Restrictions.le("dateFrom", beginningDate));
-        return holidayDateCriteria.list();
+
+        // DateTo = <beginningDate, endingDate>
+        holidayDateCriteria.add(Restrictions.ge("dateTo", beginningDate));
+        holidayDateCriteria.add(Restrictions.lt("dateTo", endingDate));
+        List<Holiday> list = holidayDateCriteria.list();
+        return list;
     }
 
     public Holiday getHolidayForDate(DateTime date, ServiceUser user){
         Criteria criteria = getSession().createCriteria(Holiday.class);
 
+        DateTime endingDate = date.plusDays(1);
         criteria.add(Restrictions.eq("serviceUser", user));
         criteria.add(Restrictions.le("dateFrom", date));
-        criteria.add(Restrictions.ge("dateTo", date.plusDays(1)));
+        criteria.add(Restrictions.ge("dateTo", date));
 
-        return (Holiday) criteria.uniqueResult();
+        Holiday holiday = (Holiday) criteria.uniqueResult();
+        return holiday;
 
     }
 

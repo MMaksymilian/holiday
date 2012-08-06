@@ -21,5 +21,9 @@ public interface HolidayDAO {
     Long requestHoliday(Holiday holiday);
     List<Holiday> findHolidayForUserAndBetweenDates(DateTime dateTimeBefore, DateTime dateTimeAfter, ServiceUser user);
     List<Holiday> findHolidaysInRange(DateTime beginningDate, DateTime endingDate);
+    List<Holiday> findHolidaysContainingRange(DateTime beginningDate, DateTime endingDate);
+    List<Holiday> findHolidaysStartingInRange(DateTime beginningDate, DateTime endingDate);
+    List<Holiday> findHolidaysEndingInRange(DateTime beginningDate, DateTime endingDate);
+    public Holiday getHolidayForDate(DateTime date, ServiceUser user);
     void updateHolidayStatus(Holiday holidayDTO);
 }

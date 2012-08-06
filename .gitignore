@@ -9,3 +9,5 @@
 client/src/main/webapp/WEB-INF/config/
 target/
 bin-release/
+
+/server/src/main/webapp/search.swf

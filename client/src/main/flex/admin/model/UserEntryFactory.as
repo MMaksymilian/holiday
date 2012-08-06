@@ -6,12 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 package flex.admin.model {
-import flex.admin.model.HolidayExtDTO;
-import flex.data.Holiday;
-import flex.data.Holiday;
 
 import mx.collections.ArrayCollection;
-import mx.controls.Alert;
 
 public class UserEntryFactory {
     public var year:int;
@@ -28,7 +24,7 @@ public class UserEntryFactory {
 
     public function prepare(gDate:Date):void {
         year = gDate.getFullYear();
-        month = gDate.getMonth();
+        month = gDate.getMonth()-1;
     }
 
     public function put(dto: HolidayExtDTO): void {
@@ -40,22 +36,25 @@ public class UserEntryFactory {
         if(dtoList.length==0){
             entry = new UserEntry("","",0,0);
         } else {
-            var firstDayOfTheMonth:Date = new Date(year, month, 1);
-            var lastDayOfTheMonth:Date = new Date(year, month+1, 0);
+            var firstDayOfTheMonth:Date = new Date(year, month-1, 1);
+            var lastDayOfTheMonth:Date = new Date(year, month, 0);
             var dto:HolidayExtDTO = HolidayExtDTO(dtoList.getItemAt(0));
             
             entry = new UserEntry(dto.firstName+" "+dto.secondName, dto.login, month, year);
+
             var firstDay:int;
             var lastDay:int;
             var date:Date;
-            for(var i=0; i<dtoList.length; i++){
-                if(compareDates(dto.dateFrom, firstDayOfTheMonth) == 1){
+            for(var i:int =0; i<dtoList.length; i++){
+                dto = dtoList[i];
+
+                if(compareDates(dto.dateFrom, firstDayOfTheMonth) != 1){
                     firstDay = 1;    
                 } else {
                     firstDay = dto.dateFrom.date;
                 }
 
-                if(compareDates(dto.dateTo, lastDayOfTheMonth) == -1){
+                if(compareDates(dto.dateTo, lastDayOfTheMonth) != -1){
                     lastDay = lastDayOfTheMonth.date;
                 } else {
                     lastDay = dto.dateTo.date;
@@ -64,33 +63,42 @@ public class UserEntryFactory {
                 entry.setHoliday(firstDay, lastDay, translateStatus(dto.status));
             }
         }
+
         return entry;
     }
     
-    public static function compareDates(dateA:Date, dateB:Date){
+    public static function compareDates(dateA:Date, dateB:Date):int {
         var result:int = 0;
-        if(dateA.fullYear > dateB.fullYear){
+        if(dateA.date > dateB.date){
             result = 1;
-        } else if(dateA.fullYear < dateB.fullYear){
+        } else if(dateA.date < dateB.date){
             result = -1;
         }
+
         if(dateA.month > dateB.month){
             result = 1;
         } else if(dateA.month < dateB.month){
             result = -1;
         }
 
-        if(dateA.date > dateB.date){
+        if(dateA.fullYear > dateB.fullYear){
             result = 1;
-        } else if(dateA.date < dateB.date){
+        } else if(dateA.fullYear < dateB.fullYear){
             result = -1;
         }
         return result;
     }
 
-    public static function translateStatus(statusString):int {
-
-        return 0;
+    public static function translateStatus(statusString:String):int {
+        var status:int = 0;
+        if(statusString=="APPLIED"){
+            status = 0;
+        } else if(statusString=="APPROVED"){
+            status = 1;
+        } else if(statusString=="REJECTED"){
+            status = 2;
+        }
+        return status;
     }
 }
 }

@@ -33,7 +33,6 @@
 
         import mx.collections.ArrayCollection;
 
-        import mx.controls.Alert;
         import mx.managers.PopUpManager;
         import mx.rpc.events.ResultEvent;
 
@@ -47,24 +46,13 @@
         private var holidayForm:HolidayAcceptForm;
 
         private function initializeHandler():void {
-            // holidayFlexService = new HolidayFlexService();
+
         }
 
         private function showWindow():void {
             holidayForm = HolidayAcceptForm(PopUpManager.createPopUp(this, HolidayAcceptForm, true));
-//            PopUpManager.centerPopUp(holidayForm as Dialog);
             holidayFlexService.findDataForChosenUser('kowalski', updateModalDialog);
-//            holidayForm.addEventListener(AcceptHolidayEvent.acceptHolidayEvent, sendAcceptHolidayRequest);
-//            holidayForm.addEventListener(RejectHolidayEvent.rejectHolidayEvent, sendRejectHolidayRequest);
         }
-
-//        private function sendAcceptHolidayRequest(event:AcceptHolidayEvent) {
-//            Alert.show('Akceptuj');
-//        }
-//
-//        private function sendRejectHolidayRequest(event:RejectHolidayEvent) {
-//            Alert.show('Odrzuć');
-//        }
 
         private function updateModalDialog(event:ResultEvent):void {
             var currentUserData:ArrayCollection = new ArrayCollection();
@@ -76,19 +64,20 @@
             chosenMonth = mChosenMonth.selectedDate;
         }
 
-        private function updateGrid(){
+        private function updateGrid():void {
             entryGrid.year = 2012;
             entryGrid.month = 8;
             adminDataService.getEntries(2012, 8, handleUpdate);
         }
 
         private function handleUpdate(event: ResultEvent):void {
-            var entryCollection = event.result as ArrayCollection;
+            var entryCollection:ArrayCollection = event.result as ArrayCollection;
             entryGrid.update(entryCollection);
         }
 
         private function onEntry():void {
             updateGrid();
         }
+
         ]]></mx:Script>
 </mx:Application>

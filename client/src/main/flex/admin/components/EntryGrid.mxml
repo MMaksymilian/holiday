@@ -8,10 +8,10 @@
 
         import mx.collections.ArrayCollection;
 
-        import mx.controls.Alert;
         import mx.managers.PopUpManager;
 
         private var decisionForm: DecisionForm;
+        private var superUpdateHandler: Function;
         public var month:int;
         public var year:int;
         
@@ -33,7 +33,7 @@
         
         public function update(dtoCollection:ArrayCollection):void {
             this.removeAllChildren();
-            
+
             var ignoredLogins:ArrayCollection = new ArrayCollection();
             var dto:HolidayExtDTO;
             var currentLogin:String;
@@ -41,10 +41,10 @@
             var userEntry:UserEntry;
             usf.month = month;
             usf.year = year;
-            for(var i=0; i<dtoCollection.length; i++){
+            for(var i:int=0; i<dtoCollection.length; i++){
                 currentLogin = String(dtoCollection.getItemAt(i).login);
                 if(!ignoredLogins.contains(currentLogin)){
-                    for(var j=i; j<dtoCollection.length; j++){
+                    for(var j:int=i; j<dtoCollection.length; j++){
                         dto = HolidayExtDTO(dtoCollection.getItemAt(j));
                         if(dto.login==currentLogin){
                             usf.put(dto);
