@@ -7,28 +7,27 @@
                 xmlns:componentsAdmin="flex.admin.components.*">
 
     <mx:Metadata>
-        [Event(name=ChangeMonthEvent.CHANGED_MONTH, type="flex.event.user.ChangeMonthEvent")]
+        [Event(name=ChangeMonthEvent.CHANGED_MONTH, type="flex.user.event.ChangeMonthEvent")]
     </mx:Metadata>
 
     <mx:Script><![CDATA[
         import flex.admin.model.UserEntry;
-        import flex.data.Holiday;
-        import flex.event.user.ChangeMonthEvent;
-        import flex.event.user.GetSelectedDateRangeEvent;
-        import flex.event.user.HolidaySendRequestEvent;
-        import flex.service.HolidayFlexService;
+        import flex.user.event.ChangeMonthEvent;
+        import flex.user.event.GetSelectedDateRangeEvent;
+        import flex.user.event.HolidaySendRequestEvent;
         import flex.user.components.HolidayApplyForm;
+        import flex.user.services.UserDataService;
+        import flex.user.services.impl.UserDataServiceImpl;
 
         import mx.collections.ArrayCollection;
         import mx.controls.Alert;
-        import mx.core.Application;
         import mx.managers.PopUpManager;
         import mx.rpc.events.ResultEvent;
 
         public var userName:String = "Kowalski";// Application.application.parameters.name1.toString();
         public var userLogin:String = "kowalski";// Application.application.parameters.name2.toString();
 
-        private var holidayFlexService:HolidayFlexService;
+        private var userDataService:UserDataService;
 
         [Bindable]
         private var formatDateString:String = 'DD - MM - YYYY';
@@ -38,7 +37,7 @@
 
         private function initializeHandler():void {
             /*pobranie danych do tabeli*/
-            holidayFlexService = new HolidayFlexService();
+            userDataService = new UserDataServiceImpl();
             getDataForMonth(getFirstOfTheMonth(new Date()));
             /*dodanie danych do EntryGrid, czyli kwadraty z numerami dat*/
             userEntry = new UserEntry(userName, userLogin,
@@ -67,11 +66,15 @@
         }
 
         private function holidayFormSendRequestListener(event:HolidaySendRequestEvent):void {
-            holidayFlexService.requestHoliday(event.holidayData, succesfullyAddedHolidayRequestHandler);
+            userDataService.requestHoliday(event.holidayData, successfullyAddedHolidayRequestHandler);
+            // jak przekazac add item do handlera, byloby fajnie
             holidayData.addItem(event.holidayData);
+
+            userEntry.readUserData(holidayData);
+            entryGrid.replaceEntries(userEntry);
         }
 
-        private function succesfullyAddedHolidayRequestHandler(event:ResultEvent):void {
+        private function successfullyAddedHolidayRequestHandler(event:ResultEvent):void {
 
             Alert.show("status: " + event.statusCode);
             if (event.result == "success") {
@@ -103,11 +106,11 @@
         }
 
         private function getDataForMonth(date:Date):void {
-            holidayFlexService.findHolidayForCurrentUserAndMonth(date, updateDataHandler)
+            userDataService.findHolidayForCurrentUserAndMonth(date, updateDataHandler)
         }
 
         private function getDataForDateRangeListener(event:GetSelectedDateRangeEvent):void {
-            holidayFlexService.findHolidayForCurrentUserDatesBetween(event.dateFrom, event.dateTo, updateDataRangeHandler);
+            userDataService.findHolidayForCurrentUserDatesBetween(event.dateFrom, event.dateTo, updateDataRangeHandler);
         }
 
         private function showWindow():void {

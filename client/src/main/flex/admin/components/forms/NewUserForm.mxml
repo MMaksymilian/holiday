@@ -1,0 +1,53 @@
+<mx:Form id="addUserForm" width="100%" color="0x323232" xmlns:mx="http://www.adobe.com/2006/mxml">
+    <mx:FormHeading fontSize="10"  label="Dodanie nowego użytkownika" paddingTop="0" />
+
+    <mx:FormItem label="Imię: " required="true">
+        <mx:TextInput id="fNameAddUser" width="200"/>
+    </mx:FormItem>
+
+    <mx:FormItem label="Nazwisko: " required="true">
+        <mx:TextInput id="lNameAddUser" width="200"/>
+    </mx:FormItem>
+
+    <mx:FormItem label="Login: " required="true">
+        <mx:TextInput id="loginAddUser" width="200"/>
+    </mx:FormItem>
+
+    <mx:FormItem label="Hasło: " required="true">
+        <mx:TextInput id="passwordAddUser" width="200"/>
+    </mx:FormItem>
+
+    <mx:FormItem label="Uprawnienia użytkownika: ">
+        <mx:ComboBox id="roleAddUser" dataProvider="{authorities}" width="300" color="0x000000"/>
+    </mx:FormItem>
+
+    <mx:FormItem >
+        <mx:Button id="submitButton" label="Zatwierdź" cornerRadius="12" click="submitButton_clickHandler(event)"/>
+    </mx:FormItem>
+
+    <mx:Script><![CDATA[
+        import mx.collections.ArrayCollection;
+        import flex.admin.event.CreateNewUserEvent;
+
+        [Bindable]
+        public var authorities:ArrayCollection = new ArrayCollection(
+                [
+                    {label:"ADMINISTRATOR/SZEF", data:"ROLE_CHIEF"},
+                    {label:"PRACOWNIK", data:"ROLE_USER"}
+                ]);
+
+        private function submitButton_clickHandler(event:MouseEvent):void {
+            var serviceUser:ServiceUser = new ServiceUser();
+            serviceUser.firstName = fNameAddUser.text;
+            serviceUser.lastName = lNameAddUser.text;
+            serviceUser.login = loginAddUser.text;
+            serviceUser.password = passwordAddUser.text;
+            serviceUser.role = roleAddUser.selectedItem.data;
+            var eventObject:CreateNewUserEvent = new CreateNewUserEvent(CreateNewUserEvent.CREATE_NEW_USER, serviceUser);
+            dispatchEvent(eventObject);
+        }
+     ]]></mx:Script>
+    <mx:Metadata>
+        [Event(name=CreateNewUserEvent.CREATE_NEW_USER, type="flex.admin.event.CreateNewUserEvent")]
+    </mx:Metadata>
+</mx:Form>

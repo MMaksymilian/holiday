@@ -8,14 +8,13 @@
 
     <mx:Script>
         <![CDATA[
+        import flex.admin.services.AdminDataService;
+        import flex.admin.services.impl.AdminDataServiceImpl;
         import flex.data.Holiday;
-        import flex.service.HolidayFlexService;
-
-        import mx.controls.Alert;
 
         //można było przenieść do main'a
         private function sendAcceptHolidayRequest(holiday:Holiday):void {
-            var flexService:HolidayFlexService = new HolidayFlexService();
+            var flexService:AdminDataService = new AdminDataServiceImpl();
             flexService.acceptHoliday(holiday, successfullyRemoved);
             dispatchEvent(new Event('deleteRow', true));
         }

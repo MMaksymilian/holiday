@@ -7,6 +7,7 @@
  */
 package flex.admin.services.impl {
 import flex.admin.services.AdminDataService;
+import flex.data.Holiday;
 import flex.data.ServiceUser;
 import flex.service.BaseService;
 
@@ -50,6 +51,33 @@ public class AdminDataServiceImpl extends BaseService implements AdminDataServic
         }
         rpcCall = remoteService.createNewUser(serviceUser);
         rpcCall.addResponder(new Responder(handler, errHandler));
+    }
+
+    public function findDataForChosenUser(login:String,  handler:Function = null, errHandler:Function = null):void {
+        var rpcCall:AsyncToken;
+        if (errHandler == null) {
+            errHandler = handler_generalFault;
+        }
+        rpcCall = remoteService.findDataForChosenUser(login);
+        rpcCall.addResponder(new Responder(handler,  errHandler));
+    }
+
+    public function acceptHoliday(holiday:Holiday, handler:Function = null, errHandler:Function = null):void {
+        var rpcCall:AsyncToken;
+        if (errHandler == null) {
+            errHandler = handler_generalFault;
+        }
+        rpcCall = remoteService.acceptHoliday(holiday);
+        rpcCall.addResponder(new Responder(handler, errHandler));
+    }
+
+    public function rejectHoliday(holiday:Holiday,handler:Function = null, errHandler:Function = null):void {
+        var rpcCall:AsyncToken;
+        if (errHandler == null) {
+            errHandler = handler_generalFault;
+        }
+        rpcCall = remoteService.rejectHoliday(holiday);
+        rpcCall.addResponder(new Responder(handler, errHandler))
     }
 }
 }

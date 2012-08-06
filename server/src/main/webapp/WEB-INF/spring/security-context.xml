@@ -12,7 +12,12 @@
         <form-login default-target-url="/flex/success.do"/>
     </http>
 
-    <global-method-security pre-post-annotations="enabled"/>
+    <global-method-security>
+        <protect-pointcut expression="execution(* test.primaris.service.UserDataService.*(..))"
+                          access="ROLE_USER"/>
+        <protect-pointcut expression="execution(* test.primaris.service.AdminDataService.*(..))"
+                          access="ROLE_CHIEF"/>
+    </global-method-security>
 
     <beans:bean id="userDetailsService"
           class="test.primaris.security.UserDetailsServiceImpl" />

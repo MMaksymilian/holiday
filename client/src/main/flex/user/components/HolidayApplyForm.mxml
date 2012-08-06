@@ -45,7 +45,7 @@
     </mx:Form>
 
     <mx:Metadata>
-        [Event(name=HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, type="flex.event.user.HolidaySendRequestEvent")]
+        [Event(name=HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, type="flex.user.event.HolidaySendRequestEvent")]
 //        [Event(name=CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG, type="flex.event.user.CloseModalDialogEvent")]
     </mx:Metadata>
 
@@ -55,7 +55,7 @@
         import mx.core.IFlexDisplayObject;
         import mx.managers.PopUpManager;
         import flex.data.Holiday;
-        import flex.event.user.HolidaySendRequestEvent;
+        import flex.user.event.HolidaySendRequestEvent;
 
         [Bindable]
         private var formatDateString:String = 'DD - MM - YYYY';
@@ -69,6 +69,7 @@
         private function submitButton_clickHandler(event:MouseEvent):void {
             var holidayData:Holiday = new Holiday();
             holidayData.cause = cause.text;
+            holidayData.status = "APPLIED";
             holidayData.dateFrom = dateFrom.selectedDate;
             holidayData.dateTo = dateTo.selectedDate;
             var eventObject:HolidaySendRequestEvent = new HolidaySendRequestEvent(HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, holidayData);

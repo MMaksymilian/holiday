@@ -14,14 +14,13 @@
         </mx:FormItem>
     </mx:HBox>
     <mx:Script><![CDATA[
-        import flex.event.user.ChangeMonthEvent;
-        import flex.event.user.GetSelectedDateRangeEvent;
+        import flex.user.event.GetSelectedDateRangeEvent;
 
         import mx.controls.Alert;
 
-        public function changeDates(dateFrom:Date,  dateTo:Date):void{
-           changeDateBegining(dateFrom);
-           changeDateEnd(dateTo);
+        public function changeDates(dateFrom:Date, dateTo:Date):void {
+            changeDateBegining(dateFrom);
+            changeDateEnd(dateTo);
         }
 
         private function changeDateBegining(dateFrom:Date):void {
@@ -34,10 +33,13 @@
 
         protected function submitButton_clickHandler(event:MouseEvent):void {
             var date:Date = new Date();
-            date.setTime(periodEnd.selectedDate.getTime() + 1000*60*60*24);
+            date.setTime(periodEnd.selectedDate.getTime() + 1000 * 60 * 60 * 24);
             var eventObject:GetSelectedDateRangeEvent = new GetSelectedDateRangeEvent(GetSelectedDateRangeEvent.SELECTED_DATE_RANGE, periodBegining.selectedDate, date);
             dispatchEvent(eventObject);
         }
-
-    ]]></mx:Script>
+        ]]></mx:Script>
+    <mx:Metadata>
+        [Event(name=GetSelectedDateRangeEvent.SELECTED_DATE_RANGE, type="flex.user.event.GetSelectedDateRangeEvent")]
+        //        [Event(name=CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG, type="flex.event.user.CloseModalDialogEvent")]
+    </mx:Metadata>
 </mx:Form>

@@ -8,12 +8,13 @@
 
     <mx:Script>
         <![CDATA[
+        import flex.admin.services.AdminDataService;
+        import flex.admin.services.impl.AdminDataServiceImpl;
         import flex.data.Holiday;
-        import flex.service.HolidayFlexService;
 
         //można było przenieść do main'a
         private function sendRejectHolidayRequest(holiday:Holiday):void {
-            var flexService:HolidayFlexService = new HolidayFlexService();
+            var flexService:AdminDataService = new AdminDataServiceImpl();
             flexService.rejectHoliday(holiday, successfullyRemoved);
             dispatchEvent(new Event('deleteRow', true));
         }

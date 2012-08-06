@@ -1,4 +1,4 @@
-package flex.event.user {
+package flex.user.event {
 import flash.events.Event;
 
 public class GetSelectedDateRangeEvent extends Event {

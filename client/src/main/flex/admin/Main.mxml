@@ -1,4 +1,4 @@
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="flex.admin.components.*"
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:form="flex.admin.components.forms.*" xmlns:local="flex.admin.components.*"
                 layout="absolute" backgroundGradientColors="[0x000000,0x323232]"
                 initialize="initializeHandler()" applicationComplete="onEntry()">
     <mx:Panel width="100%" height="400" paddingLeft="40" paddingRight="40" paddingTop="10" paddingBottom="10">
@@ -24,56 +24,21 @@
 
             <!--Zakładka z danymi użytkowników-->
             <mx:VBox label="Pracownicy" backgroundColor="0xDCDCDC"  width="100%" paddingLeft="40" paddingRight="40" paddingTop="10" paddingBottom="10" fontWeight="bold">
-                <mx:Form id="addUserForm" width="100%" color="0x323232">
-                    <mx:FormHeading fontSize="10"  label="Dodanie nowego użytkownika" paddingTop="0" />
-
-                    <mx:FormItem label="Imię: " required="true">
-                        <mx:TextInput id="fNameAddUser" width="200"/>
-                    </mx:FormItem>
-
-                    <mx:FormItem label="Nazwisko: " required="true">
-                        <mx:TextInput id="lNameAddUser" width="200"/>
-                    </mx:FormItem>
-
-                    <mx:FormItem label="Login: " required="true">
-                        <mx:TextInput id="loginAddUser" width="200"/>
-                    </mx:FormItem>
-
-                    <mx:FormItem label="Hasło: " required="true">
-                        <mx:TextInput id="passwordAddUser" width="200"/>
-                    </mx:FormItem>
-
-                    <mx:FormItem label="Uprawnienia użytkownika: ">
-                        <mx:ComboBox id="roleAddUser" dataProvider="{authorities}" width="300" color="0x000000"/>
-                    </mx:FormItem>
-
-                    <mx:FormItem >
-                        <mx:Button id="submitButton" label="Zatwierdź" cornerRadius="12" click="submitButton_clickHandler(event)"/>
-                    </mx:FormItem>
-
-                </mx:Form>
+                <form:NewUserForm/>
             </mx:VBox>
         </mx:ViewStack>
     </mx:Panel>
     <mx:Script><![CDATA[
-        import flex.admin.components.HolidayAcceptForm;
-        import flex.admin.components.forms.DecisionForm;
-        import flex.admin.model.UserEntry;
+        import flex.admin.components.forms.HolidayAcceptForm;
+        import flex.admin.event.CreateNewUserEvent;
         import flex.admin.model.UserEntry;
         import flex.admin.services.AdminDataService;
         import flex.admin.services.impl.AdminDataServiceImpl;
         import flex.admin.services.impl.AdminDataServiceMock;
-        import flex.data.ServiceUser;
-        import flex.event.admin.AcceptHolidayEvent;
-        import flex.event.admin.CreateNewUserEvent;
-        import flex.event.admin.RejectHolidayEvent;
-        import flex.service.HolidayFlexService;
 
         import mx.collections.ArrayCollection;
-
         import mx.controls.Alert;
         import mx.managers.PopUpManager;
-        import mx.messaging.events.MessageEvent;
         import mx.rpc.events.ResultEvent;
 
         public var username:String = "szef";
@@ -82,25 +47,19 @@
         [Bindable]
         private var chosenMonth:Date;
 
-        private var holidayFlexService:HolidayFlexService;
-
         private var adminDataService:AdminDataService;
 
-        [Bindable]
-        public var authorities:ArrayCollection = new ArrayCollection(
-                [ {label:"ADMINISTRATOR/SZEF", data:"CHIEF"},
-                  {label:"PRACOWNIK", data:"USER"} ]);
 
         private var holidayForm:HolidayAcceptForm;
+
         private function initializeHandler():void {
             adminDataService = new AdminDataServiceImpl();
-            holidayFlexService = new HolidayFlexService();
         }
 
         private function showWindow():void {
             holidayForm = HolidayAcceptForm(PopUpManager.createPopUp(this, HolidayAcceptForm, true));
 //            PopUpManager.centerPopUp(holidayForm as Dialog);
-            holidayFlexService.findDataForChosenUser('kowalski', updateModalDialog);
+            adminDataService.findDataForChosenUser('kowalski', updateModalDialog);
 //            holidayForm.addEventListener(AcceptHolidayEvent.acceptHolidayEvent, sendAcceptHolidayRequest);
 //            holidayForm.addEventListener(RejectHolidayEvent.rejectHolidayEvent, sendRejectHolidayRequest);
         }
@@ -133,17 +92,6 @@
             entryGrid.addEntry(userEntry);
         }
 
-        private function submitButton_clickHandler(event:MouseEvent):void {
-            var serviceUser:ServiceUser = new ServiceUser();
-            serviceUser.firstName = fNameAddUser.text;
-            serviceUser.lastName = lNameAddUser.text;
-            serviceUser.login = loginAddUser.text;
-            serviceUser.password = passwordAddUser.text;
-            serviceUser.role = roleAddUser.selectedItem.data;
-            var eventObject:CreateNewUserEvent = new CreateNewUserEvent(CreateNewUserEvent.CREATE_NEW_USER, serviceUser);
-            dispatchEvent(eventObject);
-        }
-
         private function sendCreateNewUserRequest(event:CreateNewUserEvent):void {
             adminDataService.createNewUser(event.newUser, successfullyCreatedNewUserHandler);
         }
@@ -151,12 +99,7 @@
         private function successfullyCreatedNewUserHandler(event:ResultEvent):void {
             Alert.show('Utworzono nowego użytkownika');
         }
-
         ]]></mx:Script>
-
-    <mx:Metadata>
-        [Event(name=CreateNewUserEvent.CREATE_NEW_USER, type="flex.event.admin.CreateNewUserEvent")]
-    </mx:Metadata>
 
     <mx:StringValidator minLength="6" maxLength="100"  source="{passwordAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
     <mx:Validator required="true" source="{fNameAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>

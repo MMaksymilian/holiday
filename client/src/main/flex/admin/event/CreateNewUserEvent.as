@@ -1,4 +1,4 @@
-package flex.event.admin {
+package flex.admin.event {
 import flash.events.Event;
 
 import flex.data.ServiceUser;
