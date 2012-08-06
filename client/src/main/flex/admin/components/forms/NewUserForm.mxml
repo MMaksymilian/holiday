@@ -1,4 +1,4 @@
-<mx:Form id="addUserForm" width="100%" color="0x323232" xmlns:mx="http://www.adobe.com/2006/mxml">
+<mx:Form width="100%" color="0x323232" xmlns:mx="http://www.adobe.com/2006/mxml">
     <mx:FormHeading fontSize="10"  label="Dodanie nowego użytkownika" paddingTop="0" />
 
     <mx:FormItem label="Imię: " required="true">
@@ -26,6 +26,8 @@
     </mx:FormItem>
 
     <mx:Script><![CDATA[
+        import flex.data.ServiceUser;
+
         import mx.collections.ArrayCollection;
         import flex.admin.event.CreateNewUserEvent;
 
@@ -50,4 +52,8 @@
     <mx:Metadata>
         [Event(name=CreateNewUserEvent.CREATE_NEW_USER, type="flex.admin.event.CreateNewUserEvent")]
     </mx:Metadata>
+    <mx:StringValidator minLength="6" maxLength="100"  source="{passwordAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
+    <mx:Validator required="true" source="{fNameAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
+    <mx:Validator required="true" source="{lNameAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
+    <mx:Validator required="true" source="{loginAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
 </mx:Form>

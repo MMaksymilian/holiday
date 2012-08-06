@@ -100,9 +100,4 @@
             Alert.show('Utworzono nowego użytkownika');
         }
         ]]></mx:Script>
-
-    <mx:StringValidator minLength="6" maxLength="100"  source="{passwordAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
-    <mx:Validator required="true" source="{fNameAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
-    <mx:Validator required="true" source="{lNameAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
-    <mx:Validator required="true" source="{loginAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
 </mx:Application>
