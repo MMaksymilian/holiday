@@ -14,7 +14,12 @@
             width: $(window).width() - 50,
             height:'600',
             wmode: 'window',
-            allowFullScreen: 'true'
+            allowFullScreen: 'true',
+            flashvars: {
+                name1: 'Jacek',
+                name2: 'Placek',
+                name3: 'Plugin'
+            }
         });
     })
 //    screen.width - 50

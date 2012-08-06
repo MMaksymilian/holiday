@@ -16,6 +16,7 @@
         <blaze.version>4.0.0.14931</blaze.version>
         <flex.version>3.4.1.10084</flex.version>
         <swf.path>${project.build.directory}/bin</swf.path>
+        <flashPlayer.command>${project.basedir}/utils/flashplayer_10_sa_debug.exe</flashPlayer.command>
     </properties>
 
     <dependencies>
@@ -70,6 +71,14 @@
             <systemPath>${project.basedir}/lib/blazeds-common-4.0.0.14931.jar</systemPath>
         </dependency>
 
+        <dependency>
+            <groupId>com.adobe.flexunit</groupId>
+            <artifactId>flexunit</artifactId>
+            <version>4.0-rc-1</version>
+            <type>swc</type>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <repositories>
@@ -102,7 +111,7 @@
 
     <build>
         <sourceDirectory>src/main</sourceDirectory>
-
+        <testSourceDirectory>src/test</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.sonatype.flexmojos</groupId>
@@ -135,36 +144,51 @@
                         </configuration>
                     </execution>-->
 
-                    <!--<execution>
+                    <!--<execution>-->
+                    <!--<id>compile-user-swf</id>-->
+                    <!--<goals>-->
+                    <!--<goal>compile-swf</goal>-->
+                    <!--</goals>-->
+                    <!--<configuration>-->
+                    <!--<sourceFile>${basedir}/src/main/flex/user/Main.mxml</sourceFile>-->
+                    <!--<output>${swf.path}/user.swf</output>-->
+                    <!--<contextRoot>/${project.build.finalName}</contextRoot>-->
+                    <!--<services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>-->
+                    <!--<debug>true</debug>-->
+                    <!--<useResourceBundleMetadata>true</useResourceBundleMetadata>-->
+                    <!--&lt;!&ndash;<allowSourcePathOverlap>true</allowSourcePathOverlap>&ndash;&gt;-->
+                    <!--</configuration>-->
+                    <!--</execution>-->
+
+                    <execution>
                         <id>compile-login-swf</id>
                         <goals>
                             <goal>compile-swf</goal>
                         </goals>
                         <configuration>
                             <sourceFile>${basedir}/src/main/flex/login/Main.mxml</sourceFile>
-
                             <output>${swf.path}/login.swf</output>
                             <contextRoot>/${project.build.finalName}</contextRoot>
                             <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
                             <debug>true</debug>
                             <useResourceBundleMetadata>true</useResourceBundleMetadata>
                         </configuration>
-                    </execution>-->
-
-                    <execution>
-                        <id>compile-admin-swf</id>
-                        <goals>
-                            <goal>compile-swf</goal>
-                        </goals>
-                        <configuration>
-                            <sourceFile>${basedir}/src/main/flex/admin/Main.mxml</sourceFile>
-                            <output>${swf.path}/admin.swf</output>
-                            <contextRoot>/${project.build.finalName}</contextRoot>
-                            <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
-                            <debug>true</debug>
-                            <useResourceBundleMetadata>true</useResourceBundleMetadata>
-                        </configuration>
                     </execution>
+
+                    <!--<execution>-->
+                    <!--<id>compile-admin-swf</id>-->
+                    <!--<goals>-->
+                    <!--<goal>compile-swf</goal>-->
+                    <!--</goals>-->
+                    <!--<configuration>-->
+                    <!--<sourceFile>${basedir}/src/main/flex/admin/Main.mxml</sourceFile>-->
+                    <!--<output>${swf.path}/admin.swf</output>-->
+                    <!--<contextRoot>/${project.build.finalName}</contextRoot>-->
+                    <!--<services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>-->
+                    <!--<debug>true</debug>-->
+                    <!--<useResourceBundleMetadata>true</useResourceBundleMetadata>-->
+                    <!--</configuration>-->
+                    <!--</execution>-->
                 </executions>
             </plugin>
         </plugins>

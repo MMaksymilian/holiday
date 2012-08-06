@@ -19,10 +19,10 @@ public class LoginSuccessController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String  redirectAfterLogin(HttpServletRequest httpServletRequest) {
-        if (httpServletRequest.isUserInRole("CHIEF")) {
+        if (httpServletRequest.isUserInRole("ROLE_CHIEF")) {
             return "chief";
         }
-        if (httpServletRequest.isUserInRole("USER")) {
+        if (httpServletRequest.isUserInRole("ROLE_USER")) {
             return "user";
 
         }

@@ -34,6 +34,33 @@ public class UserEntry {
         }
     }
 
+    public function readUserData(holidayData:ArrayCollection):void {
+        for (var i:int = 0; i < holidayData.length; i++) {
+            var MS_PER_DAY:uint = 1000 * 60 * 60 * 24;
+            var beginingDate:Date = holidayData[i].dateFrom;
+            var tempDate:Date = new Date(holidayData[i].dateTo - beginingDate.getTime());
+            if (holidayData[i].dateFrom.getMonth() < month) {
+                var firstOfMonth:Date = new Date(year,  month,  1);
+                beginingDate = firstOfMonth;
+                tempDate = new Date(holidayData[i].dateTo - firstOfMonth.getTime());
+            }
+            var difference:int = Math.round(tempDate.time / MS_PER_DAY);
+            var beginningIndex:int = beginingDate.getDate() - 1;
+            for(var iDate:int = 0; (iDate <= difference) && ((beginningIndex + iDate) < dataCollection.length) ; iDate++) {
+                var status:String = holidayData[i].status;
+                if (status == "APPROVED") {
+                    dataCollection[beginningIndex + iDate] = STATUS_ACCEPTED;
+                } else if (status == "APPLIED") {
+                    dataCollection[beginningIndex + iDate] = STATUS_WAITING;
+                } else if (status == "REJECTED") {
+                    dataCollection[beginningIndex + iDate] = STATUS_REJECTED;
+                }
+            }
+//            Alert.show( (holidayData[i].dateFrom.getDate() - 1).toString() );
+//            Alert.show(dataCollection + "");
+        }
+    }
+
     public function setHoliday(from:int, to:int, status:int = 0):void {
         for(var i:int=from; i<=to; i++){
             dataCollection[i-1] = status;

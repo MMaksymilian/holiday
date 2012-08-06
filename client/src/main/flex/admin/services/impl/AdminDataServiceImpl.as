@@ -7,6 +7,8 @@
  */
 package flex.admin.services.impl {
 import flex.admin.services.AdminDataService;
+import flex.data.Holiday;
+import flex.data.ServiceUser;
 import flex.service.BaseService;
 
 import mx.rpc.AsyncToken;
@@ -40,6 +42,42 @@ public class AdminDataServiceImpl extends BaseService implements AdminDataServic
     public function sendDecision(dtoId:Number, decisionStatus:int, cause:String,  handler:Function):void {
         var rpcCall:AsyncToken = remoteService.sendDecision(dtoId, decisionStatus, cause);
         rpcCall.addResponder(new Responder(handler, handler_generalFault));
+    }
+
+    public function createNewUser(serviceUser:ServiceUser,  handler:Function, errHandler:Function = null) {
+        var rpcCall:AsyncToken;
+        if (errHandler == null) {
+            errHandler = handler_generalFault;
+        }
+        rpcCall = remoteService.createNewUser(serviceUser);
+        rpcCall.addResponder(new Responder(handler, errHandler));
+    }
+
+    public function findDataForChosenUser(login:String,  handler:Function = null, errHandler:Function = null):void {
+        var rpcCall:AsyncToken;
+        if (errHandler == null) {
+            errHandler = handler_generalFault;
+        }
+        rpcCall = remoteService.findDataForChosenUser(login);
+        rpcCall.addResponder(new Responder(handler,  errHandler));
+    }
+
+    public function acceptHoliday(holiday:Holiday, handler:Function = null, errHandler:Function = null):void {
+        var rpcCall:AsyncToken;
+        if (errHandler == null) {
+            errHandler = handler_generalFault;
+        }
+        rpcCall = remoteService.acceptHoliday(holiday);
+        rpcCall.addResponder(new Responder(handler, errHandler));
+    }
+
+    public function rejectHoliday(holiday:Holiday,handler:Function = null, errHandler:Function = null):void {
+        var rpcCall:AsyncToken;
+        if (errHandler == null) {
+            errHandler = handler_generalFault;
+        }
+        rpcCall = remoteService.rejectHoliday(holiday);
+        rpcCall.addResponder(new Responder(handler, errHandler))
     }
 }
 }

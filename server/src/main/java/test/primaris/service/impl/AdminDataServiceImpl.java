@@ -4,6 +4,9 @@ package test.primaris.service.impl;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.flex.remoting.RemotingDestination;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import test.primaris.dao.HolidayDAO;
 import test.primaris.dao.ServiceUserDAO;
@@ -11,12 +14,15 @@ import test.primaris.entity.Holiday;
 import test.primaris.entity.ServiceUser;
 import test.primaris.entity.dto.HolidayExtDTO;
 import test.primaris.entity.dto.ServiceUserDTO;
+import test.primaris.security.TestAppUserDetails;
+import test.primaris.service.AdminDataService;
+import test.primaris.service.util.FlexServiceUtil;
 
 import java.util.*;
 
 @Service("adminDataService")
 @RemotingDestination
-public class AdminDataServiceImpl {
+public class AdminDataServiceImpl implements AdminDataService {
     private static Map<Integer, Holiday.HolidayStatus> holidayStatusMap = new HashMap<Integer, Holiday.HolidayStatus>();
     static {
         holidayStatusMap.put(0, Holiday.HolidayStatus.APPLIED);
@@ -53,7 +59,7 @@ public class AdminDataServiceImpl {
         ServiceUser currentUser;
         for(String currentLogin: loginSet){
             currentUser = serviceUserDAO.getByLogin(currentLogin);
-            userList.add(FlexService.getDTO(currentUser));
+            userList.add(FlexServiceUtil.rewriteToDTO(currentUser));
         }
 
         return userList;
@@ -110,5 +116,40 @@ public class AdminDataServiceImpl {
             case 2: return Holiday.HolidayStatus.REJECTED;
         }
         return Holiday.HolidayStatus.APPLIED;
+    }
+
+    @Override
+    public void createNewUser(ServiceUserDTO serviceUserDTO) {
+        ServiceUser serviceUser = FlexServiceUtil.rewriteToEntity(serviceUserDTO);
+        serviceUserDAO.createUser(serviceUser);
+    }
+
+    @Override
+    public String acceptHoliday(HolidayDTO holidayDTO) {
+        Holiday holiday = FlexServiceUtil.rewriteToEntity(holidayDTO);
+        holiday.setStatus(Holiday.HolidayStatus.APPROVED);
+        holidayDAO.updateHolidayStatus(holiday);
+        /*dodane bo metody nie chciały wywoływać handler'ów przy typie metody 'void'*/
+        return "success";
+    }
+
+    @Override
+    public String rejectHoliday(HolidayDTO holidayDTO) {
+        Holiday holiday = FlexServiceUtil.rewriteToEntity(holidayDTO);
+        holiday.setStatus(Holiday.HolidayStatus.REJECTED);
+        holidayDAO.updateHolidayStatus(holiday);
+        /*dodane bo metody nie chciały wywoływać handler'ów przy typie metody 'void'*/
+        return "success";
+    }
+
+    @Override
+    public List<HolidayDTO> findDataForChosenUser(String login) {
+        ServiceUser serviceUser = serviceUserDAO.getByLogin(login);
+        List<Holiday> holidays = holidayDAO.findHolidayWithStatus(serviceUser, Holiday.HolidayStatus.APPLIED);
+        List<HolidayDTO> holidayDTOs = new ArrayList<HolidayDTO>();
+        for (Holiday holiday : holidays) {
+            holidayDTOs.add(FlexServiceUtil.rewriteToDTO(holiday));
+        }
+        return holidayDTOs;
     }
 }

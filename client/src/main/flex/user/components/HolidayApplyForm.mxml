@@ -1,5 +1,5 @@
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
-                title="Podanie o urlop" x="168" y="86" status="active" close="closeModalDialog(this)" showCloseButton="true" borderAlpha="0.75">
+                title="Podanie o urlop" x="168" y="86" close="closeModalDialog(this)" showCloseButton="true" borderAlpha="0.75">
     <!-- Class selectors take precedence over type selectors -->
     <mx:Grid id="infoGrid" color="0x707070" verticalGap="10" horizontalGap="200">
         <mx:GridRow>
@@ -40,13 +40,13 @@
             </mx:TextArea>
         </mx:FormItem>
         <mx:FormItem>
-            <mx:Button id="submitButton" label="Zapisz" click="submitButton_clickHandler(event)"/>
+            <mx:Button id="submitButton" label="Zapisz" cornerRadius="12" click="submitButton_clickHandler(event)"/>
         </mx:FormItem>
     </mx:Form>
 
     <mx:Metadata>
-        [Event(name=HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, type="flex.event.user.HolidaySendRequestEvent")]
-        [Event(name=CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG, type="flex.event.user.CloseModalDialogEvent")]
+        [Event(name=HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, type="flex.user.event.HolidaySendRequestEvent")]
+//        [Event(name=CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG, type="flex.event.user.CloseModalDialogEvent")]
     </mx:Metadata>
 
     <mx:Script><![CDATA[
@@ -55,20 +55,21 @@
         import mx.core.IFlexDisplayObject;
         import mx.managers.PopUpManager;
         import flex.data.Holiday;
-        import flex.event.user.HolidaySendRequestEvent;
-        import flex.event.user.CloseModalDialogEvent;
+        import flex.user.event.HolidaySendRequestEvent;
 
+        [Bindable]
         private var formatDateString:String = 'DD - MM - YYYY';
 
-        protected function closeModalDialog(window:IFlexDisplayObject):void {
-            var eventObject:CloseModalDialogEvent = new CloseModalDialogEvent(CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG);
-            dispatchEvent(eventObject);
+        private function closeModalDialog(window:IFlexDisplayObject):void {
+//            var eventObject:CloseModalDialogEvent = new CloseModalDialogEvent(CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG);
+//            dispatchEvent(eventObject);
             PopUpManager.removePopUp(window);
         }
 
-        protected function submitButton_clickHandler(event:MouseEvent):void {
+        private function submitButton_clickHandler(event:MouseEvent):void {
             var holidayData:Holiday = new Holiday();
             holidayData.cause = cause.text;
+            holidayData.status = "APPLIED";
             holidayData.dateFrom = dateFrom.selectedDate;
             holidayData.dateTo = dateTo.selectedDate;
             var eventObject:HolidaySendRequestEvent = new HolidaySendRequestEvent(HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, holidayData);

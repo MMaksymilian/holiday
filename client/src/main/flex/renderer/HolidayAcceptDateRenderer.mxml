@@ -4,6 +4,7 @@
 
     <mx:Script><![CDATA[
 
+        [Bindable]
         private var formatDateString:String = 'DD - MM - YYYY';
 
     ]]></mx:Script>

@@ -27,6 +27,11 @@ public class ServiceUserDAOImpl extends BaseDAOImpl implements ServiceUserDAO {
     }
 
     @Override
+    public void createUser(ServiceUser serviceUser) {
+        getHibernateTemplate().save(serviceUser);
+    }
+
+    @Override
     public ServiceUser getById(Long id) {
         Criteria serviceUserIdCriteria = getSession().createCriteria(ServiceUser.class);
         serviceUserIdCriteria.add(Restrictions.idEq(id));

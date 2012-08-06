@@ -12,6 +12,8 @@ public class ServiceUserDTO implements Serializable {
     private String firstName;
     private String lastName;
     private String login;
+    private String role;
+    private String password;
     
     public Integer getId() {
         return id;
@@ -43,5 +45,21 @@ public class ServiceUserDTO implements Serializable {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

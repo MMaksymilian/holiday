@@ -26,6 +26,11 @@
             this.addChild(entryBox);
         }
 
+        public function replaceEntries(entry: UserEntry):void {
+            this.removeAllChildren();
+            addEntry(entry);
+        }
+
         public function clickHandler(login:String, day:int):void {
             decisionForm = DecisionForm(PopUpManager.createPopUp(this, DecisionForm, true));
             decisionForm.fetchData(login, new Date(year, month, day));

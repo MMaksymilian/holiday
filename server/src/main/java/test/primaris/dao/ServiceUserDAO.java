@@ -12,4 +12,5 @@ import test.primaris.entity.ServiceUser;
 public interface ServiceUserDAO {
     ServiceUser getById(Long id);
     ServiceUser getByLogin(String login);
+    void createUser(ServiceUser serviceUser);
 }

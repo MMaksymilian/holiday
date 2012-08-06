@@ -8,6 +8,8 @@
 package flex.admin.services.impl {
 import flex.admin.model.UserEntry;
 import flex.admin.services.AdminDataService;
+import flex.data.Holiday;
+import flex.data.ServiceUser;
 
 import mx.collections.ArrayCollection;
 import mx.controls.Alert;
@@ -90,6 +92,18 @@ public class AdminDataServiceMock implements AdminDataService {
     }
 
     public function sendDecision(dtoId:Number, decisionStatus:int, cause:String, handler:Function):void {
+    }
+
+    public function createNewUser(serviceUser:ServiceUser, handler:Function, errHandler:Function = null) {
+    }
+
+    public function findDataForChosenUser(login:String, handler:Function = null, errHandler:Function = null):void {
+    }
+
+    public function acceptHoliday(holiday:Holiday, handler:Function = null, errHandler:Function = null):void {
+    }
+
+    public function rejectHoliday(holiday:Holiday, handler:Function = null, errHandler:Function = null):void {
     }
 }
 }

@@ -16,7 +16,7 @@
         <mx:DataGridColumn dataField="cause" width="400" resizable="false" itemRenderer="mx.controls.Text" sortable="false" headerText="Powód"
                            wordWrap="true"/>
 
-        <mx:DataGridColumn dataField="status" itemRenderer="flex.renderer.ColorRenderer" headerText="Status"
+        <mx:DataGridColumn dataField="status" itemRenderer="flex.renderer.StatusRenderer" headerText="Status"
                            textAlign="center"/>
 
     </mx:columns>

@@ -1,7 +1,7 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute">
     <mx:HTTPService
             id="loginService"
-            url="http://localhost:8180/server-1.0-SNAPSHOT/j_spring_security_check"
+            url="j_spring_security_check"
             showBusyCursor="true"
             method="POST"
             result="loginServiceResultHandler(event)"
@@ -25,7 +25,7 @@
         </mx:FormItem>
 
         <mx:HBox>
-            <mx:Button id="loginButton" label="Zaloguj" click="loginService.send()"/>
+            <mx:Button id="loginButton" label="Zaloguj" cornerRadius="12" click="loginService.send()"/>
         </mx:HBox>
     </mx:Form>
 
@@ -41,14 +41,14 @@
         }
 
         private function loginFailedHandler(event:FaultEvent):void {
-            Alert.show("Invalid username/password");
+            Alert.show("Invalid username/password: " + event.toString() + " fault:" + event.fault);
         }
 
         private function roleHandler(event: ResultEvent):void {
-            if(event.result == "CHIEF"){
-                navigateToURL(new URLRequest("admin.swf"), "_self");
-            } else if(event.result == "USER"){
-                navigateToURL(new URLRequest("user.swf"), "_self");
+            if(event.result == "ROLE_CHIEF"){
+                navigateToURL(new URLRequest("chief"), "_self");
+            } else if(event.result == "ROLE_USER"){
+                navigateToURL(new URLRequest("user"), "_self");
             }
         }
         ]]></mx:Script>
