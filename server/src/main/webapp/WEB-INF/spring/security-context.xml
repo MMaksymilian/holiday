@@ -27,20 +27,29 @@
     <beans:bean id="daoAuthenticationProvider"
                 class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
         <beans:property name="userDetailsService" ref="userDetailsService"/>
+        <beans:property name="passwordEncoder" ref="passwordEncoder"/>
+        <beans:property name="saltSource" ref="saltSource"/>
     </beans:bean>
 
-    <beans:bean id="authenticationManager"
-                class="org.springframework.security.authentication.ProviderManager">
-        <beans:property name="providers">
-            <beans:list>
-                <beans:ref local="daoAuthenticationProvider"/>
-            </beans:list>
-        </beans:property>
-    </beans:bean>
+    <!--<beans:bean id="authenticationManager"-->
+                <!--class="org.springframework.security.authentication.ProviderManager">-->
+        <!--<beans:property name="providers">-->
+            <!--<beans:list>-->
+                <!--<beans:ref local="daoAuthenticationProvider"/>-->
+            <!--</beans:list>-->
+        <!--</beans:property>-->
+    <!--</beans:bean>-->
 
     <authentication-manager>
-        <authentication-provider user-service-ref="userDetailsService">
-            <!--<password-encoder hash="sha-256"/>-->
-        </authentication-provider>
+        <authentication-provider ref="daoAuthenticationProvider"/>
     </authentication-manager>
+
+    <beans:bean id="saltSource"
+          class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+        <beans:property name="userPropertyToUse" value="username"/>
+    </beans:bean>
+
+    <beans:bean id="passwordEncoder"
+          class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
+
 </beans:beans>
