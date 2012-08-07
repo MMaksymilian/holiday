@@ -1,4 +1,4 @@
-baza danych ORACLE, u¿ytkownik SYSTEM
+baza danych ORACLE,  u¿ytkownik SYSTEM
 
 create user HOLIDAY identified by has³o;    (has³o to przysz³e has³o u¿ytkownika)
 grant create session  to HOLIAY;
