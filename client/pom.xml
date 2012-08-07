@@ -128,34 +128,49 @@
                 </dependencies>
 
                 <executions>
-                    <!--<execution>
+                    <execution>
                         <id>compile-user-swf</id>
                         <goals>
                             <goal>compile-swf</goal>
+                            <goal>test-compile</goal>
+                            <goal>test-run</goal>
                         </goals>
                         <configuration>
+                            <!--COMPILE CONFIG-->
                             <sourceFile>${basedir}/src/main/flex/user/Main.mxml</sourceFile>
                             <output>${swf.path}/user.swf</output>
                             <contextRoot>/${project.build.finalName}</contextRoot>
                             <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
                             <debug>true</debug>
                             <useResourceBundleMetadata>true</useResourceBundleMetadata>
-                            <allowSourcePathOverlap>true</allowSourcePathOverlap>
+                            <!--TESTS CONFIG-->
+                            <includeTestFiles>
+                                <includeTestFile>/flex/user/suite/TestSuite.as</includeTestFile>
+                            </includeTestFiles>
+                            <skipTest>true</skipTest>
                         </configuration>
-                    </execution>-->
+                    </execution>
 
                     <execution>
                         <id>compile-login-swf</id>
                         <goals>
                             <goal>compile-swf</goal>
+                            <goal>test-compile</goal>
+                            <goal>test-run</goal>
                         </goals>
                         <configuration>
+                            <!--COMPILE CONFIG-->
                             <sourceFile>${basedir}/src/main/flex/login/Main.mxml</sourceFile>
                             <output>${swf.path}/login.swf</output>
                             <contextRoot>/${project.build.finalName}</contextRoot>
                             <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
                             <debug>true</debug>
                             <useResourceBundleMetadata>true</useResourceBundleMetadata>
+                            <!--TEST CONFIG-->
+                            <includeTestFiles>
+                                <includeTestFile>/flex/login/suite/TestSuite.as</includeTestFile>
+                            </includeTestFiles>
+                            <skipTest>true</skipTest>
                         </configuration>
                     </execution>
 
@@ -163,14 +178,22 @@
                         <id>compile-admin-swf</id>
                         <goals>
                             <goal>compile-swf</goal>
+                            <goal>test-compile</goal>
+                            <goal>test-run</goal>
                         </goals>
                         <configuration>
+                            <!--COMPILE CONFIG-->
                             <sourceFile>${basedir}/src/main/flex/admin/Main.mxml</sourceFile>
                             <output>${swf.path}/admin.swf</output>
                             <contextRoot>/${project.build.finalName}</contextRoot>
                             <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
                             <debug>true</debug>
                             <useResourceBundleMetadata>true</useResourceBundleMetadata>
+                            <!--TEST CONFIG-->
+                            <includeTestFiles>
+                                <includeTestFile>/flex/admin/suite/TestSuite.as</includeTestFile>
+                            </includeTestFiles>
+                            <skipTest>true</skipTest>
                         </configuration>
                     </execution>
                 </executions>

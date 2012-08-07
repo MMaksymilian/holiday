@@ -11,10 +11,10 @@
 
     <channels>
         <channel-definition id="serviceUser-amf" class="mx.messaging.channels.AMFChannel">
-            <!--TODO albo spring/messagebroker/amf-->
+            <!--TODO nie moze byc hardkodu-->
             <endpoint url="http://{server.name}:{server.port}/server-1.0-SNAPSHOT/flex/messagebroker/amf"
                       class="flex.messaging.endpoints.AMFEndpoint"/>
-            <!--TODO albo spring/messagebroker/amf-->
+            <!--TODO nie moze byc hardkodu-->
         </channel-definition>
     </channels>
 

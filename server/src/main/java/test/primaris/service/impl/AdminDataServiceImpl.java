@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.flex.remoting.RemotingDestination;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -127,6 +128,8 @@ public class AdminDataServiceImpl implements AdminDataService {
     @Override
     public void createNewUser(ServiceUserDTO serviceUserDTO) {
         ServiceUser serviceUser = FlexServiceUtil.rewriteToEntity(serviceUserDTO);
+        ShaPasswordEncoder encoder = new ShaPasswordEncoder();
+        serviceUser.setPassword(encoder.encodePassword(serviceUser.getPassword(), serviceUser.getLogin()));
         serviceUserDAO.createUser(serviceUser);
     }
 

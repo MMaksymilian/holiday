@@ -86,7 +86,7 @@
             }
         }
 
-        private function chooseDate():void {
+        private function chooseDate(event:Event):void {
             var chosenDate:Date = holidayDateChooser.selectedDate;
             var from:Date = getFirstOfTheMonth(chosenDate);
             var month:int = from.getMonth();
@@ -128,7 +128,7 @@
 
     <mx:Panel width="100%" backgroundColor="0xDCDCDC" paddingLeft="40" paddingRight="40" paddingTop="10" paddingBottom="10">
             <components:DateRange id="dateRange"/>
-        <componentsAdmin:MonthChooser id="holidayDateChooser" yearNavigationEnabled="true" styleName="monthChooserStyles" change="{chooseDate()}"/>
+        <componentsAdmin:MonthChooser id="holidayDateChooser" yearNavigationEnabled="true" styleName="monthChooserStyles" change="chooseDate(event)"/>
         <componentsAdmin:EntryGrid id="entryGrid"/>
         <mx:VBox horizontalAlign="center">
             <components:HolidayTable id="holidayTable" dateFormatString="{formatDateString}"/>
