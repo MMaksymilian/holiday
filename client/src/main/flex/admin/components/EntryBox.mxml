@@ -1,5 +1,5 @@
 <mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="flex.admin.components.*" creationComplete="onComplete()">
-    <mx:TextArea id="nameLabel" text="{labelText}" editable="false"/>
+    <mx:TextArea id="nameLabel" text="{labelText}" editable="false" height="20" width="200"/>
 
     <mx:Script><![CDATA[
         import flex.admin.model.UserEntry;

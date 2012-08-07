@@ -32,6 +32,8 @@
         import mx.managers.PopUpManager;
         import mx.rpc.events.ResultEvent;
 
+        public var decisionHandler: Function;
+
         private var dtoId:Number;
         [Bindable]
         private var fullname:String = "";
@@ -49,12 +51,18 @@
             adminDataService.fetchHoliday(login, gDay, update);
         }
 
+
         public function sendDecision(decisionStatus:int):void {
             adminDataService.sendDecision(dtoId, decisionStatus, "", handleSendRequest);
             close();
         }
 
         private function handleSendRequest(event:ResultEvent):void {
+            if(decisionHandler!=null){
+                decisionHandler();
+            } else {
+                Alert.show("DH null!");
+            }
             Alert.show("Decision sent succesfully");
             AdminDataServiceImpl(adminDataService).disconnect();
         }

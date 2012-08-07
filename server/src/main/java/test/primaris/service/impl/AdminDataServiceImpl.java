@@ -68,7 +68,12 @@ public class AdminDataServiceImpl implements AdminDataService {
     
     public List<HolidayExtDTO> getEntriesForMonth(int year, int month){
         DateTime startingDate = new DateTime(year, month, 1, 0, 0);
-        DateTime endingDate = new DateTime(year, month+1, 1, 0, 0);
+        DateTime endingDate = null;
+        if(month==12){
+            endingDate = new DateTime(year+1, 1, 1, 0, 0);
+        } else {
+            endingDate = new DateTime(year, month+1, 1, 0, 0);
+        }
 
         List<Holiday> inRange = holidayDAO.findHolidaysInRange(startingDate, endingDate);
         List<Holiday> outsideRange = holidayDAO.findHolidaysContainingRange(startingDate, endingDate);

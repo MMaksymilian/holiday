@@ -17,7 +17,7 @@
                         change="updateDates()"/>
                 <mx:Button color="0x323232" height="32" label="Napisz podanie o urlop" cornerRadius="12" click="showWindow();"/>
 
-                <local:EntryGrid id="entryGrid">
+                <local:EntryGrid id="entryGrid" creationComplete="entryGrid.setDecisionHandler(updateDates);">
 
                 </local:EntryGrid>
             </mx:VBox>
@@ -54,7 +54,7 @@
         private var holidayForm:HolidayAcceptForm;
 
         private function initializeHandler():void {
-
+            updateDates();
         }
 
         private function showWindow():void {
@@ -70,12 +70,9 @@
 
         private function updateDates():void {
             chosenMonth = mChosenMonth.selectedDate;
-        }
-
-        private function updateGrid():void {
-            entryGrid.year = 2012;
-            entryGrid.month = 8;
-            adminDataService.getEntries(2012, 8, handleUpdate);
+            entryGrid.year = chosenMonth.fullYear;
+            entryGrid.month = chosenMonth.month+1;
+            adminDataService.getEntries(chosenMonth.fullYear, chosenMonth.month+1, handleUpdate);
         }
 
         private function handleUpdate(event: ResultEvent):void {
@@ -85,7 +82,6 @@
 
         private function onEntry():void {
             addEventListener(CreateNewUserEvent.CREATE_NEW_USER, sendCreateNewUserRequest);
-            updateGrid();
         }
 
 

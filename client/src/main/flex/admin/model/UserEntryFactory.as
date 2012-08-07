@@ -8,6 +8,7 @@
 package flex.admin.model {
 
 import mx.collections.ArrayCollection;
+import mx.controls.Alert;
 
 public class UserEntryFactory {
     public var year:int;
@@ -60,8 +61,10 @@ public class UserEntryFactory {
                     lastDay = dto.dateTo.date;
                 }
 
+                /*Alert.show("From: "+dto.dateFrom.toDateString()+" FOTM: "+firstDayOfTheMonth.toDateString()+" C:"+compareDates(dto.dateFrom, firstDayOfTheMonth)
+                           +"\nTo: "+dto.dateTo.toDateString()+" LOTM: "+lastDayOfTheMonth.toDateString()+" C:"+compareDates(dto.dateTo, lastDayOfTheMonth));*/
                 entry.setHoliday(firstDay, lastDay, translateStatus(dto.status));
-            }
+            }                                                            
         }
 
         return entry;
