@@ -40,6 +40,7 @@
         import flex.admin.services.impl.AdminDataServiceMock;
 
         import mx.collections.ArrayCollection;
+        import mx.controls.Alert;
         import mx.managers.PopUpManager;
         import mx.rpc.events.ResultEvent;
 
@@ -49,7 +50,6 @@
         [Bindable]
         private var chosenMonth:Date;
         private var adminDataService:AdminDataService = new AdminDataServiceImpl();
-        private var adminDataService:AdminDataService;
 
         private var holidayForm:HolidayAcceptForm;
 
@@ -62,13 +62,6 @@
             adminDataService.findDataForChosenUser('kowalski', updateModalDialog);
         }
 
-        //        private function sendAcceptHolidayRequest(event:AcceptHolidayEvent) {
-        //            Alert.show('Akceptuj');
-        //        }
-        //
-        //        private function sendRejectHolidayRequest(event:RejectHolidayEvent) {
-        //            Alert.show('Odrzuć');
-        //        }
         private function updateModalDialog(event:ResultEvent):void {
             var currentUserData:ArrayCollection = new ArrayCollection();
             currentUserData.source = (event.result as ArrayCollection).source;
@@ -84,18 +77,14 @@
             entryGrid.month = 8;
             adminDataService.getEntries(2012, 8, handleUpdate);
         }
-        private function onEntry():void {
 
-            addEventListener(CreateNewUserEvent.CREATE_NEW_USER, sendCreateNewUserRequest);
-            var adminDataServiceMock:AdminDataServiceMock = new AdminDataServiceMock();
-
-            var collection:ArrayCollection = adminDataServiceMock.getEntries(2012, 6);
         private function handleUpdate(event: ResultEvent):void {
             var entryCollection:ArrayCollection = event.result as ArrayCollection;
             entryGrid.update(entryCollection);
         }
 
         private function onEntry():void {
+            addEventListener(CreateNewUserEvent.CREATE_NEW_USER, sendCreateNewUserRequest);
             updateGrid();
         }
 

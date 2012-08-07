@@ -41,7 +41,7 @@
         }
 
         private function loginFailedHandler(event:FaultEvent):void {
-            Alert.show("Invalid username/password: " + event.toString() + " fault:" + event.fault);
+            Alert.show(event.toString());
         }
 
         private function roleHandler(event: ResultEvent):void {

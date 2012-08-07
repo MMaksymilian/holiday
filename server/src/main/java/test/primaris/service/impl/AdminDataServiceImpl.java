@@ -12,6 +12,7 @@ import test.primaris.dao.HolidayDAO;
 import test.primaris.dao.ServiceUserDAO;
 import test.primaris.entity.Holiday;
 import test.primaris.entity.ServiceUser;
+import test.primaris.entity.dto.HolidayDTO;
 import test.primaris.entity.dto.HolidayExtDTO;
 import test.primaris.entity.dto.ServiceUserDTO;
 import test.primaris.security.TestAppUserDetails;
@@ -84,7 +85,7 @@ public class AdminDataServiceImpl implements AdminDataService {
         ServiceUser currentUser;
         for(Holiday holiday: list){
             currentUser = holiday.getServiceUser();
-            dtoList.add(FlexService.rewriteToExtDTO(currentUser, holiday));
+            dtoList.add(FlexServiceUtil.rewriteToExtDTO(currentUser, holiday));
         }
 
         return dtoList;
@@ -105,7 +106,7 @@ public class AdminDataServiceImpl implements AdminDataService {
         dateTime = dateTime.minusMonths(1);
         Holiday holiday = holidayDAO.getHolidayForDate(dateTime, user);
 
-        dto = FlexService.rewriteToExtDTO(user, holiday);
+        dto = FlexServiceUtil.rewriteToExtDTO(user, holiday);
         return dto;
     }
 

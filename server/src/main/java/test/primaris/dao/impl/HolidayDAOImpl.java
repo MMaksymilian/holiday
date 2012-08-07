@@ -114,6 +114,7 @@ public class HolidayDAOImpl extends BaseDAOImpl implements HolidayDAO {
         return list;
     }
 
+    @Override
     public Holiday getHolidayForDate(DateTime date, ServiceUser user){
         Criteria criteria = getSession().createCriteria(Holiday.class);
 
