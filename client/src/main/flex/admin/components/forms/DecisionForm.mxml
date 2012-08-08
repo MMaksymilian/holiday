@@ -21,23 +21,59 @@
     </mx:Form>
     <mx:Script><![CDATA[
         import flex.admin.components.DataLabel;
+        import flex.admin.model.HolidayExtDTO;
+        import flex.admin.services.AdminDataService;
+        import flex.admin.services.impl.AdminDataServiceImpl;
+        import flex.data.Holiday;
+        import flex.service.BaseService;
+
+        import mx.controls.Alert;
 
         import mx.managers.PopUpManager;
+        import mx.rpc.events.ResultEvent;
 
+        public var decisionHandler: Function;
+
+        private var dtoId:Number;
+        [Bindable]
         private var fullname:String = "";
         private var login:String = "";
+        [Bindable]
+        private var cause:String = "";
+        [Bindable]
         private var startingDate:Date = new Date();
+        [Bindable]
         private var endingDate:Date = new Date();
+        private var adminDataService:AdminDataService = new AdminDataServiceImpl();
 
         public function fetchData(gLogin:String, gDay:Date):void {
-            this.login = login;
-
-
-
+            this.login = gLogin;
+            adminDataService.fetchHoliday(login, gDay, update);
         }
 
-        public function sendDecision(decisionStatus:int):void {
 
+        public function sendDecision(decisionStatus:int):void {
+            adminDataService.sendDecision(dtoId, decisionStatus, "", handleSendRequest);
+            close();
+        }
+
+        private function handleSendRequest(event:ResultEvent):void {
+            if(decisionHandler!=null){
+                decisionHandler();
+            } else {
+                Alert.show("DH null!");
+            }
+            Alert.show("Decision sent succesfully");
+            AdminDataServiceImpl(adminDataService).disconnect();
+        }
+
+        private function update(event:ResultEvent):void {
+            var dto:HolidayExtDTO = HolidayExtDTO(event.result);
+            this.fullname = dto.firstName + " " + dto.secondName;
+            this.startingDate = dto.dateFrom;
+            this.endingDate = dto.dateTo;
+            this.cause = dto.cause;
+            this.dtoId = dto.id;
         }
 
         private function close():void {

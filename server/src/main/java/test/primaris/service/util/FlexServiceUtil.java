@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 import test.primaris.entity.Holiday;
 import test.primaris.entity.ServiceUser;
 import test.primaris.entity.dto.HolidayDTO;
+import test.primaris.entity.dto.HolidayExtDTO;
 import test.primaris.entity.dto.ServiceUserDTO;
 
 /**
@@ -59,5 +60,22 @@ public abstract class FlexServiceUtil {
         serviceUserDTO.setLastName(serviceUser.getLastName());
         serviceUserDTO.setLogin(serviceUser.getLogin());
         return  serviceUserDTO;
+    }
+
+    public static HolidayExtDTO rewriteToExtDTO(ServiceUser user, Holiday holiday){
+        HolidayExtDTO dto = new HolidayExtDTO();
+        dto.setCause(holiday.getCause());
+        dto.setLogin(user.getLogin());
+        dto.setDateFrom(holiday.getDateFrom().toDate());
+        dto.setDateTo(holiday.getDateTo().toDate());
+        dto.setStatus(holiday.getStatus().toString());
+        if (holiday.getId() != null) {
+            dto.setId(holiday.getId().intValue());
+        }
+
+        dto.setFirstName(user.getFirstName());
+        dto.setSecondName(user.getLastName());
+        return dto;
+
     }
 }

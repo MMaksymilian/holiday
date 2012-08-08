@@ -12,6 +12,10 @@ public class BaseService {
             remoteService = new RemoteObject(serviceName);
         }
 
+        public function disconnect(): void {
+            remoteService.disconnect();
+        }
+
         protected function handler_generalFault(fault:FaultEvent):void {
             var er:ErrorMessage = (fault.message as ErrorMessage);
 
@@ -25,6 +29,7 @@ public class BaseService {
                 Alert.show(er.faultString, "Błąd klienta");
                 Alert.show(er.faultDetail, "Błąd klienta");
             }
+            disconnect();
         }
 }
 }

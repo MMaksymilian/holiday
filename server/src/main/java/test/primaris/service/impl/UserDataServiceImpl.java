@@ -55,6 +55,7 @@ public class UserDataServiceImpl implements UserDataService {
         DateTime dateTimeAfter = dateTimeBefore.plusMonths(1);
         List<Holiday> holidayList = holidayDAO.findHolidayForUserAndBetweenDates(dateTimeBefore, dateTimeAfter, user);
         List<HolidayDTO> holidayDTOs = new ArrayList<HolidayDTO>();
+
         for(Holiday holiday : holidayList) {
             holidayDTOs.add(FlexServiceUtil.rewriteToDTO(holiday));
         }

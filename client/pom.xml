@@ -126,6 +126,7 @@
                         <type>pom</type>
                     </dependency>
                 </dependencies>
+
                 <executions>
                     <execution>
                         <id>compile-user-swf</id>

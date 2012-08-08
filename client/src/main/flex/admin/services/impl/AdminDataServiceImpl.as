@@ -11,8 +11,6 @@ import flex.data.Holiday;
 import flex.data.ServiceUser;
 import flex.service.BaseService;
 
-import mx.collections.ArrayCollection;
-
 import mx.rpc.AsyncToken;
 import mx.rpc.Responder;
 
@@ -31,17 +29,19 @@ public class AdminDataServiceImpl extends BaseService implements AdminDataServic
         rpcCall.addResponder(new Responder(handler, handler_generalFault));
     }
 
-    public function getEntries(year:int, month:int, handler:Function = null):ArrayCollection {
-        var rpcCall:AsyncToken = remoteService.getEntries(year,  month);
+    public function getEntries(year:int, month:int, handler:Function = null):void {
+        var rpcCall:AsyncToken = remoteService.getEntriesForMonth(year,  month);
         rpcCall.addResponder(new Responder(handler, handler_generalFault));
-        return new ArrayCollection();
     }
 
-    public function switchStatus(login:String, startingDate:Date, status:int, handler:Function):void {
-
+    public function fetchHoliday(login:String, date:Date, handler:Function):void {
+        var rpcCall:AsyncToken = remoteService.fetchHoliday(login, date);
+        rpcCall.addResponder(new Responder(handler, handler_generalFault));
     }
 
-    public function fetchHoliday(login:String, date:Date) {
+    public function sendDecision(dtoId:Number, decisionStatus:int, cause:String,  handler:Function):void {
+        var rpcCall:AsyncToken = remoteService.sendDecision(dtoId, decisionStatus, cause);
+        rpcCall.addResponder(new Responder(handler, handler_generalFault));
     }
 
     public function createNewUser(serviceUser:ServiceUser,  handler:Function, errHandler:Function = null) {

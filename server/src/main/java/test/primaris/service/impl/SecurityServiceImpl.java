@@ -16,7 +16,7 @@ public class SecurityServiceImpl implements SecurityService {
         roleValueMap.put("ROLE_USER",3);
         roleValueMap.put("ROLE_CHIEF",5);
     }
-    
+
     @Override
     public String isUserInRole(String role) {
         Collection<GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
