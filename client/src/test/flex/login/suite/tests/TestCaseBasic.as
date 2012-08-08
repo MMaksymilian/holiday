@@ -8,6 +8,9 @@ import mx.rpc.events.ResultEvent;
 import mx.rpc.http.HTTPService;
 
 import org.flexunit.Assert;
+import org.hamcrest.assertThat;
+import org.hamcrest.date.dateBefore;
+
 //import org.hamcrest.assertThat;
 //import org.hamcrest.date.dateAfter;
 
@@ -34,7 +37,7 @@ public class TestCaseBasic {
         service.addEventListener( FaultEvent.FAULT, faultHandler );
         params.j_username = "dupa";
         params.j_password = "szef";
-        assertThat(new Date(), dateAfter(new Date(1920, 1, 1)));
+        assertThat(new Date(), dateBefore(new Date(1920, 1, 1)));
         service.send(params);
     }
 
