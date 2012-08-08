@@ -31,7 +31,6 @@ public class TestCaseBasic {
     [Test(description="sprawdzenie czy łączy się z serwisem")]
     public function testMethod():void {
         var params:Object = new Object();
-        var paramPhony:Object = new Object();
         var service:HTTPService = new HTTPService();
         service.url = "http://user-komputer:8081/server-1.0-SNAPSHOT/j_spring_security_check";
         service.addEventListener( ResultEvent.RESULT, resultHandler );
