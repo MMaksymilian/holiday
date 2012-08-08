@@ -34,7 +34,7 @@ public class TestCaseBasic {
         service.addEventListener( FaultEvent.FAULT, faultHandler );
         params.j_username = "dupa";
         params.j_password = "szef";
-//          assertThat(new Date(), dateAfter(new Date(1920, 1, 1)));
+        assertThat(new Date(), dateAfter(new Date(1920, 1, 1)));
         service.send(params);
     }
 
