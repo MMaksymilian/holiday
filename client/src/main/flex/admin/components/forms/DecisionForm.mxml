@@ -56,7 +56,7 @@
 
 
         public function sendDecision(decisionStatus:int):void {
-            adminDataService.sendDecision(dtoId, decisionStatus, "", handleSendRequest);
+            adminDataService.sendDecision(dtoId, decisionStatus, cause, handleSendRequest);
             close();
         }
 

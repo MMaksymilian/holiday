@@ -27,6 +27,13 @@ public class ServiceUserDAOImpl extends BaseDAOImpl implements ServiceUserDAO {
     }
 
     @Override
+    public List<ServiceUser> getUsersInRole(String role) {
+        Criteria userRoleCriteria = getSession().createCriteria(ServiceUser.class);
+        userRoleCriteria.add(Restrictions.like("role", role));
+        return userRoleCriteria.list();
+    }
+
+    @Override
     public void createUser(ServiceUser serviceUser) {
         getHibernateTemplate().save(serviceUser);
     }

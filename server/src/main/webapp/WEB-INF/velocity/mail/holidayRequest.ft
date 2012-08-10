@@ -1,0 +1,11 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+    <body>
+        <div style="background-color:green;color:white;"><h3>Prośba o urlop </h3></div><br/>
+
+        Wysłana przez : $user.firstName  $user.lastName <br/>
+        login $user.login
+    </body>
+</html>

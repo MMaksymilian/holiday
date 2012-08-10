@@ -10,6 +10,7 @@
                            http://www.springframework.org/schema/flex http://www.springframework.org/schema/flex/spring-flex-1.0.xsd   ">
     <import resource="dba-context.xml" />
     <import resource="mvc-context.xml" />
+    <import resource="email-context.xml"/>
     <context:component-scan base-package="test.primaris.service" />
     <context:component-scan base-package="test.primaris.security" />
     <context:component-scan base-package="test.primaris.dao" />

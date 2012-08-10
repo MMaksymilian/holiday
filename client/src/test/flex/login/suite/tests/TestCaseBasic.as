@@ -8,8 +8,11 @@ import mx.rpc.events.ResultEvent;
 import mx.rpc.http.HTTPService;
 
 import org.flexunit.Assert;
-import org.hamcrest.assertThat;
-import org.hamcrest.date.dateAfter;
+//import org.hamcrest.assertThat;
+//import org.hamcrest.date.dateBefore;
+
+//import org.hamcrest.assertThat;
+//import org.hamcrest.date.dateAfter;
 
 public class TestCaseBasic {
 
@@ -28,13 +31,14 @@ public class TestCaseBasic {
     [Test(description="sprawdzenie czy łączy się z serwisem")]
     public function testMethod():void {
         var params:Object = new Object();
+        var junk:Object = new Object();
         var service:HTTPService = new HTTPService();
         service.url = "http://user-komputer:8081/server-1.0-SNAPSHOT/j_spring_security_check";
         service.addEventListener( ResultEvent.RESULT, resultHandler );
         service.addEventListener( FaultEvent.FAULT, faultHandler );
         params.j_username = "dupa";
         params.j_password = "szef";
-        assertThat(new Date(), dateAfter(new Date(1920, 1, 1)));
+//        assertThat(new Date(), dateBefore(new Date(1920, 1, 1)));
         service.send(params);
     }
 

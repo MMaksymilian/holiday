@@ -1,11 +1,11 @@
 --------------------------------------------------------
---  File created - wtorek-sierpieñ-07-2012   
+--  File created - pi¹tek-sierpieñ-10-2012   
 --------------------------------------------------------
 --------------------------------------------------------
 --  DDL for Sequence HOLIDAY_SEQ
 --------------------------------------------------------
 
-   CREATE SEQUENCE  "HOLIDAY"."HOLIDAY_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 85 NOCACHE  NOORDER  NOCYCLE ;
+   CREATE SEQUENCE  "HOLIDAY"."HOLIDAY_SEQ"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 111 NOCACHE  NOORDER  NOCYCLE ;
 --------------------------------------------------------
 --  DDL for Sequence SERVICE_USER_SEQ
 --------------------------------------------------------
@@ -33,7 +33,8 @@
 	"PASSWORD" VARCHAR2(100), 
 	"ROLE" VARCHAR2(15), 
 	"FIRST_NAME" VARCHAR2(50), 
-	"LAST_NAME" VARCHAR2(50)
+	"LAST_NAME" VARCHAR2(50), 
+	"EMAIL" VARCHAR2(50)
    ) ;
    
    --------------------------------------------------------
@@ -83,3 +84,4 @@
 
   ALTER TABLE "HOLIDAY"."HOLIDAY" ADD CONSTRAINT "HOLIDAY_SERVICE_USER_FK1" FOREIGN KEY ("SERVICE_USER_ID")
 	  REFERENCES "HOLIDAY"."SERVICE_USER" ("ID") ENABLE;
+

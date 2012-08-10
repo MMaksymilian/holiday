@@ -33,6 +33,8 @@ public class ServiceUser extends BaseEntity {
 
     private String lastName;
 
+    private String email;
+
     public Set<Holiday> getHolidaySet() {
         return holidaySet;
     }
@@ -79,5 +81,13 @@ public class ServiceUser extends BaseEntity {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
