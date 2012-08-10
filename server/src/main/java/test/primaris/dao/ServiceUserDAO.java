@@ -2,6 +2,8 @@ package test.primaris.dao;
 
 import test.primaris.entity.ServiceUser;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: USER
@@ -12,5 +14,6 @@ import test.primaris.entity.ServiceUser;
 public interface ServiceUserDAO {
     ServiceUser getById(Long id);
     ServiceUser getByLogin(String login);
+    List<ServiceUser> getUsersInRole(String role);
     void createUser(ServiceUser serviceUser);
 }

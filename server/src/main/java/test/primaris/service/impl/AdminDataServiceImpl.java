@@ -18,6 +18,7 @@ import test.primaris.entity.dto.HolidayExtDTO;
 import test.primaris.entity.dto.ServiceUserDTO;
 import test.primaris.security.TestAppUserDetails;
 import test.primaris.service.AdminDataService;
+import test.primaris.service.EmailSender;
 import test.primaris.service.util.FlexServiceUtil;
 
 import java.util.*;
@@ -37,6 +38,9 @@ public class AdminDataServiceImpl implements AdminDataService {
 
     @Autowired
     private ServiceUserDAO serviceUserDAO;
+
+    @Autowired
+    private EmailSender emailSender;
     
     public List<ServiceUserDTO> getUserNames(int year, int month) {
         List<ServiceUserDTO> userList = new ArrayList<ServiceUserDTO>();
@@ -135,10 +139,12 @@ public class AdminDataServiceImpl implements AdminDataService {
 
     @Override
     public String acceptHoliday(HolidayDTO holidayDTO) {
+
         Holiday holiday = FlexServiceUtil.rewriteToEntity(holidayDTO);
         holiday.setStatus(Holiday.HolidayStatus.APPROVED);
         holidayDAO.updateHolidayStatus(holiday);
-        /*dodane bo metody nie chciały wywoływać handler'ów przy typie metody 'void'*/
+
+        sendNotificationEmail(holiday);
         return "success";
     }
 
@@ -147,7 +153,8 @@ public class AdminDataServiceImpl implements AdminDataService {
         Holiday holiday = FlexServiceUtil.rewriteToEntity(holidayDTO);
         holiday.setStatus(Holiday.HolidayStatus.REJECTED);
         holidayDAO.updateHolidayStatus(holiday);
-        /*dodane bo metody nie chciały wywoływać handler'ów przy typie metody 'void'*/
+
+        sendNotificationEmail(holiday);
         return "success";
     }
 
@@ -160,5 +167,12 @@ public class AdminDataServiceImpl implements AdminDataService {
             holidayDTOs.add(FlexServiceUtil.rewriteToDTO(holiday));
         }
         return holidayDTOs;
+    }
+
+    private void sendNotificationEmail(Holiday holiday) {
+        Holiday fullHolidayObject = holidayDAO.getById(holiday.getId());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        ServiceUser byUser = ((TestAppUserDetails)auth.getPrincipal()).getServiceUser();
+        emailSender.sendHolidayStatusChangedByChiefMail(fullHolidayObject.getStatus(), fullHolidayObject.getDateFrom(), fullHolidayObject.getDateTo(), fullHolidayObject.getServiceUser(), byUser);
     }
 }

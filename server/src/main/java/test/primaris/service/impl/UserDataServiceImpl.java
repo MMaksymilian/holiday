@@ -14,6 +14,7 @@ import test.primaris.entity.Holiday;
 import test.primaris.entity.ServiceUser;
 import test.primaris.entity.dto.HolidayDTO;
 import test.primaris.security.TestAppUserDetails;
+import test.primaris.service.EmailSender;
 import test.primaris.service.UserDataService;
 import test.primaris.service.util.FlexServiceUtil;
 
@@ -38,6 +39,9 @@ public class UserDataServiceImpl implements UserDataService {
 
     @Autowired
     ServiceUserDAO serviceUserDAO;
+
+    @Autowired
+    private EmailSender emailSender;
 
     @Override
     public HolidayDTO getHolidayById(Long id) {
@@ -89,7 +93,12 @@ public class UserDataServiceImpl implements UserDataService {
             return "failure";
         }
         holidayDAO.requestHoliday(holiday);
-        /*dodane bo metody nie chciały wywoływać handler'ów przy typie metody 'void'*/
+
+        /*Mozna by przeniesc role uzytkownikow do enuma*/
+        List<ServiceUser> sendTo = serviceUserDAO.getUsersInRole("ROLE_CHIEF");
+        emailSender.sendHolidayRequestNotification(holiday.getDateFrom(), holiday.getDateTo(),  user, sendTo);
         return "success";
     }
+
+
 }
