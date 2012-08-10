@@ -14,6 +14,9 @@
         <mx:FormItem label="Do:">
             <mx:Text text="{endingDate.toLocaleDateString()}"/>
         </mx:FormItem>
+        <mx:FormItem label="Powód:">
+            <mx:TextInput text="{cause}"/>
+        </mx:FormItem>
         <mx:HBox>
             <mx:Button label="Zatwierdź" cornerRadius="12" click="sendDecision(DataLabel.STATUS_ACCEPTED)"/>
             <mx:Button label="Odrzuć" cornerRadius="12" click="sendDecision(DataLabel.STATUS_REJECTED)"/>
