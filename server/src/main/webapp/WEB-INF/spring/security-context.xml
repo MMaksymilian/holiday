@@ -7,19 +7,19 @@
                     http://www.springframework.org/schema/security
                     http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
-    <!--<http auto-config="true" use-expressions="true">&lt;!&ndash; access-denied-page - insufficient priveleges&ndash;&gt;-->
-        <!--&lt;!&ndash;<intercept-url pattern="/flex/login" access="ROLE_ANONYMOUS" />&ndash;&gt;-->
-        <!--<intercept-url pattern="/flex/chief" access="hasAnyRole('ROLE_CHIEF')"  />-->
-        <!--<intercept-url pattern="/flex/user" access="hasAnyRole('ROLE_USER')" />-->
-        <!--<form-login login-page="/flex/login"-->
-                    <!--authentication-failure-url="/flex/login" default-target-url="/flex/success.do"/>-->
-        <!--<logout logout-success-url="/flex/login"/>-->
-        <!--<access-denied-handler ref="accessDeniedHandler"/>-->
-    <!--</http>-->
-
-    <http entry-point-ref="entryPoint">
-        <anonymous enabled="false"/>
+    <http auto-config="true" use-expressions="true"><!-- access-denied-page - insufficient priveleges-->
+        <!--<intercept-url pattern="/flex/login" access="ROLE_ANONYMOUS" />-->
+        <intercept-url pattern="/flex/chief" access="hasAnyRole('ROLE_CHIEF')"  />
+        <intercept-url pattern="/flex/user" access="hasAnyRole('ROLE_USER')" />
+        <form-login login-page="/flex/login"
+                    authentication-failure-url="/flex/login" default-target-url="/flex/success.do"/>
+        <logout logout-success-url="/flex/login"/>
+        <access-denied-handler ref="accessDeniedHandler"/>
     </http>
+
+    <!--<http entry-point-ref="entryPoint">-->
+        <!--<anonymous enabled="false"/>-->
+    <!--</http>-->
 
     <beans:bean id="entryPoint"
                 class="org.springframework.flex.security3.FlexAuthenticationEntryPoint"/>
