@@ -13,6 +13,9 @@
         <mx:FormItem label="Do:">
             <mx:Text text="{dateFormatter.format(endingDate)}"/>
         </mx:FormItem>
+        <mx:FormItem label="Powód:">
+            <mx:TextInput text="{cause}"/>
+        </mx:FormItem>
         <mx:HBox>
             <mx:Button label="Zatwierdź" cornerRadius="12" click="sendDecision(DataLabel.STATUS_ACCEPTED)"/>
             <mx:Button label="Odrzuć" cornerRadius="12" click="sendDecision(DataLabel.STATUS_REJECTED)"/>
@@ -52,7 +55,7 @@
 
 
         public function sendDecision(decisionStatus:int):void {
-            adminDataService.sendDecision(dtoId, decisionStatus, "", handleSendRequest);
+            adminDataService.sendDecision(dtoId, decisionStatus, cause, handleSendRequest);
             close();
         }
 
