@@ -8,6 +8,7 @@
         public static const STATUS_WAITING:int = 0;
         public static const STATUS_ACCEPTED:int = 1;
         public static const STATUS_REJECTED:int = 2;
+        public static const STATUS_WEEKEND:int = 3;
 
         public static const COLOR_NONE:uint = 0xffffff;
         public static const COLOR_WAITING:uint = 0x8db4fc;

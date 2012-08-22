@@ -70,6 +70,12 @@
             <version>1.0.1.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.flex</groupId>
+            <artifactId>spring-flex-core</artifactId>
+            <version>1.5.2.RELEASE</version>
+        </dependency>
+
         <!-- SPRING dependency -->
         <dependency>
             <groupId>javassist</groupId>

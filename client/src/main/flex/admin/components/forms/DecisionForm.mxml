@@ -1,7 +1,6 @@
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
                 title="DecisionWindow"
-                x="160" y="80" status="active"
-                close="close()"
+                x="160" y="80"  close="close()"
                 showCloseButton="true" borderAlpha="0.75">
     <mx:Form>
         <mx:FormHeading label="Decyzja o urlopie" />
@@ -9,10 +8,10 @@
             <mx:Text text="{fullname}"/>
         </mx:FormItem>
         <mx:FormItem label="Od:">
-            <mx:Text text="{startingDate.toLocaleDateString()}"/>
+            <mx:Text text="{dateFormatter.format(startingDate)}"/>
         </mx:FormItem>
         <mx:FormItem label="Do:">
-            <mx:Text text="{endingDate.toLocaleDateString()}"/>
+            <mx:Text text="{dateFormatter.format(endingDate)}"/>
         </mx:FormItem>
         <mx:HBox>
             <mx:Button label="Zatwierdź" cornerRadius="12" click="sendDecision(DataLabel.STATUS_ACCEPTED)"/>
@@ -80,4 +79,5 @@
             PopUpManager.removePopUp(this);
         }
         ]]></mx:Script>
+    <mx:DateFormatter id="dateFormatter" formatString="DD - MM - YYYY"/>
 </mx:TitleWindow>

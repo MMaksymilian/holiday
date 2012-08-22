@@ -21,7 +21,8 @@ public class BaseService {
 
             try {
                 if (er.hasOwnProperty("rootCause")) {
-                    Alert.show(er.faultString, "Błąd serwera" + er.rootCause.header);
+                    Alert.show("" + fault.token.responders[0].toString())       ;
+                    Alert.show(er.faultString, "Błąd serwera " + er.rootCause.header);
                 } else {
                     Alert.show(er.faultString, "Błąd");
                 }

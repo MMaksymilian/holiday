@@ -11,7 +11,12 @@
     </mx:Metadata>
 
     <mx:Script><![CDATA[
+        import flex.admin.components.EntryGrid;
         import flex.admin.model.UserEntry;
+        import flex.data.Holiday;
+        import flex.data.ServiceUser;
+        import flex.service.SecurityService;
+        import flex.service.impl.SecurityServiceImpl;
         import flex.user.event.ChangeMonthEvent;
         import flex.user.event.GetSelectedDateRangeEvent;
         import flex.user.event.HolidaySendRequestEvent;
@@ -24,25 +29,23 @@
         import mx.managers.PopUpManager;
         import mx.rpc.events.ResultEvent;
 
-        public var userName:String = "Kowalski";// Application.application.parameters.name1.toString();
-        public var userLogin:String = "kowalski";// Application.application.parameters.name2.toString();
-
         private var userDataService:UserDataService;
+        private var securityService:SecurityService;
 
         [Bindable]
-        private var formatDateString:String = 'DD - MM - YYYY';
+        private var currentUser:ServiceUser;
         private var holidayData:ArrayCollection;
-        private var userEntry:UserEntry;
+        [Bindable]
+        private var formatDateString:String = 'DD - MM - YYYY';
         private var holidayForm:HolidayApplyForm;
+        private var userEntry:UserEntry;
 
         private function initializeHandler():void {
+            securityService = new SecurityServiceImpl();
+            securityService.getCurrentUser(changeCurrentUserHandler);
             /*pobranie danych do tabeli*/
             userDataService = new UserDataServiceImpl();
             getDataForMonth(getFirstOfTheMonth(new Date()));
-            /*dodanie danych do EntryGrid, czyli kwadraty z numerami dat*/
-            userEntry = new UserEntry(userName, userLogin,
-                    (new Date()).getMonth(), (new Date()).getFullYear());
-            entryGrid.addEntry(userEntry);
         }
 
         private function addEvents():void {
@@ -54,7 +57,6 @@
             holidayData = new ArrayCollection();
             holidayData.source = (event.result as ArrayCollection).source;
             holidayTable.dataProvider = holidayData;
-
             userEntry.readUserData(holidayData);
             entryGrid.replaceEntries(userEntry);
         }
@@ -65,25 +67,43 @@
             holidayTable.dataProvider = holidayData;
         }
 
-        private function holidayFormSendRequestListener(event:HolidaySendRequestEvent):void {
-            userDataService.requestHoliday(event.holidayData, successfullyAddedHolidayRequestHandler);
-            // jak przekazac add item do handlera, byloby fajnie
-            holidayData.addItem(event.holidayData);
-
-            userEntry.readUserData(holidayData);
-            entryGrid.replaceEntries(userEntry);
+        private function changeCurrentUserHandler(event:ResultEvent):void {
+            currentUser = event.result as ServiceUser;
+            userEntry = new UserEntry(currentUser.firstName + " " + currentUser.lastName, currentUser.login,
+                    (new Date()).getMonth(), (new Date()).getFullYear());
+            entryGrid.addEntry(userEntry);
         }
+
+        private function holidayFormSendRequestListener(event:HolidaySendRequestEvent):void {
+            // jak przekazac add item do handlera, byloby fajnie
+            holidayDataSlick =  event.holidayData;
+            userDataService.requestHoliday(event.holidayData, successfullyAddedHolidayRequestHandler);
+        }
+
+        private var holidayDataSlick:Holiday = null;
 
         private function successfullyAddedHolidayRequestHandler(event:ResultEvent):void {
 
-            Alert.show("status: " + event.statusCode);
             if (event.result == "success") {
                 Alert.show('Zapisano podanie o urlop.');
-//                holidayForm.close();
+                holidayData = new ArrayCollection();
+                var year:int = holidayDataSlick.dateFrom.getFullYear();
+                var month:int = holidayDataSlick.dateFrom.getMonth() + 1;
+                if (month % 12 == 0) {
+                    month = 0;
+                    year += 1;
+                }
+                dateRange.changeDates(getFirstOfTheMonth(holidayDataSlick.dateFrom), new Date(year,  month));
+                userEntry = new UserEntry(currentUser.firstName + " " + currentUser.lastName, currentUser.login,
+                        holidayDataSlick.dateFrom.getMonth(), holidayDataSlick.dateFrom.getFullYear());
+                holidayDateChooser.selectedDate = new Date(holidayDataSlick.dateFrom.getFullYear(), holidayDataSlick.dateFrom.getMonth());
+                getDataForMonth(getFirstOfTheMonth(holidayDataSlick.dateFrom));
+                holidayForm.close();
             }
             if (event.result == "failure") {
                 Alert.show('Zapisywanie nie powiodło się.');
             }
+            holidayDataSlick = null;
         }
 
         private function chooseDate(event:Event):void {
@@ -91,9 +111,9 @@
             var from:Date = getFirstOfTheMonth(chosenDate);
             var month:int = from.getMonth();
             var year:int = from.getFullYear();
-            month = (month + 1) % 13;
+            month = (month + 1) % 12;
             if (month == 0) {
-                month = 1;
+                year += 1;
             }
             var eventObject:ChangeMonthEvent = new ChangeMonthEvent(ChangeMonthEvent.CHANGED_MONTH, from, new Date(year, month, 1));
             dispatchEvent(eventObject);
@@ -101,7 +121,7 @@
 
         private function changedMonthListener(event:ChangeMonthEvent):void {
             dateRange.changeDates(event.firstDate, event.secondDate);
-            userEntry = new UserEntry(userName, userLogin, event.firstDate.getMonth(), event.firstDate.getFullYear());
+            userEntry = new UserEntry(currentUser.firstName + " " + currentUser.lastName, currentUser.login, event.firstDate.getMonth(), event.firstDate.getFullYear());
             getDataForMonth(event.firstDate);
         }
 
@@ -115,7 +135,7 @@
 
         private function showWindow():void {
             holidayForm = HolidayApplyForm(PopUpManager.createPopUp(this, HolidayApplyForm, true));
-//            PopUpManager.centerPopUp(holidayForm);
+            holidayForm.setCurrentUser(currentUser);
             holidayForm.addEventListener(HolidaySendRequestEvent.SEND_HOLIDAY_REQUEST, holidayFormSendRequestListener);
         }
 

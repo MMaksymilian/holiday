@@ -9,7 +9,7 @@
             <div style="color:#808080;"> <i>Szanowny panie/Szanowna pani $targetUser.lastName. Podęto decyzję o udzieleniu urlopu. Urlop jest:</i></div><br/>
             <div>
                 #if( $holidayStatus == "APPROVED" )
-                    <div style="font-weight:bold;color:green">PRZYJĘTY</div>
+                <div style="font-weight:bold;color:green">PRZYJĘTY</div>
                 #end
                 #if( $holidayStatus == "REJECTED" )
                      <div style="font-weight:bold;color:green">ODRZUCONY</div>

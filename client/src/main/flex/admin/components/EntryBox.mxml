@@ -5,6 +5,7 @@
         import flex.admin.model.UserEntry;
 
         import mx.collections.ArrayCollection;
+        import mx.containers.HBox;
 
         [Bindable]
         private var labelText: String;

@@ -53,9 +53,15 @@ public class HolidayDAOImpl extends BaseDAOImpl implements HolidayDAO {
     @Override
     public List<Holiday> findHolidayForUserAndBetweenDates(DateTime dateTimeBefore, DateTime dateTimeAfter, ServiceUser user) {
         Criteria holidayDateCriteria = getSession().createCriteria(Holiday.class);
-        holidayDateCriteria.add(Restrictions.eq("serviceUser", user));
-        holidayDateCriteria.add(Restrictions.ge("dateTo", dateTimeBefore));
-        holidayDateCriteria.add(Restrictions.lt("dateFrom", dateTimeAfter));
+        if(dateTimeAfter.equals(dateTimeBefore))  {
+            holidayDateCriteria.add(Restrictions.eq("serviceUser", user));
+            holidayDateCriteria.add(Restrictions.eq("dateTo", dateTimeBefore));
+            holidayDateCriteria.add(Restrictions.eq("dateFrom", dateTimeAfter));
+        } else {
+            holidayDateCriteria.add(Restrictions.eq("serviceUser", user));
+            holidayDateCriteria.add(Restrictions.ge("dateTo", dateTimeBefore));
+            holidayDateCriteria.add(Restrictions.lt("dateFrom", dateTimeAfter));
+        }
         return holidayDateCriteria.list();
     }
 
@@ -120,7 +126,7 @@ public class HolidayDAOImpl extends BaseDAOImpl implements HolidayDAO {
 
         DateTime endingDate = date.plusDays(1);
         criteria.add(Restrictions.eq("serviceUser", user));
-        criteria.add(Restrictions.lt("dateFrom", date));
+        criteria.add(Restrictions.le("dateFrom", date));
         criteria.add(Restrictions.ge("dateTo", date));
 
         Holiday holiday = (Holiday) criteria.uniqueResult();

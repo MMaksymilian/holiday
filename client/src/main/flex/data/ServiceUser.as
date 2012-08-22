@@ -8,6 +8,7 @@ package flex.data {
         public var role:String;
         public var firstName:String;
         public var lastName:String;
+        public var email:String;
     }
 
 }

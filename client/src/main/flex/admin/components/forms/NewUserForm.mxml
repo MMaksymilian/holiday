@@ -1,4 +1,4 @@
-<mx:Form width="100%" color="0x323232" xmlns:mx="http://www.adobe.com/2006/mxml">
+<mx:Form width="100%" color="0x323232" xmlns:mx="http://www.adobe.com/2006/mxml"  creationComplete="afterComplete()">
     <mx:FormHeading fontSize="10"  label="Dodanie nowego użytkownika" paddingTop="0" />
 
     <mx:FormItem label="Imię: " required="true">
@@ -17,6 +17,10 @@
         <mx:TextInput id="passwordAddUser" width="200"/>
     </mx:FormItem>
 
+    <mx:FormItem label="Adres e-mail: " required="true">
+        <mx:TextInput id="emailAddUser" width="200"/>
+    </mx:FormItem>
+
     <mx:FormItem label="Uprawnienia użytkownika: ">
         <mx:ComboBox id="roleAddUser" dataProvider="{authorities}" width="300" color="0x000000"/>
     </mx:FormItem>
@@ -27,9 +31,16 @@
 
     <mx:Script><![CDATA[
         import flex.data.ServiceUser;
+        import flex.user.services.UserDataService;
+        import flex.user.services.impl.UserDataServiceImpl;
 
         import mx.collections.ArrayCollection;
         import flex.admin.event.CreateNewUserEvent;
+
+        import mx.controls.Alert;
+        import mx.rpc.events.ResultEvent;
+
+        import mx.validators.Validator;
 
         [Bindable]
         public var authorities:ArrayCollection = new ArrayCollection(
@@ -38,22 +49,56 @@
                     {label:"PRACOWNIK", data:"ROLE_USER"}
                 ]);
 
+        private var validatorArray:Array;
+
+        private function afterComplete():void {
+            validatorArray = new Array();
+            validatorArray.push(passwordValidator);
+            validatorArray.push(userNameValidator);
+            validatorArray.push(userLastNameValidator);
+            validatorArray.push(loginValidator);
+            validatorArray.push(emailValidator);
+        }
+
+        private function handlerTemporary(event:ResultEvent):void {
+            Alert.show("Źle");
+        }
+
+        private function validateForm():Boolean {
+            var userDataTest:UserDataService  = new UserDataServiceImpl();
+            userDataTest.findHolidayForCurrentUserAndMonth(new Date(), handlerTemporary);
+            var validatorErrorArray:Array = Validator.validateAll(validatorArray);
+            var isValidForm:Boolean = validatorErrorArray.length == 0;
+            if (isValidForm) {
+                return isValidForm;
+            } else {
+                isValidForm = false;
+                Alert.show("Niepoprawne dane.");
+            }
+            return isValidForm;
+        }
+
         private function submitButton_clickHandler(event:MouseEvent):void {
+            if(!validateForm()) {
+                return;
+            }
             var serviceUser:ServiceUser = new ServiceUser();
             serviceUser.firstName = fNameAddUser.text;
             serviceUser.lastName = lNameAddUser.text;
             serviceUser.login = loginAddUser.text;
             serviceUser.password = passwordAddUser.text;
+            serviceUser.email = emailAddUser.text;
             serviceUser.role = roleAddUser.selectedItem.data;
             var eventObject:CreateNewUserEvent = new CreateNewUserEvent(CreateNewUserEvent.CREATE_NEW_USER, serviceUser);
             dispatchEvent(eventObject);
         }
-     ]]></mx:Script>
+        ]]></mx:Script>
     <mx:Metadata>
         [Event(name=CreateNewUserEvent.CREATE_NEW_USER, type="flex.admin.event.CreateNewUserEvent")]
     </mx:Metadata>
-    <mx:StringValidator minLength="6" maxLength="100"  source="{passwordAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
-    <mx:Validator required="true" source="{fNameAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
-    <mx:Validator required="true" source="{lNameAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
-    <mx:Validator required="true" source="{loginAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
+    <mx:StringValidator id="passwordValidator"  minLength="6" maxLength="100"  source="{passwordAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
+    <mx:Validator id="userNameValidator" required="true" source="{fNameAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
+    <mx:Validator id="userLastNameValidator" required="true" source="{lNameAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
+    <mx:Validator id="loginValidator" required="true" source="{loginAddUser}" property="text" trigger="{submitButton}" triggerEvent="click"/>
+    <mx:EmailValidator id="emailValidator" required="true"  source="{emailAddUser}" property="text"  trigger="{submitButton}" triggerEvent="click"/>
 </mx:Form>

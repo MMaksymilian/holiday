@@ -1,6 +1,6 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:form="flex.admin.components.forms.*" xmlns:local="flex.admin.components.*"
                 layout="absolute" backgroundGradientColors="[0x000000,0x323232]"
-                initialize="initializeHandler()" applicationComplete="onEntry()">
+                creationComplete="creationCompleteHandler()" applicationComplete="onEntry()">
     <mx:Panel width="100%" height="400" paddingLeft="40" paddingRight="40" paddingTop="10" paddingBottom="10">
         <mx:LinkBar color="0x0050AA" horizontalAlign="center" width="100%" fontWeight="bold"
                     dataProvider="{adminViewStack}"
@@ -9,17 +9,10 @@
 
             <!--Zakładka z danymi o urlopach-->
             <mx:VBox label="Urlopy" backgroundColor="0xDCDCDC" width="100%" paddingLeft="40" paddingRight="40" paddingTop="10" paddingBottom="10" fontWeight="bold">
-                <local:MonthChooser
-                        id="mChosenMonth"
-                        yearNavigationEnabled="true"
-                        styleName="monthChooserStyles"
-                        selectedDate="{chosenMonth}"
-                        change="updateDates()"/>
-                <mx:Button color="0x323232" height="32" label="Napisz podanie o urlop" cornerRadius="12" click="showWindow();"/>
-
-                <local:EntryGrid id="entryGrid" creationComplete="entryGrid.setDecisionHandler(updateDates);">
-
-                </local:EntryGrid>
+                <local:MonthChooser id="mChosenMonth"
+                        yearNavigationEnabled="true" styleName="monthChooserStyles"  selectedDate="{chosenMonth}" change="updateDates()"/>
+                <local:EntryGrid id="entryGrid"
+                                 creationComplete="entryGrid.setDecisionHandler(updateDates);"/>
             </mx:VBox>
 
             <!--Zakładka z danymi użytkowników-->
@@ -29,53 +22,55 @@
         </mx:ViewStack>
     </mx:Panel>
     <mx:Script><![CDATA[
-        import flex.admin.components.forms.HolidayAcceptForm;
         import flex.admin.event.CreateNewUserEvent;
-        import flex.admin.model.HolidayExtDTO;
-        import flex.admin.model.UserEntry;
         import flex.admin.services.AdminDataService;
         import flex.admin.services.impl.AdminDataServiceImpl;
-        import flex.admin.services.AdminDataService;
-        import flex.admin.services.impl.AdminDataServiceImpl;
-        import flex.admin.services.impl.AdminDataServiceMock;
+        import flex.data.ServiceUser;
+        import flex.service.SecurityService;
+        import flex.service.impl.SecurityServiceImpl;
 
         import mx.collections.ArrayCollection;
         import mx.controls.Alert;
-        import mx.managers.PopUpManager;
         import mx.rpc.events.ResultEvent;
-
-        public var username:String = "szef";
-        public var password:String = "szef";
 
         [Bindable]
         private var chosenMonth:Date;
         private var adminDataService:AdminDataService = new AdminDataServiceImpl();
+        private var securityService:SecurityService;
+        private var currentUser:ServiceUser;
 
-        private var holidayForm:HolidayAcceptForm;
 
-        private function initializeHandler():void {
+        private function creationCompleteHandler():void {
+            securityService = new SecurityServiceImpl();
+            securityService.getCurrentUser(changeCurrentUserHandler);
+            mChosenMonth.selectedDate = getFirstOfTheMonth(new Date());
             updateDates();
         }
 
-        private function showWindow():void {
-            holidayForm = HolidayAcceptForm(PopUpManager.createPopUp(this, HolidayAcceptForm, true));
-            adminDataService.findDataForChosenUser('kowalski', updateModalDialog);
+
+        private function getFirstOfTheMonth(currentDate:Date):Date {
+            var month:int = currentDate.getMonth();
+            var year:int = currentDate.getFullYear();
+            return new Date(year, month, 1);
         }
 
         private function updateModalDialog(event:ResultEvent):void {
             var currentUserData:ArrayCollection = new ArrayCollection();
             currentUserData.source = (event.result as ArrayCollection).source;
-            holidayForm.setUserHolidayProvider(currentUserData);
+        }
+
+        private function changeCurrentUserHandler(event:ResultEvent):void {
+            currentUser = event.result as ServiceUser;
         }
 
         private function updateDates():void {
             chosenMonth = mChosenMonth.selectedDate;
             entryGrid.year = chosenMonth.fullYear;
-            entryGrid.month = chosenMonth.month+1;
-            adminDataService.getEntries(chosenMonth.fullYear, chosenMonth.month+1, handleUpdate);
+            entryGrid.month = chosenMonth.month + 1;
+            adminDataService.getEntries(chosenMonth.fullYear, chosenMonth.month + 1, handleUpdate);
         }
 
-        private function handleUpdate(event: ResultEvent):void {
+        private function handleUpdate(event:ResultEvent):void {
             var entryCollection:ArrayCollection = event.result as ArrayCollection;
             entryGrid.update(entryCollection);
         }

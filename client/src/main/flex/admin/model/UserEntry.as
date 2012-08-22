@@ -25,10 +25,12 @@ public class UserEntry {
         login = gLogin;
         month = gMonth;
         year = gYear;
-
         var date:Date = new Date(year, month, 0);
         var days:int = date.getDate();
-
+//        month += 1;
+//        if (month % 13 == 1 ) {
+//            month = 1;
+//        }
         for(var i:int=0; i<days; i++){
             dataCollection.addItem(-1);
         }

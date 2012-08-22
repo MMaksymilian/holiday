@@ -16,6 +16,10 @@
     <context:component-scan base-package="test.primaris.dao" />
     <context:component-scan base-package="test.primaris.controller" />
     <mvc:annotation-driven />
-    <flex:message-broker/>
+    <flex:message-broker>
+        <!--<flex:-->
+        <!--<flex:mapping pattern="/messagebroker/*" />-->
+        <!--<flex:secured  />-->
+    </flex:message-broker>
 
 </beans>

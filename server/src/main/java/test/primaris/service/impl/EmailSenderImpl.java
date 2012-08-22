@@ -55,7 +55,9 @@ public class EmailSenderImpl implements EmailSender {
                 }
             }
         };
-        mailSender.send(preparator);
+        if (targetUser.getEmail() != null) {
+            mailSender.send(preparator);
+        }
     }
 
     @Override
@@ -79,7 +81,9 @@ public class EmailSenderImpl implements EmailSender {
                     }
                 }
             };
-            mailSender.send(preparator);
+            if (chief.getEmail() != null) {
+                mailSender.send(preparator);
+            }
         }
     }
 }

@@ -4,7 +4,12 @@ import org.springframework.flex.remoting.RemotingDestination;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import test.primaris.entity.ServiceUser;
+import test.primaris.entity.dto.ServiceUserDTO;
+import test.primaris.security.TestAppUserDetails;
 import test.primaris.service.SecurityService;
+import test.primaris.service.util.FlexServiceUtil;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +21,9 @@ public class SecurityServiceImpl implements SecurityService {
         roleValueMap.put("ROLE_USER",3);
         roleValueMap.put("ROLE_CHIEF",5);
     }
+
+
+
 
     @Override
     public String isUserInRole(String role) {
@@ -50,5 +58,11 @@ public class SecurityServiceImpl implements SecurityService {
         }
 
         return role;
+    }
+
+    @Override
+    public ServiceUserDTO getCurrentUser() {
+        TestAppUserDetails currentUserDetails = (TestAppUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return FlexServiceUtil.rewriteToDTO(currentUserDetails.getServiceUser());
     }
 }

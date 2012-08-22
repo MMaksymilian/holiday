@@ -1,4 +1,4 @@
-<mx:Form  xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" color="0x323232" paddingTop="0" textAlign="center">
+<mx:Form  xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" color="0x323232" paddingTop="0" textAlign="center"  creationComplete="afterComplete()">
     <mx:HBox>
         <mx:Label text="Pokaż wybrane urlopy od "/>
         <mx:FormItem  required="true">
@@ -17,10 +17,45 @@
         import flex.user.event.GetSelectedDateRangeEvent;
 
         import mx.controls.Alert;
+        import mx.events.ValidationResultEvent;
+        import mx.validators.Validator;
+
+        private var validatorArray:Array;
 
         public function changeDates(dateFrom:Date, dateTo:Date):void {
             changeDateBegining(dateFrom);
             changeDateEnd(dateTo);
+        }
+
+        private function validateForm():Boolean {
+            var validatorErrorArray:Array = Validator.validateAll(validatorArray);
+            var isValidForm:Boolean = validatorErrorArray.length == 0;
+            if (isValidForm && periodBegining.selectedDate <= periodEnd.selectedDate) {
+                return isValidForm;
+            } else {
+                isValidForm = false;
+                Alert.show("Niepoprawne dane.");
+            }
+            return isValidForm;
+        }
+
+        private function afterComplete():void {
+            validatorArray = new Array();
+            validatorArray.push(fromValidator);
+            validatorArray.push(toValidator);
+
+            var MS_PER_DAY:uint = 1000 * 60 * 60 * 24;
+            var currentDate:Date = new Date();
+            var startDate:Date = new Date(currentDate.getFullYear(), currentDate.getMonth());
+            var year:Number = startDate.getFullYear();
+            var month:Number = (startDate.getMonth() + 1) % 12;
+            if (month == 0) {
+//                month = 1;
+                year += 1;
+            }
+            var endDate:Date = new Date(year, month);
+            periodBegining.selectedDate = startDate;
+            periodEnd.selectedDate = endDate;
         }
 
         private function changeDateBegining(dateFrom:Date):void {
@@ -32,6 +67,10 @@
         }
 
         protected function submitButton_clickHandler(event:MouseEvent):void {
+            if(!validateForm()) {
+//                periodBegining.
+                return;
+            }
             var date:Date = new Date();
             date.setTime(periodEnd.selectedDate.getTime() + 1000 * 60 * 60 * 24);
             var eventObject:GetSelectedDateRangeEvent = new GetSelectedDateRangeEvent(GetSelectedDateRangeEvent.SELECTED_DATE_RANGE, periodBegining.selectedDate, date);
@@ -42,4 +81,6 @@
         [Event(name=GetSelectedDateRangeEvent.SELECTED_DATE_RANGE, type="flex.user.event.GetSelectedDateRangeEvent")]
         //        [Event(name=CloseModalDialogEvent.SEND_CLOSE_MODAL_DIALOG, type="flex.event.user.CloseModalDialogEvent")]
     </mx:Metadata>
+    <mx:DateValidator id="fromValidator" source="{periodBegining}" required="true" property="selectedDate" trigger="{submitButton}" triggerEvent="click"/>
+    <mx:DateValidator id="toValidator" source="{periodEnd}" required="true" property="selectedDate" trigger="{submitButton}" triggerEvent="click"/>
 </mx:Form>

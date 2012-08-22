@@ -10,5 +10,6 @@ import flex.admin.suite.tests.TestCaseBasic;
        }
 
        public var adminTest: TestCaseBasic;
+       public var testTheory:TestTheorySuite;
     }
 }
