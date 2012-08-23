@@ -14,18 +14,17 @@
         <form-login login-page="/flex/login"
                     authentication-failure-url="/flex/login" default-target-url="/flex/success.do"/>
         <logout logout-success-url="/flex/login"/>
-        <access-denied-handler ref="accessDeniedHandler"/>
+        <!--<access-denied-handler ref="accessDeniedHandler"/>-->
     </http>
 
     <!--<http entry-point-ref="entryPoint">-->
         <!--<anonymous enabled="false"/>-->
     <!--</http>-->
 
-    <beans:bean id="entryPoint"
-                class="org.springframework.flex.security3.FlexAuthenticationEntryPoint"/>
+    <!--<beans:bean id="entryPoint"-->
+                <!--class="org.springframework.flex.security3.FlexAuthenticationEntryPoint"/>-->
 
-    <beans:bean id="accessDeniedHandler" class="test.primaris.security.AccessDeniedExceptionHandler"/>
-
+    <!--<beans:bean id="accessDeniedHandler" class="test.primaris.security.AccessDeniedExceptionHandler"/>-->
 
     <global-method-security>
         <protect-pointcut expression="execution(* test.primaris.service.UserDataService.*(..))"
@@ -52,15 +51,6 @@
             </beans:props>
         </beans:property>
     </beans:bean>
-
-    <!--<beans:bean id="authenticationManager"-->
-                <!--class="org.springframework.security.authentication.ProviderManager">-->
-        <!--<beans:property name="providers">-->
-            <!--<beans:list>-->
-                <!--<beans:ref local="daoAuthenticationProvider"/>-->
-            <!--</beans:list>-->
-        <!--</beans:property>-->
-    <!--</beans:bean>-->
 
     <authentication-manager>
         <authentication-provider ref="daoAuthenticationProvider"/>

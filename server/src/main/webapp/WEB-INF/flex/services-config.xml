@@ -11,7 +11,7 @@
 
     <channels>
         <channel-definition id="serviceUser-amf" class="mx.messaging.channels.AMFChannel">
-            <!--TODO albo spring/messagebroker/amf-->
+            <!--trzeba podać context root'a zahardkodowanego-->
             <endpoint url="http://{server.name}:{server.port}/{context.root}/flex/messagebroker/amf"
                       class="flex.messaging.endpoints.AMFEndpoint"/>
         </channel-definition>

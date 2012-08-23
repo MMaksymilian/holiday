@@ -1,4 +1,7 @@
 package flex.service {
+import flash.net.URLRequest;
+import flash.net.navigateToURL;
+
 import mx.controls.Alert;
 import mx.messaging.messages.ErrorMessage;
 import mx.rpc.events.FaultEvent;
@@ -21,8 +24,10 @@ public class BaseService {
 
             try {
                 if (er.hasOwnProperty("rootCause")) {
-                    Alert.show("" + fault.token.responders[0].toString())       ;
-                    Alert.show(er.faultString, "Błąd serwera " + er.rootCause.header);
+                    if (er.faultString.indexOf("org.springframework.security.access.AccessDeniedException") != - 1) {
+                        navigateToURL(new URLRequest('flex/login'),'_self')
+                    }
+                    Alert.show(er.faultString, "Błąd serwera ");
                 } else {
                     Alert.show(er.faultString, "Błąd");
                 }
