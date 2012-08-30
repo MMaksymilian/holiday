@@ -1,0 +1,36 @@
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="logon();">
+ <mx:Consumer id="consumer" destination="chat" message="messageHandler(event);" fault="faultHandler(event);"/>
+    <!--selector="headerValue > 15"-->
+ <mx:Consumer id="consumerTemp" destination="chat" message="messageHandlerTemp(event);" fault="faultHandler(event);"/>
+    <!--selector="headerValue > 8"-->
+ <mx:TextArea id="returnedMessage"/>
+
+ <mx:Script>
+     import flex.data.Holiday;
+
+     import mx.controls.Alert;
+     import mx.messaging.events.MessageEvent;
+     import mx.messaging.events.MessageFaultEvent;
+
+     private function logon():void {
+         consumer.subscribe();
+         consumerTemp.subscribe();
+     }
+
+     private function messageHandler(event:MessageEvent):void {
+         var holiday:Holiday = event.message.body.holidayData as Holiday;
+         returnedMessage.text = holiday.cause;
+     }
+
+     private function messageHandlerTemp(event:MessageEvent):void {
+         Alert.show("" +  (event.message.body.holidayData as Holiday).status);
+     }
+
+     private function faultHandler(event:MessageFaultEvent):void {
+         Alert.show("źle: " + event.message.faultString);
+         Alert.show(event.message.faultDetail);
+     }
+
+
+ </mx:Script>
+</mx:VBox>

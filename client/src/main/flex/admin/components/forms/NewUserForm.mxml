@@ -65,8 +65,6 @@
         }
 
         private function validateForm():Boolean {
-            var userDataTest:UserDataService  = new UserDataServiceImpl();
-            userDataTest.findHolidayForCurrentUserAndMonth(new Date(), handlerTemporary);
             var validatorErrorArray:Array = Validator.validateAll(validatorArray);
             var isValidForm:Boolean = validatorErrorArray.length == 0;
             if (isValidForm) {

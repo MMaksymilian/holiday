@@ -18,7 +18,7 @@ public interface AdminDataService {
     function getUserEntry(login:String,  year:int,  month:int, handler:Function = null):void;
     function fetchHoliday(login:String, date:Date, handler:Function):void;
     function sendDecision(dtoId:Number, decisionStatus:int, cause:String, handler:Function):void;
-    function createNewUser(serviceUser:ServiceUser, handler:Function, errHandler:Function = null);
+    function createNewUser(serviceUser:ServiceUser, handler:Function, errHandler:Function = null):void;
     function findDataForChosenUser(login:String,  handler:Function = null, errHandler:Function = null):void;
     function acceptHoliday(holiday:Holiday, handler:Function = null, errHandler:Function = null):void;
     function rejectHoliday(holiday:Holiday,handler:Function = null, errHandler:Function = null):void;

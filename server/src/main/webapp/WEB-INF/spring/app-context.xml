@@ -17,9 +17,17 @@
     <context:component-scan base-package="test.primaris.controller" />
     <mvc:annotation-driven />
     <flex:message-broker>
-        <!--<flex:-->
         <!--<flex:mapping pattern="/messagebroker/*" />-->
         <!--<flex:secured  />-->
     </flex:message-broker>
+    <!--<flex:message-destination id="chat"-->
+                              <!--channels="my-polling-amf"-->
+                              <!--allow-subtopics="true"-->
+                              <!--cluster-message-routing="broadcast"-->
+                              <!--message-time-to-live="1"-->
+                              <!--subscription-timeout-minutes="1"-->
+                              <!--subtopic-separator="/" />-->
 
+    <!--send-security-constraint="fooConstraint"-->
+    <!--subscribe-security-constraint="barConstraint"-->
 </beans>

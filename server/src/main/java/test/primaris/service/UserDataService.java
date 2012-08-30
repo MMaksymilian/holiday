@@ -2,8 +2,10 @@ package test.primaris.service;
 
 import test.primaris.entity.dto.HolidayDTO;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,4 +20,5 @@ public interface UserDataService {
     List<HolidayDTO> findHolidayForCurrentUserAndMonth(Date date);
     List<HolidayDTO> findHolidayForCurrentUserDatesBetween(Date dateFrom, Date dateTo);
     String requestHoliday(HolidayDTO holidayDTO);
+    public Map<String, Collection<HolidayDTO>> getAllHolidaysMap();
 }

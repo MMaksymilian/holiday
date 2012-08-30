@@ -25,12 +25,33 @@
             <artifactId>flex-framework</artifactId>
             <version>${flex.version}</version>
             <type>pom</type>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.adobe.flex.framework</groupId>
+                    <artifactId>playerglobal</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.adobe.flex.framework</groupId>
+            <artifactId>playerglobal</artifactId>
+            <version>3.4.1.10084</version>
+            <classifier>10</classifier>
+            <type>swc</type>
         </dependency>
 
         <dependency>
             <groupId>com.adobe.flex.framework</groupId>
             <artifactId>rpc</artifactId>
             <version>${flex.version}</version>
+            <type>swc</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.alivepdf</groupId>
+            <artifactId>AlivePDF</artifactId>
+            <version>0.1.5[RC]</version>
             <type>swc</type>
         </dependency>
 
@@ -78,7 +99,6 @@
             <type>swc</type>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <repositories>
@@ -126,30 +146,30 @@
                         <type>pom</type>
                     </dependency>
                 </dependencies>
-
                 <executions>
-                    <!--<execution>-->
-                        <!--<id>compile-user-swf</id>-->
-                        <!--<goals>-->
-                            <!--<goal>compile-swf</goal>-->
+                    <execution>
+                        <id>compile-user-swf</id>
+                        <goals>
+                            <goal>compile-swf</goal>
                             <!--<goal>test-compile</goal>-->
-                            <!--<goal>test-run</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--&lt;!&ndash;COMPILE CONFIG&ndash;&gt;-->
-                            <!--<sourceFile>${basedir}/src/main/flex/user/Main.mxml</sourceFile>-->
-                            <!--<output>${swf.path}/user.swf</output>-->
-                            <!--<contextRoot>/${project.build.finalName}</contextRoot>-->
-                            <!--<services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>-->
-                            <!--<debug>true</debug>-->
-                            <!--<useResourceBundleMetadata>true</useResourceBundleMetadata>-->
-                            <!--&lt;!&ndash;TESTS CONFIG&ndash;&gt;-->
-                            <!--<includeTestFiles>-->
-                                <!--<includeTestFile>/flex/user/suite/TestSuite.as</includeTestFile>-->
-                            <!--</includeTestFiles>-->
-                            <!--<skipTest>true</skipTest>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
+                            <goal>test-run</goal>
+                        </goals>
+                        <configuration>
+                            <targetPlayer>10.0.0</targetPlayer>
+                            <!--COMPILE CONFIG-->
+                            <sourceFile>${basedir}/src/main/flex/user/Main.mxml</sourceFile>
+                            <output>${swf.path}/user.swf</output>
+                            <contextRoot>/${project.build.finalName}</contextRoot>
+                            <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
+                            <debug>true</debug>
+                            <useResourceBundleMetadata>true</useResourceBundleMetadata>
+                            <!--TESTS CONFIG-->
+                            <includeTestFiles>
+                                <includeTestFile>/flex/user/suite/TestSuite.as</includeTestFile>
+                            </includeTestFiles>
+                            <skipTest>true</skipTest>
+                        </configuration>
+                    </execution>
 
                     <!--<execution>-->
                         <!--<id>compile-login-swf</id>-->
@@ -174,29 +194,29 @@
                         <!--</configuration>-->
                     <!--</execution>-->
 
-                    <execution>
-                        <id>compile-admin-swf</id>
-                        <goals>
-                            <goal>compile-swf</goal>
-                            <!--<goal>test-compile</goal>-->
-                            <!--<goal>test-run</goal>-->
-                        </goals>
-                        <configuration>
-                            <!--COMPILE CONFIG-->
-                            <sourceFile>${basedir}/src/main/flex/admin/Main.mxml</sourceFile>
-                            <output>${swf.path}/admin.swf</output>
-                            <contextRoot>/${project.build.finalName}</contextRoot>
-                            <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
-                            <debug>true</debug>
-                            <useResourceBundleMetadata>true</useResourceBundleMetadata>
-                            <!--TEST CONFIG-->
-                            <includeTestFiles>
-                                <includeTestFile>/flex/admin/suite/TestSuite.as</includeTestFile>
-                                <includeTestFile>/flex/admin/suite/TestTheorySuite.as</includeTestFile>
-                            </includeTestFiles>
-                            <skipTest>true</skipTest>
-                        </configuration>
-                    </execution>
+                    <!--<execution>-->
+                        <!--<id>compile-admin-swf</id>-->
+                        <!--<goals>-->
+                            <!--<goal>compile-swf</goal>-->
+                            <!--&lt;!&ndash;<goal>test-compile</goal>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<goal>test-run</goal>&ndash;&gt;-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--&lt;!&ndash;COMPILE CONFIG&ndash;&gt;-->
+                            <!--<sourceFile>${basedir}/src/main/flex/admin/Main.mxml</sourceFile>-->
+                            <!--<output>${swf.path}/admin.swf</output>-->
+                            <!--<contextRoot>/${project.build.finalName}</contextRoot>-->
+                            <!--<services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>-->
+                            <!--<debug>true</debug>-->
+                            <!--<useResourceBundleMetadata>true</useResourceBundleMetadata>-->
+                            <!--&lt;!&ndash;TEST CONFIG&ndash;&gt;-->
+                            <!--<includeTestFiles>-->
+                                <!--<includeTestFile>/flex/admin/suite/TestSuite.as</includeTestFile>-->
+                                <!--<includeTestFile>/flex/admin/suite/TestTheorySuite.as</includeTestFile>-->
+                            <!--</includeTestFiles>-->
+                            <!--<skipTest>true</skipTest>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
                 </executions>
             </plugin>
         </plugins>

@@ -2,6 +2,7 @@ package test.primaris.dao.impl;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
@@ -34,6 +35,7 @@ public class HolidayDAOImpl extends BaseDAOImpl implements HolidayDAO {
     public List<Holiday> findHolidayForUser(ServiceUser serviceUser) {
         Criteria holidayLoginCriteria = getSession().createCriteria(Holiday.class);
         holidayLoginCriteria.add(Restrictions.eq("serviceUser", serviceUser));
+        holidayLoginCriteria.addOrder(Order.asc("dateFrom"));
         return holidayLoginCriteria.list();
     }
 

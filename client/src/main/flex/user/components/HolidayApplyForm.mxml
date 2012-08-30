@@ -78,7 +78,9 @@
         }
 
         private function submitButton_clickHandler(event:MouseEvent):void {
+            submitButton.enabled = false;
             if (!validateForm())  {
+                setButtonEnabled(true);
                 return;
             }
             var holidayData:Holiday = new Holiday();
@@ -113,6 +115,11 @@
             validatorArr.push(fromDateValidator);
             validatorArr.push(toDateValidator);
             validatorArr.push(causeValidator);
+        }
+
+        /*Dobrze by było dodać listener do eventu żeby nie komplikować kodu*/
+        public function setButtonEnabled(b:Boolean):void {
+             submitButton.enabled = true;
         }
         ]]></mx:Script>
 

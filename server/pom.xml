@@ -128,6 +128,13 @@
             <version>2.1</version>
         </dependency>
 
+        <!--Guava libs-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>13.0.1</version>
+        </dependency>
+
         <!-- LOGGING - slf4j, logback -->
         <dependency>
             <groupId>ch.qos.logback</groupId>

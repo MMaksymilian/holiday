@@ -44,7 +44,7 @@ public class AdminDataServiceImpl extends BaseService implements AdminDataServic
         rpcCall.addResponder(new Responder(handler, handler_generalFault));
     }
 
-    public function createNewUser(serviceUser:ServiceUser,  handler:Function, errHandler:Function = null) {
+    public function createNewUser(serviceUser:ServiceUser,  handler:Function, errHandler:Function = null):void {
         var rpcCall:AsyncToken;
         if (errHandler == null) {
             errHandler = handler_generalFault;

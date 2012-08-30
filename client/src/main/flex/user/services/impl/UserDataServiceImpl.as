@@ -38,5 +38,14 @@ public class UserDataServiceImpl extends BaseService implements UserDataService 
         rpcCall = remoteService.requestHoliday(holiday);
         rpcCall.addResponder(new Responder(handler,  errHandler));
     }
+
+    public function getAllHolidaysMap(handler:Function, errHandler:Function = null):void{
+        var rpcCall:AsyncToken;
+        if(errHandler == null) {
+            errHandler = handler_generalFault;
+        }
+        rpcCall = remoteService.getAllHolidaysMap();
+        rpcCall.addResponder(new Responder(handler,  errHandler));
+    }
 }
 }

@@ -1,9 +1,9 @@
 package test.primaris.dao;
 
+import com.google.common.collect.Multimap;
 import org.joda.time.DateTime;
 import test.primaris.entity.Holiday;
 import test.primaris.entity.ServiceUser;
-import test.primaris.entity.dto.HolidayDTO;
 
 import java.util.List;
 

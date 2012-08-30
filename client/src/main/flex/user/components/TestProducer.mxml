@@ -1,0 +1,36 @@
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml">
+    <mx:Producer id="messageProducer" destination="chat" acknowledge="made(event)" fault="failed(event)"/>
+    <mx:Script>
+        import flex.data.Holiday;
+
+        import mx.controls.Alert;
+        import mx.messaging.events.MessageAckEvent;
+        import mx.messaging.events.MessageFaultEvent;
+        import mx.messaging.messages.AsyncMessage;
+
+        private function made(event:MessageAckEvent):void {
+           Alert.show("dobrze wysłany");
+        }
+
+        private function failed(event:MessageFaultEvent):void {
+           Alert.show("źle" + event.message.faultString);
+           Alert.show(event.message.faultDetail);
+        }
+
+        private function sendMessage():void {
+            var message:AsyncMessage = new AsyncMessage();
+            var holidaySendData:Holiday = new Holiday();
+            holidaySendData.cause="Powód urlopu: złamana noga";
+            holidaySendData.status="APPLIED";
+            message.body = new Object();
+            message.body.holidayData = holidaySendData;
+            message.body.array = ['napis1', 'napis2'];
+            message.headers["headerValue"]  = 8;
+            messageProducer.send(message);
+        }
+    </mx:Script>
+
+    <mx:TextInput id="sendData"/>
+    <mx:Button id="sendButton" click="sendMessage()"/>
+
+</mx:VBox>

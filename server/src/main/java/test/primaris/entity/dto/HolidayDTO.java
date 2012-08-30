@@ -15,7 +15,7 @@ import java.util.Date;
  * Time: 10:08
  * To change this template use File | Settings | File Templates.
  */
-public class HolidayDTO implements Serializable {
+public class HolidayDTO implements Serializable, Comparable<HolidayDTO> {
     private Integer id;
     private Date dateFrom;
     private Date dateTo;
@@ -60,5 +60,10 @@ public class HolidayDTO implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public int compareTo(HolidayDTO o) {
+        return this.dateFrom.compareTo(o.dateFrom);
     }
 }

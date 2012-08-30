@@ -3,17 +3,27 @@
 
     <services>
         <service-include file-path="remoting-config.xml" />
-
+        <service-include file-path="messaging-config.xml"/>
         <default-channels>
             <channel ref="serviceUser-amf"/>
+            <channel ref="my-polling-amf"/>
         </default-channels>
     </services>
 
     <channels>
         <channel-definition id="serviceUser-amf" class="mx.messaging.channels.AMFChannel">
-            <!--trzeba podać context root'a zahardkodowanego-->
+            <!--TODO albo spring/messagebroker/amf-->
             <endpoint url="http://{server.name}:{server.port}/{context.root}/flex/messagebroker/amf"
                       class="flex.messaging.endpoints.AMFEndpoint"/>
+        </channel-definition>
+
+        <channel-definition id="my-polling-amf" class="mx.messaging.channels.AMFChannel">
+            <endpoint url="http://{server.name}:{server.port}/server-1.0-SNAPSHOT/flex/messagebroker/amfpolling"
+                      class="flex.messaging.endpoints.AMFEndpoint"/>
+            <properties>
+                <polling-enabled>true</polling-enabled>
+                <polling-interval-seconds>5</polling-interval-seconds>
+            </properties>
         </channel-definition>
     </channels>
 

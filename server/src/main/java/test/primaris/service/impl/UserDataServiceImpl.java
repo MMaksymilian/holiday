@@ -1,5 +1,6 @@
 package test.primaris.service.impl;
 
+import com.google.common.collect.*;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.flex.remoting.RemotingDestination;
@@ -18,9 +19,7 @@ import test.primaris.service.EmailSender;
 import test.primaris.service.UserDataService;
 import test.primaris.service.util.FlexServiceUtil;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -100,5 +99,17 @@ public class UserDataServiceImpl implements UserDataService {
         return "success";
     }
 
-
+    @Override
+    public Map<String, Collection<HolidayDTO>> getAllHolidaysMap() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Holiday> holidays = holidayDAO.findHolidayForUser(((TestAppUserDetails)principal).getServiceUser());
+//        TreeMultimap<String, HolidayDTO> holidaysMultiMap = TreeMultimap.create();
+        LinkedListMultimap<String, HolidayDTO> holidaysMultiMap = LinkedListMultimap.create();
+        for(Holiday holiday : holidays) {
+            for(int i = 0; i <= (holiday.getDateTo().monthOfYear().get() - holiday.getDateFrom().monthOfYear().get()) ; i++) {
+                holidaysMultiMap.put(holiday.getDateFrom().plusMonths(i).toString("MM/yyyy"),  FlexServiceUtil.rewriteToDTO(holiday));
+            }
+        }
+        return holidaysMultiMap.asMap();
+    }
 }
