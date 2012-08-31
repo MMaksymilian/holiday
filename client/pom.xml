@@ -42,6 +42,13 @@
         </dependency>
 
         <dependency>
+            <groupId>flex.custom</groupId>
+            <artifactId>Rollo</artifactId>
+            <version>1.0</version>
+            <type>swc</type>
+        </dependency>
+
+        <dependency>
             <groupId>com.adobe.flex.framework</groupId>
             <artifactId>rpc</artifactId>
             <version>${flex.version}</version>
@@ -147,29 +154,29 @@
                     </dependency>
                 </dependencies>
                 <executions>
-                    <execution>
-                        <id>compile-user-swf</id>
-                        <goals>
-                            <goal>compile-swf</goal>
-                            <!--<goal>test-compile</goal>-->
-                            <goal>test-run</goal>
-                        </goals>
-                        <configuration>
-                            <targetPlayer>10.0.0</targetPlayer>
-                            <!--COMPILE CONFIG-->
-                            <sourceFile>${basedir}/src/main/flex/user/Main.mxml</sourceFile>
-                            <output>${swf.path}/user.swf</output>
-                            <contextRoot>/${project.build.finalName}</contextRoot>
-                            <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
-                            <debug>true</debug>
-                            <useResourceBundleMetadata>true</useResourceBundleMetadata>
-                            <!--TESTS CONFIG-->
-                            <includeTestFiles>
-                                <includeTestFile>/flex/user/suite/TestSuite.as</includeTestFile>
-                            </includeTestFiles>
-                            <skipTest>true</skipTest>
-                        </configuration>
-                    </execution>
+                    <!--<execution>-->
+                        <!--<id>compile-user-swf</id>-->
+                        <!--<goals>-->
+                            <!--<goal>compile-swf</goal>-->
+                            <!--&lt;!&ndash;<goal>test-compile</goal>&ndash;&gt;-->
+                            <!--<goal>test-run</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<targetPlayer>10.0.0</targetPlayer>-->
+                            <!--&lt;!&ndash;COMPILE CONFIG&ndash;&gt;-->
+                            <!--<sourceFile>${basedir}/src/main/flex/user/Main.mxml</sourceFile>-->
+                            <!--<output>${swf.path}/user.swf</output>-->
+                            <!--<contextRoot>/${project.build.finalName}</contextRoot>-->
+                            <!--<services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>-->
+                            <!--<debug>true</debug>-->
+                            <!--<useResourceBundleMetadata>true</useResourceBundleMetadata>-->
+                            <!--&lt;!&ndash;TESTS CONFIG&ndash;&gt;-->
+                            <!--<includeTestFiles>-->
+                                <!--<includeTestFile>/flex/user/suite/TestSuite.as</includeTestFile>-->
+                            <!--</includeTestFiles>-->
+                            <!--<skipTest>true</skipTest>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
 
                     <!--<execution>-->
                         <!--<id>compile-login-swf</id>-->
@@ -194,29 +201,29 @@
                         <!--</configuration>-->
                     <!--</execution>-->
 
-                    <!--<execution>-->
-                        <!--<id>compile-admin-swf</id>-->
-                        <!--<goals>-->
-                            <!--<goal>compile-swf</goal>-->
-                            <!--&lt;!&ndash;<goal>test-compile</goal>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<goal>test-run</goal>&ndash;&gt;-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--&lt;!&ndash;COMPILE CONFIG&ndash;&gt;-->
-                            <!--<sourceFile>${basedir}/src/main/flex/admin/Main.mxml</sourceFile>-->
-                            <!--<output>${swf.path}/admin.swf</output>-->
-                            <!--<contextRoot>/${project.build.finalName}</contextRoot>-->
-                            <!--<services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>-->
-                            <!--<debug>true</debug>-->
-                            <!--<useResourceBundleMetadata>true</useResourceBundleMetadata>-->
-                            <!--&lt;!&ndash;TEST CONFIG&ndash;&gt;-->
-                            <!--<includeTestFiles>-->
-                                <!--<includeTestFile>/flex/admin/suite/TestSuite.as</includeTestFile>-->
-                                <!--<includeTestFile>/flex/admin/suite/TestTheorySuite.as</includeTestFile>-->
-                            <!--</includeTestFiles>-->
-                            <!--<skipTest>true</skipTest>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
+                    <execution>
+                        <id>compile-admin-swf</id>
+                        <goals>
+                            <goal>compile-swf</goal>
+                            <!--<goal>test-compile</goal>-->
+                            <!--<goal>test-run</goal>-->
+                        </goals>
+                        <configuration>
+                            <!--COMPILE CONFIG-->
+                            <sourceFile>${basedir}/src/main/flex/admin/Main.mxml</sourceFile>
+                            <output>${swf.path}/admin.swf</output>
+                            <contextRoot>/${project.build.finalName}</contextRoot>
+                            <services>${basedir}/src/main/webapp/WEB-INF/config/services-config.xml</services>
+                            <debug>true</debug>
+                            <useResourceBundleMetadata>true</useResourceBundleMetadata>
+                            <!--TEST CONFIG-->
+                            <includeTestFiles>
+                                <includeTestFile>/flex/admin/suite/TestSuite.as</includeTestFile>
+                                <includeTestFile>/flex/admin/suite/TestTheorySuite.as</includeTestFile>
+                            </includeTestFiles>
+                            <skipTest>true</skipTest>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

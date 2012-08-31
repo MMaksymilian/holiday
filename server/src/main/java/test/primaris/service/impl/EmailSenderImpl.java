@@ -48,7 +48,7 @@ public class EmailSenderImpl implements EmailSender {
                 model.put("holidayStatus", status.name());
                 try {
                     String text = VelocityEngineUtils.mergeTemplateIntoString(
-                            velocityEngineFactoryBean.createVelocityEngine(), "holidayStatusChange.ft", model);
+                            velocityEngineFactoryBean.createVelocityEngine(), "holidayStatusChange.ft", "UTF-8", model);
                     message.setText(text, true);
                 } catch (VelocityException exception) {
                     exception.printStackTrace();
@@ -74,7 +74,7 @@ public class EmailSenderImpl implements EmailSender {
                     model.put("chief", chief);
                     try {
                         String text = VelocityEngineUtils.mergeTemplateIntoString(
-                                velocityEngineFactoryBean.createVelocityEngine(), "holidayRequest.ft", model);
+                                velocityEngineFactoryBean.createVelocityEngine(), "holidayRequest.ft", "UTF-8", model);
                         message.setText(text, true);
                     } catch (VelocityException exception) {
                         exception.printStackTrace();

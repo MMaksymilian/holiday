@@ -9,7 +9,6 @@
     <mx:Metadata>
         [Event(name=ChangeMonthEvent.CHANGED_MONTH, type="flex.user.event.ChangeMonthEvent")]
     </mx:Metadata>
-
     <mx:Script><![CDATA[
         import flex.admin.model.UserEntry;
         import flex.data.Holiday;
@@ -25,6 +24,7 @@
 
         import mx.collections.ArrayCollection;
         import mx.controls.Alert;
+        import mx.controls.DateField;
         import mx.managers.PopUpManager;
         import mx.rpc.events.ResultEvent;
 
@@ -186,6 +186,23 @@
     <mx:Style>
         .holidayFormFillField {
             text-decoration: underline;
+        }
+
+        .dateFieldHeader {
+            color:green;
+            background:grey;
+        }
+
+        DateField {
+            borderColor: "0xA02312";
+            dateChooserStyleName:".dateFieldHeader";
+        }
+        Button {
+            borderColor:"0xAB3000";
+            color:"0xAF333C";
+            fontSharpness:"-200";
+            textRollOverColor:"0x2B333C";
+            textSelectedColor:"0x0AAF34";
         }
     </mx:Style>
 </mx:Application>

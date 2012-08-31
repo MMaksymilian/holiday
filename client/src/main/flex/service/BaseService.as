@@ -25,7 +25,7 @@ public class BaseService {
             try {
                 if (er.hasOwnProperty("rootCause")) {
                     if (er.faultString.indexOf("org.springframework.security.access.AccessDeniedException") != - 1) {
-//                        navigateToURL(new URLRequest('login'),'_self')
+                        navigateToURL(new URLRequest('login'),'_self')
                     }
                     Alert.show(er.faultString, "Błąd serwera ");
                 } else {

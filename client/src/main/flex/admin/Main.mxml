@@ -1,5 +1,5 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:form="flex.admin.components.forms.*" xmlns:local="flex.admin.components.*"
-                layout="absolute" backgroundGradientColors="[0x000000,0x323232]"
+                layout="absolute" backgroundGradientColors="[0x000000,0x323232]" xmlns:rolotab="com.karn.rolotab.*"
                 applicationComplete="onEntry()">
     <mx:Panel width="100%" height="400" paddingLeft="40" paddingRight="40" paddingTop="10" paddingBottom="10">
         <mx:LinkBar color="0x0050AA" horizontalAlign="center" width="100%" fontWeight="bold"
@@ -18,9 +18,34 @@
             <!--Zakładka z danymi użytkowników-->
             <mx:VBox label="Pracownicy" backgroundColor="0xDCDCDC"  width="100%" paddingLeft="40" paddingRight="40" paddingTop="10" paddingBottom="10" fontWeight="bold">
                 <form:NewUserForm/>
+
+                <rolotab:RoloTab id="tabs" x="0" y="50" width="35" height="100%" dataProvider="{dataCol}" valuePropertyName="{listLabelField}"
+                                 tabChangeEvent="tabChangeHandler(event)" />
+
+
+                <mx:Canvas left="35" right="0" top="50" bottom="0" backgroundAlpha="1.0"
+                           backgroundColor="#FAFAFA" backgroundImage="{imgBackground}" backgroundSize="100%"
+                           borderStyle="none"
+                           verticalScrollPolicy="off" horizontalScrollPolicy="off">
+                    <mx:HBox id="btnBar" width="100%" left="15" top="15" >
+                        <mx:Button label="AddA" toolTip="Add a bunch of data all at once." click="addAllData()" />
+                        <mx:Button label="Add"  />
+                        <mx:Button id="btnEdit" label="Edit"  enabled="{lst.selectedItems.length == 1}" />
+                        <mx:Button id="btnDelete" label="Delete" enabled="{lst.selectedItems.length > 0}" />
+                        <mx:Button label="Select All"/>
+                    </mx:HBox>
+
+                    <mx:List id="lst" y="240" left="15" right="30" bottom="15" top="{btnBar.x + btnBar.height + 10}"
+                             dataProvider="{lcv}" labelFunction="labelDisplay" allowMultipleSelection="true"
+                             doubleClickEnabled="true" fontWeight="bold" />
+
+                    <mx:Label id="labSelect" y="90" width="100" left="15" color="#000000" />
+                </mx:Canvas>
+
             </mx:VBox>
         </mx:ViewStack>
     </mx:Panel>
+    <mx:ListCollectionView id="lcv" list="{dataCol}"/>
     <mx:Script><![CDATA[
         import flex.admin.event.CreateNewUserEvent;
         import flex.admin.services.AdminDataService;
@@ -28,6 +53,8 @@
         import flex.data.ServiceUser;
         import flex.service.SecurityService;
         import flex.service.impl.SecurityServiceImpl;
+
+        import com.karn.rolotab.TabChangeEvent;
 
         import mx.collections.ArrayCollection;
         import mx.controls.Alert;
@@ -39,6 +66,13 @@
         private var securityService:SecurityService;
         private var currentUser:ServiceUser;
 
+        [Embed(source="image/background.jpg",scaleGridTop="12", scaleGridBottom="150",scaleGridLeft="1", scaleGridRight="105")]
+        [Bindable]
+        public var imgBackground:Class;
+
+        private function labelDisplay(data:Object):String {
+            return data.firstName + " " + data.lastName + ", " + data.jobTitle;
+        }
 
         private function creationCompleteHandler():void {
             securityService = new SecurityServiceImpl();
@@ -47,6 +81,52 @@
             updateDates();
         }
 
+        [Bindable]
+        private var listLabelField:String = "lastName";
+
+        [Bindable]
+        private var dataCol:ArrayCollection = new ArrayCollection();
+
+        private function addAllData():void {
+            var con:Contact = new Contact("Colleen","Wulf","UI Lead","whatsoever burn");
+            dataCol.addItem(con);
+            con = new Contact("Jeff","Gale","Cancer Research","detailed substitute");
+            dataCol.addItem(con);
+            con = new Contact("Albert","Einstien", "Scientist", "bias study");
+            dataCol.addItem(con);
+            con = new Contact("Johnny","Killen","Lazy Chief Evangelist","commissioned remark");
+            dataCol.addItem(con);
+            con = new Contact("Walter","Ulloa","Great Solutions Administrator","sole deposit");
+            dataCol.addItem(con);
+            con = new Contact("Luis","Tomas","Financial System Professional","transparent argument");
+            dataCol.addItem(con);
+            con = new Contact("Geneva","Bissell","Head Sales Mediator","deal theatre");
+            dataCol.addItem(con);
+            con = new Contact("Keith","Kearns","Global Mediator","slipping etymology");
+            dataCol.addItem(con);
+            con = new Contact("Tammy","Ritchie","Strategic Coordinator","illogical learning");
+            dataCol.addItem(con);
+            con = new Contact("Carl","Ma","Managing Evangelist","becoming steal");
+            dataCol.addItem(con);
+            con = new Contact("Marvin","Rudolph","Technology Editor","exaggerated grind");
+            dataCol.addItem(con);
+
+            tabs.dataProvider = dataCol;
+            lcv.list = dataCol;
+            lcv.refresh();
+        }
+
+        private function tabChangeHandler(event:TabChangeEvent):void {
+            Alert.show("działa " + event.tabTitle);
+//            selectedTitle = event.tabTitle;
+//            if (event.tabTitle == null) {
+//                ff = filterAll;
+//                lcv.refresh();
+//            } else {
+//                ff = filterTitle;
+//                lcv.refresh();
+//            }
+        }
 
         private function getFirstOfTheMonth(currentDate:Date):Date {
             var month:int = currentDate.getMonth();
