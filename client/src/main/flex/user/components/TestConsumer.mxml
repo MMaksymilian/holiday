@@ -6,7 +6,7 @@
  <mx:TextArea id="returnedMessage"/>
 
  <mx:Script>
-     import flex.data.Holiday;
+     import flex.common.data.Holiday;
 
      import mx.controls.Alert;
      import mx.messaging.events.MessageEvent;
@@ -23,7 +23,7 @@
      }
 
      private function messageHandlerTemp(event:MessageEvent):void {
-         Alert.show("" +  (event.message.body.holidayData as Holiday).status);
+         Alert.show("" + (event.message.body.holidayData as Holiday).status);
      }
 
      private function faultHandler(event:MessageFaultEvent):void {

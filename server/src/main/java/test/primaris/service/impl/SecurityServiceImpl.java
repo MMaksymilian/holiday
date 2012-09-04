@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import test.primaris.entity.ServiceUser;
 import test.primaris.entity.dto.ServiceUserDTO;
+import test.primaris.security.SecurityRole;
 import test.primaris.security.TestAppUserDetails;
 import test.primaris.service.SecurityService;
 import test.primaris.service.util.FlexServiceUtil;
@@ -18,8 +19,8 @@ import java.util.Map;
 @RemotingDestination
 public class SecurityServiceImpl implements SecurityService {
     private Map<String, Integer> roleValueMap = new HashMap<String, Integer>();{
-        roleValueMap.put("ROLE_USER",3);
-        roleValueMap.put("ROLE_CHIEF",5);
+        roleValueMap.put(SecurityRole.ROLE_USER.toString(),3);
+        roleValueMap.put(SecurityRole.ROLE_CHIEF.toString(),5);
     }
 
 

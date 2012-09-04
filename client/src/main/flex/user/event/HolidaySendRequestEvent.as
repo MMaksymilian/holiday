@@ -1,7 +1,7 @@
 package flex.user.event {
 import flash.events.Event;
 
-import flex.data.Holiday;
+import flex.common.data.Holiday;
 
 public class HolidaySendRequestEvent extends Event {
 

@@ -1,26 +1,26 @@
 <mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalAlign="center"
          paddingTop="4" paddingBottom="4">
-    <mx:Button  icon="@Embed('image/accept.gif')" cornerRadius="12"  click="sendAcceptHolidayRequest(data as Holiday);"/>
+    <mx:Button  icon="@Embed('image/reject.jpg')" cornerRadius="12" click="sendRejectHolidayRequest(data as Holiday);"/>
 
     <!--<mx:Metadata>-->
-        <!--[Event(name=AcceptHolidayEvent.acceptHolidayEvent, type="flex.event.admin.AcceptHolidayEvent")]-->
+        <!--[Event(name=RejectHolidayEvent.rejectHolidayEvent, type="flex.event.admin.RejectHolidayEvent")]-->
     <!--</mx:Metadata>-->
 
     <mx:Script>
         <![CDATA[
         import flex.admin.services.AdminDataService;
         import flex.admin.services.impl.AdminDataServiceImpl;
-        import flex.data.Holiday;
+        import flex.common.data.Holiday;
 
         //można było przenieść do main'a
-        private function sendAcceptHolidayRequest(holiday:Holiday):void {
+        private function sendRejectHolidayRequest(holiday:Holiday):void {
             var flexService:AdminDataService = new AdminDataServiceImpl();
-            flexService.acceptHoliday(holiday, successfullyRemoved);
+            flexService.rejectHoliday(holiday, successfullyRemoved);
             dispatchEvent(new Event('deleteRow', true));
         }
 
         private function successfullyRemoved():void {
-            // TODO nie wiem czemu nie działa
+            //TODO nie wiem czemu nie dział
             dispatchEvent(new Event('deleteRow', true));
         }
         ]]>

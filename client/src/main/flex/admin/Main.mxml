@@ -1,60 +1,59 @@
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:form="flex.admin.components.forms.*" xmlns:local="flex.admin.components.*"
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:form="flex.admin.components.forms.*"
+                xmlns:local="flex.admin.components.*"
                 layout="absolute" backgroundGradientColors="[0x000000,0x323232]" xmlns:rolotab="com.karn.rolotab.*"
                 applicationComplete="onEntry()">
-    <mx:Panel width="100%" height="400" paddingLeft="40" paddingRight="40" paddingTop="10" paddingBottom="10">
+    <mx:Panel width="100%" height="500" paddingLeft="40" paddingRight="40" paddingTop="10" paddingBottom="10">
         <mx:LinkBar color="0x0050AA" horizontalAlign="center" width="100%" fontWeight="bold"
                     dataProvider="{adminViewStack}"
                     borderColor="0xACACAC" borderStyle="solid"/>
-        <mx:ViewStack id="adminViewStack" borderStyle="solid" width="100%"  height="100%" color="0x323232">
+        <mx:ViewStack id="adminViewStack" borderStyle="solid" width="100%" height="100%" color="0x323232">
 
             <!--Zakładka z danymi o urlopach-->
-            <mx:VBox label="Urlopy" backgroundColor="0xDCDCDC" width="100%" paddingLeft="40" paddingRight="40" paddingTop="10" paddingBottom="10" fontWeight="bold">
+            <mx:VBox label="Urlopy" backgroundColor="0xDCDCDC" width="100%" paddingLeft="40" paddingRight="40"
+                     paddingTop="10" paddingBottom="10" fontWeight="bold">
                 <local:MonthChooser id="mChosenMonth"
-                        yearNavigationEnabled="true" styleName="monthChooserStyles"  selectedDate="{chosenMonth}" change="updateDates()"/>
+                                    yearNavigationEnabled="true" styleName="monthChooserStyles"
+                                    selectedDate="{chosenMonth}" change="updateDates()"/>
                 <local:EntryGrid id="entryGrid"
                                  creationComplete="entryGrid.setDecisionHandler(updateDates);"/>
+                <mx:Button id="fileChooserButton" label="raport urlopów" enabled="false" click="submitClick()"/>
             </mx:VBox>
 
             <!--Zakładka z danymi użytkowników-->
-            <mx:VBox label="Pracownicy" backgroundColor="0xDCDCDC"  width="100%" paddingLeft="40" paddingRight="40" paddingTop="10" paddingBottom="10" fontWeight="bold">
-                <form:NewUserForm/>
+            <mx:VBox label="Pracownicy" backgroundColor="0xDCDCDC" width="100%" paddingLeft="40" paddingRight="40"
+                     paddingTop="10" paddingBottom="10" fontWeight="bold">
+                <mx:HBox>
+                    <rolotab:RoloTab id="tabs" paddingLeft="10" width="30" height="270" dataProvider="{dataCol}"
+                                     valuePropertyName="{listLabelField}" tabChangeEvent="tabChangeHandler(event)"/>
 
-                <rolotab:RoloTab id="tabs" x="0" y="50" width="35" height="100%" dataProvider="{dataCol}" valuePropertyName="{listLabelField}"
-                                 tabChangeEvent="tabChangeHandler(event)" />
-
-
-                <mx:Canvas left="35" right="0" top="50" bottom="0" backgroundAlpha="1.0"
-                           backgroundColor="#FAFAFA" backgroundImage="{imgBackground}" backgroundSize="100%"
-                           borderStyle="none"
-                           verticalScrollPolicy="off" horizontalScrollPolicy="off">
-                    <mx:HBox id="btnBar" width="100%" left="15" top="15" >
-                        <mx:Button label="AddA" toolTip="Add a bunch of data all at once." click="addAllData()" />
-                        <mx:Button label="Add"  />
-                        <mx:Button id="btnEdit" label="Edit"  enabled="{lst.selectedItems.length == 1}" />
-                        <mx:Button id="btnDelete" label="Delete" enabled="{lst.selectedItems.length > 0}" />
-                        <mx:Button label="Select All"/>
-                    </mx:HBox>
-
-                    <mx:List id="lst" y="240" left="15" right="30" bottom="15" top="{btnBar.x + btnBar.height + 10}"
-                             dataProvider="{lcv}" labelFunction="labelDisplay" allowMultipleSelection="true"
-                             doubleClickEnabled="true" fontWeight="bold" />
-
-                    <mx:Label id="labSelect" y="90" width="100" left="15" color="#000000" />
-                </mx:Canvas>
-
+                    <mx:Canvas explicitHeight="300" width="500" backgroundAlpha="1.0"
+                               backgroundColor="#3A6AFA" backgroundImage="{imgBackground}" backgroundSize="100%"
+                               borderStyle="none"
+                               verticalScrollPolicy="off" horizontalScrollPolicy="off">
+                        <mx:HBox id="btnBar" width="100%" left="15" top="15">
+                        </mx:HBox>
+                        <mx:List id="lst" y="240" left="15" right="30" bottom="15" top="{btnBar.x + btnBar.height + 10}"
+                                 dataProvider="{lcv}" labelFunction="labelDisplay" allowMultipleSelection="false"
+                                 itemClick="onUserChangeListener(event)" fontWeight="bold"/>
+                    </mx:Canvas>
+                    <form:NewUserForm id="newUserForm"/>
+                </mx:HBox>
             </mx:VBox>
         </mx:ViewStack>
     </mx:Panel>
-    <mx:ListCollectionView id="lcv" list="{dataCol}"/>
+    <mx:ListCollectionView id="lcv" list="{dataCol}" sort="{s}" filterFunction="{ff}"/>
+    <mx:SortField id="sf" name="lastName" caseInsensitive="true" />
+    <mx:Sort id="s" fields="{[sf]}" />
     <mx:Script><![CDATA[
+        import com.karn.rolotab.TabChangeEvent;
+
         import flex.admin.event.CreateNewUserEvent;
+        import flex.admin.file.PdfGeneratorAdmin;
         import flex.admin.services.AdminDataService;
         import flex.admin.services.impl.AdminDataServiceImpl;
-        import flex.data.ServiceUser;
-        import flex.service.SecurityService;
-        import flex.service.impl.SecurityServiceImpl;
-
-        import com.karn.rolotab.TabChangeEvent;
+        import flex.common.data.ServiceUser;
+        import flex.common.service.SecurityService;
+        import flex.common.service.impl.SecurityServiceImpl;
 
         import mx.collections.ArrayCollection;
         import mx.controls.Alert;
@@ -65,67 +64,98 @@
         private var adminDataService:AdminDataService = new AdminDataServiceImpl();
         private var securityService:SecurityService;
         private var currentUser:ServiceUser;
+        private var pdfGeneratorAdmin:PdfGeneratorAdmin;
 
-        [Embed(source="image/background.jpg",scaleGridTop="12", scaleGridBottom="150",scaleGridLeft="1", scaleGridRight="105")]
+        [Bindable]
+        private var ff:Function = showAll;
+
+        [Embed(source="image/background.jpg", scaleGridTop="12", scaleGridBottom="150", scaleGridLeft="1", scaleGridRight="105")]
         [Bindable]
         public var imgBackground:Class;
 
         private function labelDisplay(data:Object):String {
-            return data.firstName + " " + data.lastName + ", " + data.jobTitle;
+            return  data.lastName + " " + data.firstName;
         }
 
-        private function creationCompleteHandler():void {
-            securityService = new SecurityServiceImpl();
-            securityService.getCurrentUser(changeCurrentUserHandler);
+        private function selectAllContacts():void {
+            lst.selectedItems = lcv.toArray();
+        }
+
+        private function onCreationComplete():void {
+            findCurrentUserData();
             mChosenMonth.selectedDate = getFirstOfTheMonth(new Date());
             updateDates();
+            listWorkers();
+            getPdfData();
+        }
+
+        private function getPdfData():void {
+            adminDataService.getHolidaysMap(getPdfDataHandler);
+        }
+
+        private function findCurrentUserData():void {
+            securityService = new SecurityServiceImpl();
+            securityService.getCurrentUser(changeCurrentUserHandler);
+        }
+
+        private function getPdfDataHandler(event:ResultEvent):void {
+            var mapObject:Object = (event.result as Object);
+            pdfGeneratorAdmin = new PdfGeneratorAdmin(mapObject);
+            fileChooserButton.enabled = true;
         }
 
         [Bindable]
         private var listLabelField:String = "lastName";
 
+        [Bindabe]
+        private var selectedTitle:String;
+
         [Bindable]
-        private var dataCol:ArrayCollection = new ArrayCollection();
+        private var fileRef:FileReference;
 
-        private function addAllData():void {
-            var con:Contact = new Contact("Colleen","Wulf","UI Lead","whatsoever burn");
-            dataCol.addItem(con);
-            con = new Contact("Jeff","Gale","Cancer Research","detailed substitute");
-            dataCol.addItem(con);
-            con = new Contact("Albert","Einstien", "Scientist", "bias study");
-            dataCol.addItem(con);
-            con = new Contact("Johnny","Killen","Lazy Chief Evangelist","commissioned remark");
-            dataCol.addItem(con);
-            con = new Contact("Walter","Ulloa","Great Solutions Administrator","sole deposit");
-            dataCol.addItem(con);
-            con = new Contact("Luis","Tomas","Financial System Professional","transparent argument");
-            dataCol.addItem(con);
-            con = new Contact("Geneva","Bissell","Head Sales Mediator","deal theatre");
-            dataCol.addItem(con);
-            con = new Contact("Keith","Kearns","Global Mediator","slipping etymology");
-            dataCol.addItem(con);
-            con = new Contact("Tammy","Ritchie","Strategic Coordinator","illogical learning");
-            dataCol.addItem(con);
-            con = new Contact("Carl","Ma","Managing Evangelist","becoming steal");
-            dataCol.addItem(con);
-            con = new Contact("Marvin","Rudolph","Technology Editor","exaggerated grind");
-            dataCol.addItem(con);
+        [Bindable]
+        private var dataCol:ArrayCollection;
 
-            tabs.dataProvider = dataCol;
+        private function listWorkers():void {
+            adminDataService.getAllWorkers(workersListHandler);
+        }
+
+        private function workersListHandler(event:ResultEvent):void {
+            dataCol = new ArrayCollection()
+            var workers:ArrayCollection = event.result as ArrayCollection;
+            for (var index:int = 0; index < workers.length; index++) {
+                var user:ServiceUser = workers.getItemAt(index) as ServiceUser;
+                dataCol.addItem(user);
+            }
             lcv.list = dataCol;
             lcv.refresh();
         }
 
+        public function onUserChangeListener(event:Event):void {
+            newUserForm.setCurrentUser(event.currentTarget.selectedItem);
+        }
+
         private function tabChangeHandler(event:TabChangeEvent):void {
-            Alert.show("działa " + event.tabTitle);
-//            selectedTitle = event.tabTitle;
-//            if (event.tabTitle == null) {
-//                ff = filterAll;
-//                lcv.refresh();
-//            } else {
-//                ff = filterTitle;
-//                lcv.refresh();
-//            }
+            ff = filterTitle;
+            selectedTitle = event.tabTitle;
+            lcv.refresh();
+        }
+
+        private function showAll(item:Object):Boolean {
+            return true;
+        }
+
+        private function filterTitle(item:Object):Boolean {
+            if (item is ServiceUser) {
+                var title:String = item[listLabelField] as String;
+                if (title != null && title.length > 0) {
+                    title = title.charAt(0).toUpperCase();
+                    if (title == selectedTitle) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private function getFirstOfTheMonth(currentDate:Date):Date {
@@ -156,18 +186,27 @@
         }
 
         private function onEntry():void {
-            creationCompleteHandler();
+            onCreationComplete();
             addEventListener(CreateNewUserEvent.CREATE_NEW_USER, sendCreateNewUserRequest);
-
         }
-
 
         private function sendCreateNewUserRequest(event:CreateNewUserEvent):void {
             adminDataService.createNewUser(event.newUser, successfullyCreatedNewUserHandler);
+        }
+
+        private function submitClick():void {
+            fileRef = new FileReference();
+            fileRef.addEventListener(IOErrorEvent.IO_ERROR, handleFileIoError);
+            fileRef.save(pdfGeneratorAdmin.generate(), "holiday.pdf");
+        }
+
+        private function handleFileIoError(event:Event):void {
+            Alert.show("Zapisywanie nie powiodło się");
         }
 
         private function successfullyCreatedNewUserHandler(event:ResultEvent):void {
             Alert.show('Utworzono nowego użytkownika');
         }
         ]]></mx:Script>
+    <mx:Style source="css/RoloTabSample.css"/>
 </mx:Application>

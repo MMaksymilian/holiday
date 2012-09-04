@@ -1,7 +1,7 @@
 package flex.admin.event {
 import flash.events.Event;
 
-import flex.data.ServiceUser;
+import flex.common.data.ServiceUser;
 
 public class CreateNewUserEvent extends Event {
 

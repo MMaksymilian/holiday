@@ -59,6 +59,8 @@ public abstract class FlexServiceUtil {
         serviceUserDTO.setFirstName(serviceUser.getFirstName());
         serviceUserDTO.setLastName(serviceUser.getLastName());
         serviceUserDTO.setLogin(serviceUser.getLogin());
+        serviceUserDTO.setEmail(serviceUser.getEmail());
+        serviceUserDTO.setRole(serviceUser.getRole());
         return  serviceUserDTO;
     }
 

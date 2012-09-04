@@ -7,8 +7,8 @@
  */
 package flex.admin.services {
 import flex.admin.model.UserEntry;
-import flex.data.Holiday;
-import flex.data.ServiceUser;
+import flex.common.data.Holiday;
+import flex.common.data.ServiceUser;
 
 import mx.collections.ArrayCollection;
 
@@ -22,5 +22,7 @@ public interface AdminDataService {
     function findDataForChosenUser(login:String,  handler:Function = null, errHandler:Function = null):void;
     function acceptHoliday(holiday:Holiday, handler:Function = null, errHandler:Function = null):void;
     function rejectHoliday(holiday:Holiday,handler:Function = null, errHandler:Function = null):void;
+    function getAllWorkers(handler:Function = null, errHandler:Function = null):void;
+    function getHolidaysMap(handler:Function, errHandler:Function = null):void;
 }
 }

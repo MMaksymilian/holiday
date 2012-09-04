@@ -1,6 +1,6 @@
 package flex.user.services.impl {
-import flex.data.Holiday;
-import flex.service.BaseService;
+import flex.common.data.Holiday;
+import flex.common.service.BaseService;
 import flex.user.services.UserDataService;
 
 import mx.rpc.AsyncToken;

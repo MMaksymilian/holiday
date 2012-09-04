@@ -1,4 +1,4 @@
-package flex.data {
+package flex.common.data {
 
     [RemoteClass(alias="test.primaris.entity.dto.ServiceUserDTO")]
     public class ServiceUser {

@@ -1,4 +1,4 @@
-package flex.user {
+package flex.common.data {
 
     public class GridRow {
        public var cause:String;

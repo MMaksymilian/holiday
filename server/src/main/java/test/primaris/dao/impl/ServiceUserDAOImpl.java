@@ -1,6 +1,7 @@
 package test.primaris.dao.impl;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
@@ -30,6 +31,8 @@ public class ServiceUserDAOImpl extends BaseDAOImpl implements ServiceUserDAO {
     public List<ServiceUser> getUsersInRole(String role) {
         Criteria userRoleCriteria = getSession().createCriteria(ServiceUser.class);
         userRoleCriteria.add(Restrictions.like("role", role));
+        userRoleCriteria.addOrder(Order.asc("lastName"));
+        userRoleCriteria.addOrder(Order.asc("firstName"));
         return userRoleCriteria.list();
     }
 

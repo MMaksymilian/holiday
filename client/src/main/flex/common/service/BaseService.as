@@ -1,4 +1,4 @@
-package flex.service {
+package flex.common.service {
 import flash.net.URLRequest;
 import flash.net.navigateToURL;
 

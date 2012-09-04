@@ -1,5 +1,7 @@
 <mx:Form width="100%" color="0x323232" xmlns:mx="http://www.adobe.com/2006/mxml"  creationComplete="afterComplete()">
-    <mx:FormHeading fontSize="10"  label="Dodanie nowego użytkownika" paddingTop="0" />
+    <mx:Button id="addButton" label="Dodaj nowego użytkownika" click="setMode(addMode)"/>
+    <mx:Button id="editButton" label="Edycja" click="setMode(editMode)"/>
+    <mx:FormHeading fontSize="10"  label="{formTitle(mode)}" paddingTop="0" />
 
     <mx:FormItem label="Imię: " required="true">
         <mx:TextInput id="fNameAddUser" width="200"/>
@@ -30,17 +32,20 @@
     </mx:FormItem>
 
     <mx:Script><![CDATA[
-        import flex.data.ServiceUser;
-        import flex.user.services.UserDataService;
-        import flex.user.services.impl.UserDataServiceImpl;
+        import flex.admin.event.CreateNewUserEvent;
+        import flex.common.data.ServiceUser;
 
         import mx.collections.ArrayCollection;
-        import flex.admin.event.CreateNewUserEvent;
-
         import mx.controls.Alert;
         import mx.rpc.events.ResultEvent;
-
         import mx.validators.Validator;
+
+        private static var editMode:String = "EditMode";
+        private static var addMode:String = "AddMode";
+
+        private var mode:String;
+
+        private var currentUser:ServiceUser;
 
         [Bindable]
         public var authorities:ArrayCollection = new ArrayCollection(
@@ -52,6 +57,7 @@
         private var validatorArray:Array;
 
         private function afterComplete():void {
+            setMode(addMode);
             validatorArray = new Array();
             validatorArray.push(passwordValidator);
             validatorArray.push(userNameValidator);
@@ -60,8 +66,35 @@
             validatorArray.push(emailValidator);
         }
 
-        private function handlerTemporary(event:ResultEvent):void {
-            Alert.show("Źle");
+        private function setMode(m:String):void {
+            mode = m;
+            if (mode == addMode) {
+                addButton.enabled = false;
+                editButton.enabled = true;
+                currentUser = null;
+            }
+            if (mode == editMode) {
+                addButton.enabled = true;
+                editButton.enabled = false;
+            }
+        }
+
+        public function setCurrentUser(serviceUser:ServiceUser) {
+            if (mode == editMode) {
+                currentUser = serviceUser;
+                fNameAddUser.text = currentUser.firstName;
+                lNameAddUser.text = currentUser.lastName;
+                loginAddUser.text = currentUser.login;
+                passwordAddUser.text = currentUser.password;
+                emailAddUser.text = currentUser.email;
+                roleAddUser.selectedItem = currentUser.role;
+
+                for (var index:int = 0; index < roleAddUser.dataProvider.length; index++) {
+                    if (currentUser.role == roleAddUser.dataProvider.getItemAt(index).data) {
+                        roleAddUser.selectedItem = roleAddUser.dataProvider.getItemAt(index);
+                    }
+                }
+            }
         }
 
         private function validateForm():Boolean {
@@ -77,18 +110,37 @@
         }
 
         private function submitButton_clickHandler(event:MouseEvent):void {
-            if(!validateForm()) {
+            if (!validateForm()) {
                 return;
             }
-            var serviceUser:ServiceUser = new ServiceUser();
-            serviceUser.firstName = fNameAddUser.text;
-            serviceUser.lastName = lNameAddUser.text;
-            serviceUser.login = loginAddUser.text;
-            serviceUser.password = passwordAddUser.text;
-            serviceUser.email = emailAddUser.text;
-            serviceUser.role = roleAddUser.selectedItem.data;
+            if (currentUser == null) {
+                var serviceUser:ServiceUser = new ServiceUser();
+                serviceUser.firstName = fNameAddUser.text;
+                serviceUser.lastName = lNameAddUser.text;
+                serviceUser.login = loginAddUser.text;
+                serviceUser.password = passwordAddUser.text;
+                serviceUser.email = emailAddUser.text;
+                serviceUser.role = roleAddUser.selectedItem.data;
+            } else {
+                currentUser.firstName = fNameAddUser.text;
+                currentUser.lastName = lNameAddUser.text;
+                currentUser.login = loginAddUser.text;
+                currentUser.password = passwordAddUser.text;
+                currentUser.email = emailAddUser.text;
+                currentUser.role = roleAddUser.selectedItem.data;
+            }
             var eventObject:CreateNewUserEvent = new CreateNewUserEvent(CreateNewUserEvent.CREATE_NEW_USER, serviceUser);
             dispatchEvent(eventObject);
+        }
+
+        private function formTitle(mode:String):String {
+            if (mode == addMode) {
+                return "Dodanie nowego użytkownika";
+            }
+            if (mode == editMode) {
+                return "Edycja użytkownika";
+            }
+            return "Brak tytułu";
         }
         ]]></mx:Script>
     <mx:Metadata>

@@ -26,15 +26,15 @@
         import flex.admin.model.HolidayExtDTO;
         import flex.admin.services.AdminDataService;
         import flex.admin.services.impl.AdminDataServiceImpl;
-        import flex.data.Holiday;
-        import flex.service.BaseService;
+        import flex.common.data.Holiday;
+        import flex.common.service.BaseService;
 
         import mx.controls.Alert;
 
         import mx.managers.PopUpManager;
         import mx.rpc.events.ResultEvent;
 
-        public var decisionHandler: Function;
+        public var decisionHandler:Function;
 
         private var dtoId:Number;
         [Bindable]
@@ -60,7 +60,7 @@
         }
 
         private function handleSendRequest(event:ResultEvent):void {
-            if(decisionHandler!=null){
+            if (decisionHandler != null) {
                 decisionHandler();
             } else {
                 Alert.show("DH null!");

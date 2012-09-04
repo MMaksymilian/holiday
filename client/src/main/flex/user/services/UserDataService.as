@@ -1,6 +1,6 @@
 package flex.user.services {
-import flex.data.Holiday;
-import flex.service.BaseService;
+import flex.common.data.Holiday;
+import flex.common.service.BaseService;
 
 public interface UserDataService {
     function findHolidayForCurrentUserAndMonth(date:Date, handler:Function, errHandler:Function = null):void;

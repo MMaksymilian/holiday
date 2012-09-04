@@ -1,4 +1,4 @@
-package flex.renderer {
+package flex.common.renderer {
 import mx.controls.Alert;
 import mx.controls.Label;
 import mx.controls.dataGridClasses.DataGridListData;

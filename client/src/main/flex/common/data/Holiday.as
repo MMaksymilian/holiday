@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package flex.data {
+package flex.common.data {
 
     [RemoteClass(alias="test.primaris.entity.dto.HolidayDTO")]
     public class Holiday {

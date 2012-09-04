@@ -1,7 +1,7 @@
-package flex.service.impl {
-import flex.data.ServiceUser;
-import flex.service.BaseService;
-import flex.service.SecurityService;
+package flex.common.service.impl {
+import flex.common.data.ServiceUser;
+import flex.common.service.BaseService;
+import flex.common.service.SecurityService;
 
 import mx.rpc.AsyncToken;
 import mx.rpc.Responder;

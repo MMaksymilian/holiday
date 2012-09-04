@@ -1,4 +1,4 @@
-package flex.data {
+package flex.common.data {
 import mx.collections.ArrayList;
 
 public class HolidaysInMonth {

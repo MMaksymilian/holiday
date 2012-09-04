@@ -8,15 +8,15 @@
         <!--</mx:Component>-->
         <!--</mx:itemRenderer>-->
         <!--</mx:DataGridColumn>-->
-        <mx:DataGridColumn dataField="dateFrom" width="150" itemRenderer="flex.renderer.DateRenderer" headerText="Data od"
+        <mx:DataGridColumn dataField="dateFrom" width="150" itemRenderer="flex.common.renderer.DateRenderer" headerText="Data od"
                            sortCompareFunction="{function(obj1:Object, obj2:Object):int{return compareDates(obj1, obj2, 'dateFrom');}}"/>
-        <mx:DataGridColumn dataField="dateTo" width="150" itemRenderer="flex.renderer.DateRenderer" headerText="Data do"
+        <mx:DataGridColumn dataField="dateTo" width="150" itemRenderer="flex.common.renderer.DateRenderer" headerText="Data do"
                            sortCompareFunction="{function(obj1:Object, obj2:Object):int{return compareDates(obj1, obj2, 'dateTo');}}"/>
 
         <mx:DataGridColumn dataField="cause" width="400" resizable="false" itemRenderer="mx.controls.Text" sortable="false" headerText="Powód"
                            wordWrap="true"/>
 
-        <mx:DataGridColumn dataField="status" itemRenderer="flex.renderer.StatusRenderer" headerText="Status"
+        <mx:DataGridColumn dataField="status" itemRenderer="flex.common.renderer.StatusRenderer" headerText="Status"
                            textAlign="center"/>
 
     </mx:columns>

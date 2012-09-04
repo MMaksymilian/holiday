@@ -8,8 +8,8 @@
 package flex.admin.services.impl {
 import flex.admin.model.UserEntry;
 import flex.admin.services.AdminDataService;
-import flex.data.Holiday;
-import flex.data.ServiceUser;
+import flex.common.data.Holiday;
+import flex.common.data.ServiceUser;
 
 import mx.collections.ArrayCollection;
 import mx.controls.Alert;

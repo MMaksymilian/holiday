@@ -1,4 +1,4 @@
-<mx:TitleWindow  xmlns:mx="http://www.adobe.com/2006/mxml"
+<mx:TitleWindow  xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:common="flex.common.components.*"
                 title="Podanie o urlop" x="168" y="86" close="closeModalDialog(this)" showCloseButton="true" borderAlpha="0.75" creationComplete="afterComplete()">
     <!-- Class selectors take precedence over type selectors -->
     <mx:Grid id="infoGrid" color="0x707070" verticalGap="10" horizontalGap="200">
@@ -24,11 +24,11 @@
         <mx:HBox borderStyle="none">
             <mx:Label text="Uprzejmie proszę o udzielenie mi urlopu w dniach od"/>
             <mx:FormItem  required="true">
-                <mx:DateField id="dateFrom" yearNavigationEnabled="true" color="0x000000" />
+                <common:CustomDateField id="dateFrom" yearNavigationEnabled="true" color="0x000000" />
             </mx:FormItem>
             <mx:Label text=" do "/>
             <mx:FormItem required="true">
-                <mx:DateField id="dateTo" yearNavigationEnabled="true" color="0x000000" />
+                <common:CustomDateField id="dateTo" yearNavigationEnabled="true" color="0x000000" />
             </mx:FormItem>
             <mx:Label text="z powodu"/>
         </mx:HBox>
@@ -48,7 +48,7 @@
     </mx:Metadata>
 
     <mx:Script><![CDATA[
-        import flex.data.ServiceUser;
+        import flex.common.data.ServiceUser;
 
         import mx.collections.ArrayCollection;
         import mx.containers.FormItem;
@@ -56,7 +56,8 @@
         import mx.core.IFlexDisplayObject;
         import mx.events.ValidationResultEvent;
         import mx.managers.PopUpManager;
-        import flex.data.Holiday;
+
+        import flex.common.data.Holiday;
         import flex.user.event.HolidaySendRequestEvent;
 
         import mx.validators.Validator;
@@ -79,7 +80,7 @@
 
         private function submitButton_clickHandler(event:MouseEvent):void {
             submitButton.enabled = false;
-            if (!validateForm())  {
+            if (!validateForm()) {
                 setButtonEnabled(true);
                 return;
             }
@@ -119,7 +120,7 @@
 
         /*Dobrze by było dodać listener do eventu żeby nie komplikować kodu*/
         public function setButtonEnabled(b:Boolean):void {
-             submitButton.enabled = true;
+            submitButton.enabled = true;
         }
         ]]></mx:Script>
 

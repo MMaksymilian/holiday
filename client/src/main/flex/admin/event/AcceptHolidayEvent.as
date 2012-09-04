@@ -1,7 +1,7 @@
 package flex.admin.event {
 import flash.events.Event;
 
-import flex.data.Holiday;
+import flex.common.data.Holiday;
 
 import mx.controls.Alert;
 

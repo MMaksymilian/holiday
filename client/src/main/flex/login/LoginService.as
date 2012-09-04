@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package flex.login {
-import flex.service.BaseService;
+import flex.common.service.BaseService;
 
 import mx.controls.Alert;
 

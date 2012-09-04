@@ -1,18 +1,18 @@
-package flex.user {
-import flash.events.EventDispatcher;
+package flex.user.file {
 import flash.geom.Rectangle;
 import flash.utils.ByteArray;
 
-import flex.data.HolidaysInMonth;
+import flex.common.data.GridRow;
+import flex.common.data.Holiday;
+
+import flex.common.data.HolidaysInMonth;
 
 import mx.collections.ArrayCollection;
-
-import mx.collections.ArrayList;
 import mx.collections.Sort;
 import mx.collections.SortField;
-import mx.controls.Alert;
 
 import org.alivepdf.colors.RGBColor;
+
 import org.alivepdf.data.Grid;
 import org.alivepdf.data.GridColumn;
 import org.alivepdf.display.Display;
@@ -26,9 +26,15 @@ import org.alivepdf.layout.Unit;
 import org.alivepdf.pdf.PDF;
 import org.alivepdf.saving.Method;
 
-public class PdfGenerator extends EventDispatcher {
+public class PdfGenerator {
 
     private var pdfData:ArrayCollection;
+
+    [Embed(source="/flex/common/font/DejaVuSans.ttf", mimeType="application/octet-stream")]
+    private var fontStream:Class;
+
+    [Embed(source="/flex/common/font/DejaVuSans.afm", mimeType="application/octet-stream")]
+    private var afmStream:Class;
 
     public function PdfGenerator(mapObject:Object) {
         pdfData = new ArrayCollection();
@@ -36,7 +42,7 @@ public class PdfGenerator extends EventDispatcher {
             var holidaysThisMonth:HolidaysInMonth = new HolidaysInMonth();
             pdfData.addItem(holidaysThisMonth);
             holidaysThisMonth.month = i;
-            for each (var holiday in mapObject[i]) {
+            for each (var holiday:Holiday in mapObject[i]) {
                 holidaysThisMonth.holidays.push(holiday);
             }
         }
@@ -68,12 +74,6 @@ public class PdfGenerator extends EventDispatcher {
         return 0;
     }
 
-    [Embed(source="DejaVuSans.ttf", mimeType="application/octet-stream")]
-    private var fontStream:Class;
-
-    [Embed(source="DejaVuSans.afm", mimeType="application/octet-stream")]
-    private var afmStream:Class;
-
     public function generatePDF():ByteArray {
         var printPDF:PDF = new PDF(Orientation.PORTRAIT, Unit.MM, Size.A4);
         printPDF.setDisplayMode(Display.FULL_PAGE);
@@ -98,17 +98,19 @@ public class PdfGenerator extends EventDispatcher {
 
         var index:int;
         for (index = 0; index < pdfData.length; index++) {
-            printPDF.addPage();
-            printPDF.setFontSize(15);
-            printPDF.writeText(15, " Raport za miesiąc  " + pdfData.getItemAt(index).month + "\n\n");
-            printPDF.setFontSize(12);
+            var columns:Array = new Array(gridColumnCause, gridColumnStatus, gridColumnDateFrom, gridColumnDateTo);
+            var data:Array = new Array();
             var gridColumnCause:GridColumn = new GridColumn("Cause", "cause", 40, Align.CENTER, Align.CENTER);
             var gridColumnStatus:GridColumn = new GridColumn("Status", "status", 40, Align.CENTER, Align.CENTER);
             var gridColumnDateFrom:GridColumn = new GridColumn("Date from", "dateFrom", 30, Align.CENTER, Align.RIGHT);
             var gridColumnDateTo:GridColumn = new GridColumn("Date to", "dateTo", 30, Align.CENTER, Align.RIGHT);
             var pdfDataMonth:Array = pdfData.getItemAt(index).holidays;
-            var data:Array = new Array();
+            printPDF.addPage();
+            printPDF.setFontSize(15);
+            printPDF.writeText(15, " Raport za miesiąc  " + pdfData.getItemAt(index).month + "\n\n");
+            printPDF.setFontSize(12);
             for ( var singleH = 0; singleH < pdfDataMonth.length ; singleH++) {
+//            var data:Array = pdfData.getItemAt(index).holidays;
                 var row:GridRow = new GridRow();
                 row.cause = pdfDataMonth[singleH].cause.toString();
                 row.dateFrom = pdfDataMonth[singleH].dateFrom.getFullYear() + "-" + (pdfDataMonth[singleH].dateFrom.getMonth() + 1) + "-" + pdfDataMonth[singleH].dateFrom.getDate() ;
@@ -117,8 +119,6 @@ public class PdfGenerator extends EventDispatcher {
                 data.push(row);
             }
             /*można użyć prościej - tego, jeśli tylko nie ma daty albo innych, gdzie jest użyty toString(), który zwraca nie to co byśmy chcieli*/
-//            var data:Array = pdfData.getItemAt(index).holidays;
-            var columns:Array = new Array(gridColumnCause, gridColumnStatus, gridColumnDateFrom, gridColumnDateTo);
             var grid:Grid = new Grid(data, 190, 200, new RGBColor(0x000229), new RGBColor(0x2255CC), true, new RGBColor(0xFFFFFF), 0.5, Joint.MITER, columns);
             grid.columns = columns;
             printPDF.addGrid(grid);
@@ -129,13 +129,13 @@ public class PdfGenerator extends EventDispatcher {
 //        printPDF.addCell(100, 5, "Napis");
 //        printPDF.addMultiCell(300, 1, "This is my PDF Headline");
 
-        printPDF.textStyle(new RGBColor(0x6598FF));
-        printPDF.drawCircle(105, 15, 3);
-        printPDF.lineStyle(new RGBColor(0x3498AA), 1, .3, .2, "EvenOdd", null);
-        printPDF.beginFill(new RGBColor(0x3482AA));
-        printPDF.drawRect(new Rectangle(420, 46, 100, 45));
-        printPDF.end();
-        printPDF.endFill();
+//        printPDF.textStyle(new RGBColor(0x6598FF));
+//        printPDF.drawCircle(105, 15, 3);
+//        printPDF.lineStyle(new RGBColor(0x3498AA), 1, .3, .2, "EvenOdd", null);
+//        printPDF.beginFill(new RGBColor(0x3482AA));
+//        printPDF.drawRect(new Rectangle(420, 46, 100, 45));
+//        printPDF.end();
+//        printPDF.endFill();
 
         printPDF.addBookmark("zakładka", 0, 0, new RGBColor(0x990000));
         printPDF.addBookmark("zakładka", 1, 1);
