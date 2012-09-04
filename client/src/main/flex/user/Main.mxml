@@ -1,6 +1,6 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
                 layout="vertical"
-                backgroundGradientColors="[0x000000,0x323232]"
+                backgroundGradientColors="[0xDDEEDD,0xEEFFEE]"
                 xmlns:components="flex.user.components.*"
                 initialize="initializeHandler()"
                 creationComplete="addEvents()"
@@ -169,16 +169,17 @@
         }
         ]]></mx:Script>
 
-    <mx:Panel width="100%" backgroundColor="0xDCDCDC" paddingLeft="40" paddingRight="40" paddingTop="10" paddingBottom="10">
+    <mx:Panel width="1250" height="450" title="Panel administratora">
             <components:DateRange id="dateRange"/>
-        <componentsAdmin:MonthChooser id="holidayDateChooser" yearNavigationEnabled="true" styleName="monthChooserStyles" change="chooseDate(event)"/>
+        <componentsAdmin:MonthChooser id="holidayDateChooser" yearNavigationEnabled="true" change="chooseDate(event)"/>
         <componentsAdmin:EntryGrid id="entryGrid"/>
         <mx:VBox horizontalAlign="center">
             <components:HolidayTable id="holidayTable" dateFormatString="{formatDateString}"/>
-            <mx:Button horizontalCenter="0" color="0x323232" height="32" label="Napisz podanie o urlop" cornerRadius="12" click="showWindow();"/>
+            <mx:Button horizontalCenter="0" height="32" label="Napisz podanie o urlop" click="showWindow();"/>
         </mx:VBox>
         <mx:Button id="fileChooserButton" label="raport urlopów" enabled="false" click="submitClick()"/>
     </mx:Panel>
+    <mx:Style source="/flex/common/css/styles.css"/>
     <mx:Style>
         .holidayFormFillField {
             text-decoration: underline;
@@ -187,18 +188,6 @@
         .dateFieldHeader {
             color:green;
             background:grey;
-        }
-
-        DateField {
-            borderColor: "0xA02312";
-            dateChooserStyleName:".dateFieldHeader";
-        }
-        Button {
-            borderColor:"0xAB3000";
-            color:"0xAF333C";
-            fontSharpness:"-200";
-            textRollOverColor:"0x2B333C";
-            textSelectedColor:"0x0AAF34";
         }
     </mx:Style>
 </mx:Application>
