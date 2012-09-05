@@ -1,0 +1,2 @@
+call mvn install:install-file -DartifactId=AlivePDF -DgroupId=org.alivepdf -Dpackaging=swc -Dfile=AlivePDF.swc -Dversion=0.1.5[RC]
+call mvn install:install-file -Dfile=Rollo-1.0.swc -DgroupId=flex.custom -DartifactId=Rollo -Dversion=1.0 -Dpackaging=swc
