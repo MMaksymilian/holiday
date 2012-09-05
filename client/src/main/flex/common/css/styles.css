@@ -1,16 +1,15 @@
 
 Button {
-
     fontFamily: Arial;
     fontSize: 12;
     textAlign:left;
     width:150;
     height:30;
 
-    upSkin:ClassReference('flex.common.css.GradientRectangleSkin');
-    downSkin:ClassReference('flex.common.css.GradientRectangleSkin');
-    overSkin:ClassReference('flex.common.css.GradientRectangleSkin');
-    disabledSkin:ClassReference('flex.common.css.GradientRectangleSkin');
+    upSkin:ClassReference('flex.common.css.GradientButtonSkin');
+    downSkin:ClassReference('flex.common.css.GradientButtonSkin');
+    overSkin:ClassReference('flex.common.css.GradientButtonSkin');
+    disabledSkin:ClassReference('flex.common.css.GradientButtonSkin');
 }
 
 Panel {
@@ -22,13 +21,58 @@ Panel {
     borderThicknessLeft:"1";
     borderThicknessRight:"1";
     borderThicknessBottom:"1";
-    borderColor:"0x5daaa0";
-    roundedBottomCorners:"true";
-    titleBackgroundSkin:ClassReference("flex.common.css.GradientPanelTitleSkin");
+    roundedBottomCorners:true;
+    titleStyleName:"headerDateStyle";
+    titleBackgroundSkin:ClassReference("flex.common.css.PanelHeaderSkin");
 }
 
 DataGrid {
+    verticalSeparatorSkin:ClassReference("flex.common.css.SeparatorSkin");
+    horizontalSeparatorSkin:ClassReference("flex.common.css.HorizontalSeparatorSkin");
+    headerBackgroundSkin:ClassReference("flex.common.css.PanelHeaderSkin");
+}
 
-    verticalSeparatorSkin:ClassReference("flex.common.css.GradientSeparator");
-    headerBackgroundSkin:ClassReference("flex.common.css.GradientPanelTitleSkin");
+DataLabel {
+    /*borderSkin:ClassReference("flex.common.css.GradientNumbersSkin");*/
+}
+
+DateChooser {
+    nextMonthOverSkin:Embed("/flex/common/image/arrow-right-over.gif");
+    nextMonthSkin:Embed("/flex/common/image/arrow-right.gif");
+    prevMonthOverSkin:Embed("/flex/common/image/arrow-left-over.gif");
+    prevMonthSkin:Embed("/flex/common/image/arrow-left.gif");
+    headerStyleName:"headerDateStyle";
+}
+
+DateField {
+    skin: Embed("/flex/common/image/calendar.gif");
+    upSkin: ClassReference(null);
+    overSkin: ClassReference(null);
+    downSkin: ClassReference(null);
+    disabledSkin: ClassReference(null);
+    dateChooserStyleName:"dateFieldStyle";
+    borderThickness:2;
+    disabledColor:"0xEEEEEE";
+    disabledIconColor:"0x9A3999";
+    focusAlpha:0.8;
+    focusRoundedCorners:tr br lr;
+    rollOverColor:"0xAAAAAA";
+    selectionColor:"0xFF333C";
+    todayColor:"0xB7F39B";
+}
+
+.dateFieldStyle {
+    backgroundColor:"0xEEEEEE";
+    color: black;
+    fontweight:bold;
+    weekdayStyleName:"weekDayStyle";
+    headerStyleName:"headerDateStyle";
+}
+
+.headerDateStyle {
+    headerColors: #999999, #ffffff;
+}
+
+.weekDayStyle {
+    color:"0xAA90FF";
 }

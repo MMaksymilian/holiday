@@ -158,7 +158,7 @@
                         <id>compile-user-swf</id>
                         <goals>
                             <goal>compile-swf</goal>
-                            <!--<goal>test-compile</goal>-->
+                            <goal>test-compile</goal>
                             <goal>test-run</goal>
                         </goals>
                         <configuration>
@@ -183,8 +183,8 @@
                         <id>compile-login-swf</id>
                         <goals>
                             <goal>compile-swf</goal>
-                            <!--<goal>test-compile</goal>-->
-                            <!--<goal>test-run</goal>-->
+                            <goal>test-compile</goal>
+                            <goal>test-run</goal>
                         </goals>
                         <configuration>
                             <!--COMPILE CONFIG-->
@@ -196,10 +196,10 @@
                             <debug>true</debug>
                             <useResourceBundleMetadata>true</useResourceBundleMetadata>
                             <!--TEST CONFIG-->
-                            <!--<includeTestFiles>-->
-                                <!--<includeTestFile>/flex/login/suite/TestSuite.as</includeTestFile>-->
-                            <!--</includeTestFiles>-->
-                            <!--<skipTest>true</skipTest>-->
+                            <includeTestFiles>
+                                <includeTestFile>/flex/login/suite/TestSuite.as</includeTestFile>
+                            </includeTestFiles>
+                            <skipTest>true</skipTest>
                         </configuration>
                     </execution>
 
@@ -207,8 +207,8 @@
                         <id>compile-admin-swf</id>
                         <goals>
                             <goal>compile-swf</goal>
-                            <!--<goal>test-compile</goal>-->
-                            <!--<goal>test-run</goal>-->
+                            <goal>test-compile</goal>
+                            <goal>test-run</goal>
                         </goals>
                         <configuration>
                             <!--COMPILE CONFIG-->
@@ -220,11 +220,11 @@
                             <debug>true</debug>
                             <useResourceBundleMetadata>true</useResourceBundleMetadata>
                             <!--TEST CONFIG-->
-                            <!--<includeTestFiles>-->
-                                <!--<includeTestFile>/flex/admin/suite/TestSuite.as</includeTestFile>-->
-                                <!--<includeTestFile>/flex/admin/suite/TestTheorySuite.as</includeTestFile>-->
-                            <!--</includeTestFiles>-->
-                            <!--<skipTest>true</skipTest>-->
+                            <includeTestFiles>
+                                <includeTestFile>/flex/admin/suite/TestSuite.as</includeTestFile>
+                                <includeTestFile>/flex/admin/suite/TestTheorySuite.as</includeTestFile>
+                            </includeTestFiles>
+                            <skipTest>true</skipTest>
                         </configuration>
                     </execution>
                 </executions>

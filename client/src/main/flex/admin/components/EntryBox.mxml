@@ -57,7 +57,6 @@
 
         private function createLabel(day: int, status:int):DisplayObject {
             var label:DataLabel = new DataLabel();
-
             label.setDay(day);
             label.setClickHandler(clickDayHandler);
             label.setStatus(status);
@@ -65,4 +64,5 @@
             return label;
         }
         ]]></mx:Script>
+
 </mx:HBox>

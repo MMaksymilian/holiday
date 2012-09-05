@@ -1,7 +1,10 @@
 <mx:Form width="100%" color="0x323232" xmlns:mx="http://www.adobe.com/2006/mxml"  creationComplete="afterComplete()">
-    <mx:Button id="addButton" label="Dodaj nowego użytkownika" click="setMode(addMode)"/>
-    <mx:Button id="editButton" label="Edycja" click="setMode(editMode)"/>
-    <mx:FormHeading fontSize="10"  label="{formTitle(mode)}" paddingTop="0" />
+    <mx:HBox>
+        <mx:Button id="addButton" label="Dodaj nowego użytkownika" click="setMode(addMode)"/>
+        <mx:Button id="editButton" label="Edycja" click="setMode(editMode)"/>
+    </mx:HBox>
+
+    <mx:FormHeading fontSize="15"  label="{formTitle(mode)}" paddingTop="0" />
 
     <mx:FormItem label="Imię: " required="true">
         <mx:TextInput id="fNameAddUser" width="200"/>
@@ -40,10 +43,11 @@
         import mx.rpc.events.ResultEvent;
         import mx.validators.Validator;
 
-        private static var editMode:String = "EditMode";
-        private static var addMode:String = "AddMode";
+        public static var editMode:String = "EditMode";
+        public static var addMode:String = "AddMode";
 
-        private var mode:String;
+        [Bindable]
+        public var mode:String;
 
         private var currentUser:ServiceUser;
 
@@ -57,7 +61,7 @@
         private var validatorArray:Array;
 
         private function afterComplete():void {
-            setMode(addMode);
+            setMode(editMode);
             validatorArray = new Array();
             validatorArray.push(passwordValidator);
             validatorArray.push(userNameValidator);
@@ -66,7 +70,7 @@
             validatorArray.push(emailValidator);
         }
 
-        private function setMode(m:String):void {
+        public function setMode(m:String):void {
             mode = m;
             if (mode == addMode) {
                 addButton.enabled = false;

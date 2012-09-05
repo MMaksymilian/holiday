@@ -6,6 +6,7 @@ import mx.controls.DateField;
             super();
             monthNames = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec",
                 "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"];
+            dayNames= ["N", "Pon", "Wt", "Śr", "Czw", "Pt", "Sb"];
         }
     }
 }

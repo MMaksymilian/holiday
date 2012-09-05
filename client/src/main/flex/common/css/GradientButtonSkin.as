@@ -4,7 +4,7 @@ import flash.display.GradientType;
 import mx.core.UIComponent;
 import flash.filters.DropShadowFilter;
 
-public class GradientRectangleSkin extends UIComponent  {
+public class GradientButtonSkin extends UIComponent  {
 
     import flash.display.Graphics;
     import flash.geom.Rectangle;
